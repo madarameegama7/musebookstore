@@ -54,5 +54,17 @@ class Database{
 public function execute(){
     return $this->statement->execute();
 }
+public function resultSet(){
+    $this->execute();
+    return $this->statement->fetchAll(PDO::FETCH_OBJ);
+}
+//gET SINGLE Record as the single result
+public function single(){
+    $this->execute();
+    return $this->statement->fetch(PDO::FETCH_OBJ);
+}
+public function rowCount(){
+    return $this->statement->rowCount();
+}
 }
 ?>

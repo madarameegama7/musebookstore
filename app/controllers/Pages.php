@@ -13,10 +13,11 @@ class Pages extends Controller {
         // $this->view('v_home', $data);
     }
 
-    public function about($name, $age) {
+    public function about() {
+        $users = $this->pagesModel->getUsers();
         $data = [
-            'userName' => $name,
-            'userAge' => $age
+            'users'=>$users
+            
         ];
         $this->view('v_about', $data);
     }
