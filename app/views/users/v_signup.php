@@ -12,48 +12,41 @@
                 <div class="logo">
                     <img src="/musebookstore/public/img/muse logo.png" alt="Muse Bookstore Logo">
                 </div>
-                <form action="#" method="post">
-                    <input type="email" id="email" name="email" placeholder="Email Address" required>
-                    <input type="text" id="name" name="name" placeholder="Name" required>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter Password" required>
-                    <input type="text" id="nic" name="nic" placeholder="NIC" required>
-                    <input type="text" id="address" name="address" placeholder="Enter Address" required></input>
-                    <input type="tel" id="contactNumber" name="contactNumber" placeholder="Enter Contact Number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+                <form action="<?php echo URLROOT?>/users/signup" method="post">
+
+                   <label>Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email Address" value="<?php echo $data['email']; ?>" required>
+                    <span class="form-invalid"><?php echo $data['email_err'];?></span>
+
+                    <label>Name</label>
+                    <input type="text" id="name" name="name" placeholder="Name" value="<?php echo $data['name']; ?>" required>
+                    <span class="form-invalid"><?php echo $data['name_err'];?></span>
+
+                    <label>Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" value="<?php echo $data['password']; ?>" required>
+                    <span class="form-invalid"><?php echo $data['password_err'];?></span>
+
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter Password" value="<?php echo $data['confirmPassword']; ?>" required>
+                    <span class="form-invalid"><?php echo $data['confirmPassword_err'];?></span>
+
+                    <label>NIC</label>
+                    <input type="text" id="nic" name="nic" placeholder="NIC" value="<?php echo $data['nic']; ?>" required>
+                    <span class="form-invalid"><?php echo $data['nic_err'];?></span>
+
+                    <label>Address</label>
+                    <input type="text" id="address" name="address" placeholder="Enter Address" value="<?php echo $data['address']; ?>" required></input>
+                    <span class="form-invalid"><?php echo $data['address_err'];?></span>
+
+                    <label>Contact Number</label>
+                    <input type="tel" id="contactNumber" name="contactNumber" placeholder="Enter Contact Number" value="<?php echo $data['contactNumber']; ?>" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+                    <span class="form-invalid"><?php echo $data['contactNumber_err'];?></span>
+                    
                     <button type="submit" name="signupSubmit">Sign Up</button>
                 </form>
             </div>
         </div>
 
-        <script>
-            // Function to show alert based on URL query parameters
-            function showAlert() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const error = urlParams.get('error');
-
-                if (error) {
-                    switch (error) {
-                        case 'emptyinput':
-                            alert('Error: Please fill in all fields.');
-                            break;
-                        case 'invalidemail':
-                            alert('Error: Invalid email format.');
-                            break;
-                        case 'passwordmismatch':
-                            alert('Error: Passwords do not match.');
-                            break;
-                        case 'none':
-                            alert('Success: You have successfully signed up!');
-                            break;
-                        default:
-                            alert('Unknown error occurred.');
-                    }
-                }
-            }
-
-            // Call showAlert when the page loads
-            window.onload = showAlert;
-        </script>
 </div>
 
 

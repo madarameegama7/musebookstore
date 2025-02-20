@@ -1,4 +1,4 @@
-.signup-container {
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,92 +7,71 @@
     padding: 20px;
 }
 
-.signup-photo{
+.login-photo{
     width: 50%;
     max-width: 600px;
     height: auto;
 }
 
-.signup-box {
+.login-box {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 50px;
     width: 400px;
+    text-align: center;
     align-items: center;
 }
 
 
-.signup .logo h1 {
+.login .logo h1 {
     font-size: 24px;
     margin-bottom: 30px;
 }
 
-.signup form input {
+.login form input {
     width: 100%;
     padding: 15px;
-    
+    margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-family: 'Poppins', sans-serif;
     font-weight: 100;
     font-size: 15px;
 }
-.signup textarea{
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
 
-.signup img {
+.login img {
     max-width: 100%;
     height: auto;
 }
-.signup .logo{
+.login .logo{
     width:200px;
     height: 150px;
     align-self: c;
 }
-
-.form-invalid {
-    color: red; 
-    font-size: 14px; 
-    font-weight: bold;
-    margin-top: 5px;
-    display: block;
-}
-label {
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    font-size: 18px;
-    
-}
-
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
-    .signup-container {
+    .login-container {
         flex-direction: column; /* Stack elements */
         align-items: center;
     }
 
-    .signup-photo {
+    .login-photo {
         width: 80%;
         max-width: 400px;
     }
 
-    .signup-box {
+    .login-box {
         width: 90%;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .signup-photo {
+    .login-photo {
         width: 100%;
     }
 
-    .signup-box {
+    .login-box {
         width: 100%;
         padding: 30px;
     }
