@@ -1,5 +1,5 @@
 /* General styling for the navbar */
-ul {
+.topnavbar ul {
     list-style-type: none;
                 margin: 0;
                 padding: 0;
@@ -10,19 +10,19 @@ ul {
 }
 
 /* Style for the logo */
-.logo-container {
+.topnavbar .logo-container {
     display: flex;
     align-items: center;
     margin-left: 20px;
 }
 
-.logo-container img {
+.topnavbar .logo-container img {
     width: 100%; 
     height: 100px;
     margin-right: 10px;
 }
 
-.logo-container h1 {
+.topnavbar .logo-container h1 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 20px;
@@ -30,7 +30,7 @@ ul {
 }
 
 /* Styling the nav links (centered with rounded background) */
-.menu {
+.topnavbar .menu {
     display: flex;
     justify-content: center;
     padding: 15px;
@@ -40,11 +40,11 @@ ul {
 }
 
 
-.menu li {
+.topnavbar .menu li {
     padding: 0 15px;
 }
 
-.menu li a {
+.topnavbar .menu li a {
     text-decoration: none;
     color: black;
     font-family: 'Poppins', sans-serif;
@@ -52,12 +52,12 @@ ul {
     font-size: 14px;
 }
 
-.menu li a:hover {
-    color: #555;
+.topnavbar .menu li a:hover {
+    color: purple;
 }
 
 /* Style for the login button */
-.login-button {
+.topnavbar .login-button {
     background-color: orange;
     padding: 10px 25px;
     border-radius: 25px;
@@ -65,15 +65,15 @@ ul {
     font-family: 'Poppins', sans-serif;
 }
 
-.login-button a {
+.topnavbar .login-button a {
     text-decoration: none;
     color: white;
     font-weight: 600;
 }
 
-.login-button:hover {
+.topnavbar .login-button:hover {
     background-color: #ff9933;
 }
-/* header.css */
+
 
 

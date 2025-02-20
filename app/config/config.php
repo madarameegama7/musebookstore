@@ -8,7 +8,7 @@ define('DB_NAME','muse');
 define('APPROOT', dirname(dirname(__FILE__)));
 
 //URL root
-define('URLROOT', 'http://localhost/musebookstore');
+define('URLROOT', 'http://localhost:8085/musebookstore');
 
 //WEBSITE NAME
 define('SITENAME','Muse Bookstore')

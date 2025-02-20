@@ -1,3 +1,5 @@
+
+<div class="topnavbar">
 <ul>
         <li class="logo-container">
             <img src="/musebookstore/public/img/muse logo.png" alt="Muse Bookstore Logo">
@@ -14,4 +16,6 @@
         </li>
 
             <li class="login-button"><a href="login">Login</a></li>
-    </ul>
+</ul>
+
+</div>
