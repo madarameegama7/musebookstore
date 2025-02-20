@@ -13,12 +13,18 @@
                     <img src="/musebookstore/public/img/muse logo.png" alt="Muse Bookstore Logo">
                 </div>
                 <form action="#" method="post">
-                <input type="text" name="name" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
+
+                <label>Email</label>
+                <input type="text" name="email" placeholder="Email" value="<?php echo $data['email'] ?>"required>
+                <span class="form-invalid"><?php echo $data['email_err'];?></span>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Password" value="<?php echo $data['password'] ?>" required>
+                <span class="form-invalid"><?php echo $data['password_err'];?></span>
                    <div class="options">
-                      <a href="#">Forgot Password?</a>
+                   <a href="#" style="display: block; text-align: center;">Forgot Password?</a>
                     </div>
-                <button type="submit" name="submit">Login</button>
+                <button type="submit" name="loginSubmit">Login</button>
             </form>
             <p>Don't have an account? <a href="<?php echo URLROOT?>/users/signup">Sign Up</a></p>
             </div>

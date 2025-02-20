@@ -110,17 +110,11 @@ if (empty($data['confirmPassword'])) {
 
                       //Register user
                       if ($this->userModel->registerUser($data)) {
-                        echo "<script>
-                                alert('Signup successful! Please log in.');
-                                window.location.href = '" . URLROOT . "/users/login';
-                              </script>";
-                        exit();
+
+                        redirect('users/login');
+                
                     } else {
-                        echo "<script>
-                                alert('Signup unsuccessful');
-                                window.location.href = '" . URLROOT . "/users/signup';
-                              </script>";
-                        exit();
+                        redirect('users/signup');
                     }
                     }            
 
@@ -159,8 +153,73 @@ if (empty($data['confirmPassword'])) {
         }
     } 
     public function login(){
-        $data=[];
-        $this->view('users/v_login',$data);
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //form is submitting
+            $_POST=filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data=[
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+
+                'email_err' => '',
+                'password_err' => ''
+
+            ];
+            //validate email
+            if(empty($data['email'])){
+                $data['email_err'] = 'Please enter the email';
+            }
+            else{
+                if($this->userModel->findUserByEmail($data['email'])){
+                    //User is found
+                }
+                else{
+                    //User is not found
+                    $data['email_err'] = 'User not found';
+                }
+            }
+            //validate password
+            if(empty($data['password'])){
+                $data['password_err'] = 'Please enter password';
+            }
+
+            //if no error found in login
+            if(empty($data['email_err']) && empty($data['password_err'])){
+                //log the user
+                $loggedUser=$this->userModel->login($data['email'],$data['password']);
+
+                if($loggedUser){
+                    //user is authenticated
+                    //create user session
+                    redirect('Pages/index');
+                }
+                else{
+                    $data['password_err']='Invalid Password';
+
+                    //load view with errors
+                    $this->view('users/v_login',$data);
+                }
+            }
+            else{
+                //load view with errors
+                $this->view('users/v_login',$data);
+
+            }   
+        }
+        else{
+            //Initial form
+
+            $data=[
+                'email' => '',
+                'password' => '',
+
+                'email_err' => '',
+                'password_err' => ''
+
+            ];
+            //Load view
+            $this->view('users/v_login',$data);
+        }
+        
 
 
     }
