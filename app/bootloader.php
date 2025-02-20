@@ -1,4 +1,6 @@
 <?php
+//load helpers
+require_once'helpers/URL_HELPER.php';
 //load configurations
 require_once 'config/config.php';
 //load libraries

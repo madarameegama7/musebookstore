@@ -36,6 +36,25 @@ class M_Users{
         }
 
     }
+    public function login($email, $password) {
+        $this->db->query('SELECT * FROM user WHERE user_email = :email');
+        $this->db->bind(':email', $email);
+    
+        $row = $this->db->single();
+    
+        // Check if a row is returned
+        if ($row) {
+            $hashed_password = $row->user_password; // Use 'user_password' as per your DB
+    
+            if (password_verify($password, $hashed_password)) {
+                return $row; // Login successful
+            }
+        }
+    
+        return false; // Login failed
+    }
+    
+    
 
 }
 ?>

@@ -8,11 +8,31 @@ class Pages extends Controller {
     }
 
     public function index() {
-        // Example usage (optional)
-        // $data = $this->pagesModel->getData();
-        // $this->view('v_home', $data);
+        $data=[];
+        $this->view('pages/v_index',$data);
+       
+    }
+    public function aboutus() {
+        $data=[];
+        $this->view('pages/v_aboutus',$data);
+       
     }
 
+    public function contactus() {
+        $data=[];
+        $this->view('pages/v_contactus',$data);
+       
+    }
+    public function services() {
+        $data=[];
+        $this->view('pages/v_services',$data);
+       
+    }
+    public function whymuse() {
+        $data=[];
+        $this->view('pages/v_whymuse',$data);
+       
+    }
     public function about() {
         $user = $this->pagesModel->getUsers();
         $data = [
