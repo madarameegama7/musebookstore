@@ -190,7 +190,8 @@ if (empty($data['confirmPassword'])) {
                 if($loggedUser){
                     //user is authenticated
                     //create user session
-                    redirect('Pages/index');
+                    $this->createUserSession($loggedUser);
+                    
                 }
                 else{
                     $data['password_err']='Invalid Password';
@@ -222,6 +223,35 @@ if (empty($data['confirmPassword'])) {
         
 
 
+    }
+    public function createUserSession($user){
+        $_SESSION['user_id']=$user->user_id;
+        $_SESSION['user_email']=$user->user_email;
+        $_SESSION['user_name']=$user->user_name;
+        $_SESSION['user_role']=$user->user_role;
+
+        redirect('Pages/index');
+
+    }
+
+    public function logout(){
+        unset( $_SESSION['user_id']);
+        unset($_SESSION['user_email']);
+        unset($_SESSION['user_name']);
+        unset($_SESSION['user_role']);
+        session_destroy();
+
+        redirect('Users/login');
+
+    }
+
+    public function isLoggedIn(){
+        if(isset($_SESSION['user_id'])){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
