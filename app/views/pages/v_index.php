@@ -2,7 +2,7 @@
 <!--TOP NAV BAR-->
 <?php require APPROOT.'/views/inc/components/topnavbar.php';?>
 
-<h1>WElcome</h1>
+<h1>Welcome <?php echo $_SESSION['user_name'];?></h1>
 
 <?php require APPROOT.'/views/inc/footer.php';?>
 

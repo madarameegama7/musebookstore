@@ -8,6 +8,7 @@
 @import url('components/aboutus.css');
 @import url('components/contactus.css');
 @import url('components/whymuse.css');
+@import url('components/flash_message_styles.css');
 
 /*FONTS*/
 @font-face {
