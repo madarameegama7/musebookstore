@@ -12,7 +12,7 @@
                 <div class="logo">
                     <img src="/musebookstore/public/img/muse logo.png" alt="Muse Bookstore Logo">
                 </div>
-                <form action="#" method="post">
+                <form action="" method="post">
 
                 <label>Email</label>
                 <input type="text" name="email" placeholder="Email" value="<?php echo $data['email'] ?>"required>
@@ -26,6 +26,7 @@
                     </div>
                 <button type="submit" name="loginSubmit">Login</button>
             </form>
+            <br>
             <p>Don't have an account? <a href="<?php echo URLROOT?>/users/signup">Sign Up</a></p>
             </div>
         </div>

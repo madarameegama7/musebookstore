@@ -230,7 +230,17 @@ if (empty($data['confirmPassword'])) {
         $_SESSION['user_name']=$user->user_name;
         $_SESSION['user_role']=$user->user_role;
 
-        redirect('Pages/index');
+        if ($_SESSION['user_role'] === 'parent') {
+            redirect('Pages/parentView'); // Parent view
+        } elseif ($_SESSION['user_role'] === 'admin') {
+            redirect('Pages/adminView'); // Admin view
+        }elseif($_SESSION['user_role'] === 'ambassador'){
+            redirect('Pages/ambassadorView'); // Ambassador view
+        }
+         else {
+            redirect('Pages/childView'); // Child view
+        }
+        
 
     }
 

@@ -41,5 +41,30 @@ class Pages extends Controller {
         ];
         $this->view('v_about', $data);
     }
+
+    public function adminView() {
+        $data=[];
+        $this->view('pages/admin/v_adminhome',$data);
+       
+    }
+
+    public function ambassadorView() {
+        $data=[];
+        $this->view('pages/ambassador/v_ambassadorhome',$data);
+       
+    }
+
+    public function childView() {
+        $data=[];
+        $this->view('pages/child/v_childhome',$data);
+       
+    }
+
+    public function parentView() {
+        $data=[];
+        $this->view('pages/parent/v_parenthome',$data);
+       
+    }
+
 }
 ?>
