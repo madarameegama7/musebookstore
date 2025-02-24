@@ -33,12 +33,45 @@ class Books extends Controller{
                     $data['book_title_err']="Please enter a title";
 
                 }
+                if(empty($data['author'])){
+                    $data['book_author_err']="Please enter author name";
+
+                }
+                if(empty($data['genre'])){
+                    $data['book_genre_err']="Please enter genre";
+
+                }
+                if(empty($data['bookcondition'])){
+                    $data['book_condition_err']="Please select book condition";
+
+                }
+                if(empty($data['price'])){
+                    $data['book_price_err']="Please enter a price";
+
+                }
+                if(empty($data['bookoption'])){
+                    $data['book_option_err']="Please select an option";
+
+                }
+                if(empty($data['book_title_err']) && empty($data['book_author_err'] && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))){
+                    if($this->bookModel->create($data)){
+                        echo "<script>alert('Book added successfully!');</script>";
+                        redirect('pages/index');
+                    }
+                    else{
+                        die("Something went wrong");
+                    }
+                }
+                else{
+                    //load errros with view
+                    $this->view('books/V-create', $data);
+                }
 
 
         }
         else{
             $data=[
-            'title' => '',
+            'booktitle' => '',
             'author' => '',
             'genre' => '',
             'bookcondition'=> '',
@@ -61,6 +94,8 @@ class Books extends Controller{
        
         
     }
+
+    
 }
 
 ?>
