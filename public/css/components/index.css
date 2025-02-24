@@ -1,0 +1,38 @@
+.hero {
+    text-align: left;
+    padding: 50px 20px;
+}
+
+.hero h1 {
+    
+    font-size: 36px;
+    margin: 0;
+    font-weight: 400;
+}
+
+.hero h2 {
+    font-size: 70px;
+    margin: 10px 0;
+    color: #7073ee;
+}
+
+.hero p {
+    margin: 20px 0;
+    font-weight: 200;
+}
+
+.hero .cta-button {
+    background-color: #faba26;
+    padding: 15px 30px;
+    border-bottom-left-radius: 70px;
+    border-bottom-right-radius: 70px;
+    border-top-left-radius: 70px;
+    border-top-right-radius: 70px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    margin: 10px;
+    font-size: 20px;
+    /*border: 2px solid rgb(212, 208, 208); Add this line */
+}
+

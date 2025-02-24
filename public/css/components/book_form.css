@@ -1,0 +1,156 @@
+.addbook-container input {
+    width: 500px;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+}
+
+.addbook-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    
+}
+
+.addbook-photo{
+    width: 50%;
+    max-width: 600px;
+    height: auto;
+}
+
+.addbook-box {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    width: 400px;
+    align-items: center;
+}
+
+.addbook-container form input {
+    width: 100%;
+    padding: 15px;
+    
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+}
+.addphoto-img {
+    max-width: 100%;
+    height: auto;
+}
+.logo{
+    width:200px;
+    height: 150px;
+    align-self: c;
+}
+
+.form-invalid {
+    color: red; 
+    font-size: 14px; 
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+}
+
+.addbook-container select {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Style dropdown arrow */
+.addbook-container select:focus {
+    outline: none;
+    border-color: #ff9900;
+    box-shadow: 0 0 5px rgba(255, 153, 0, 0.5);
+}
+
+.addbook-container input:focus {
+    outline: none;
+    border-color: #ff9900;
+    box-shadow: 0 0 5px rgba(255, 153, 0, 0.5);
+}
+
+/* Remove default dropdown styles in some browsers */
+.addbook-container select::-ms-expand {
+    display: none;
+}
+
+/* Style options inside the dropdown */
+.addbook-container select option {
+    background-color: white;
+    color: #333;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.addbook-title{
+    align-items: center;
+
+}
+
+
+.addbook-mini-container {
+    background-color: #FFF2AF;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    width: 400px;
+    align-items: center;
+    
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .addbook-container select {
+        width: 100%;
+        font-size: 14px;
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .addbook-container {
+        flex-direction: column; /* Stack elements */
+        align-items: center;
+    }
+
+    .addbook-photo {
+        width: 80%;
+        max-width: 400px;
+    }
+
+    .addbook-box {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .addbook-photo {
+        width: 100%;
+    }
+
+    .addbook-box {
+        width: 100%;
+        padding: 30px;
+    }
+}
