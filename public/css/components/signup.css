@@ -64,6 +64,24 @@
     display: block;
 }
 
+.signup button {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff9900;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    justify-content: center;
+}
+
+.signup button :hover {
+    background-color: #e68a00;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
     .signup-container {
