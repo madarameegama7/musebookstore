@@ -13,4 +13,5 @@ define('URLROOT', 'http://localhost:8085/musebookstore');
 //WEBSITE NAME
 define('SITENAME','Muse Bookstore')
 
+
 ?>
