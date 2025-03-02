@@ -6,7 +6,12 @@ class Books extends Controller{
         $this->bookModel=$this->model('M_Books');
         
     }
+    public function loadView(){
+        $data=[];
+        $this->view('pages/v_index',$data);
+    }
     public function create(){
+
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST=filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -55,8 +60,9 @@ class Books extends Controller{
                 }
                 if(empty($data['book_title_err']) && empty($data['book_author_err'] && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))){
                     if($this->bookModel->create($data)){
-                        echo "<script>alert('Book added successfully!');</script>";
-                        redirect('pages/index');
+                        echo "<script>showAlert();</script>";
+                        $this->loadView();
+                        
                     }
                     else{
                         die("Something went wrong");
@@ -64,7 +70,7 @@ class Books extends Controller{
                 }
                 else{
                     //load errros with view
-                    $this->view('books/V-create', $data);
+                    $this->view('books/v-create', $data);
                 }
 
 

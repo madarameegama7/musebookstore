@@ -140,6 +140,7 @@ if (!isset($_SESSION['user_role'])) {
             <br><br>
 
             <button type="submit" name="add-book-btn" class="add-book-btn">Add Book</button>
+
         </form>
     </div>
 </div>
