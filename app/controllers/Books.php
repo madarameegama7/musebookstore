@@ -100,6 +100,9 @@ class Books extends Controller{
        
         
     }
+    public function show(){
+        
+    }
 
     
 }

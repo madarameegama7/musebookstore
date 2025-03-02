@@ -24,6 +24,9 @@ class M_Books{
             return false;
         }
     }
+    public function getBooks(){
+        
+    }
 
 }
 ?>
