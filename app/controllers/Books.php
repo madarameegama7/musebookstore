@@ -101,6 +101,12 @@ class Books extends Controller{
         
     }
     public function show(){
+        $books=$this->bookModel->getBooks();
+        $data=[
+            'books'=>$books
+        ];
+        $this->view('books/v_displaybooks',$data);
+
         
     }
 
