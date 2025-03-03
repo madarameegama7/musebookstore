@@ -25,7 +25,9 @@ class M_Books{
         }
     }
     public function getBooks(){
-        
+        $this->db->query('SELECT * FROM v_books');
+        $results=$this->db->resultSet();
+        return $results;
     }
 
 }
