@@ -14,15 +14,15 @@ if (!isset($_SESSION['user_role'])) {
     </div>
 
     <div class="addbook-box">
-        <form action="<?php echo URLROOT; ?>/Books/create" method="post">
+        <form action="<?php echo URLROOT; ?>/books/update" method="post">
             <label>Book Title</label><br>
             <input type="text" name="booktitle" id="booktitle" placeholder="Enter Book Title"
-                value="<?php $data['booktitle']; ?>" required>
+                value="<?php echo $data['booktitle']; ?>" required>
             <span class="form-invalid"><?php echo $data['book_title_err']; ?></span>
             <br>
 
             <label>Author</label><br>
-            <input type="text" name="author" id="author" placeholder="Enter Author" value="<?php $data['author']; ?>"
+            <input type="text" name="author" id="author" placeholder="Enter Author" value="<?php echo $data['author']; ?>"
                 required>
             <span class="form-invalid"><?php echo $data['book_author_err']; ?></span>
             <br>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['user_role'])) {
             <br>
 
             <label>Condition</label><br>
-     23       <select class="bookcondition" name="bookcondition" required>
+                  <select class="bookcondition" name="bookcondition" required>
                 <option value="new" <?php if ($data['bookcondition'] == 'new')
                     'selected'; ?>>New</option>
                 <option value="used" <?php if ($data['bookcondition'] == 'used')
@@ -125,7 +125,7 @@ if (!isset($_SESSION['user_role'])) {
 
             <label>Price in Rs.</label><br>
             <input type="number" name="price" id="price" placeholder="Enter price of book"
-                value="<?php $data['price']; ?>" required>
+                value="<?php echo $data['price']; ?>" required>
             <span class="form-invalid"><?php echo $data['book_price_err']; ?></span>
             <br>
 
@@ -139,7 +139,7 @@ if (!isset($_SESSION['user_role'])) {
             <span class="form-invalid"><?php echo $data['book_option_err']; ?></span>
             <br><br>
 
-            <button type="submit" name="add-book-btn" class="add-book-btn">Add Book</button>
+            <button type="submit" name="update-book-btn" class="update-book-btn" value="update">Add Book</button>
 
         </form>
     </div>
