@@ -8,8 +8,16 @@ class Books extends Controller{
     }
     public function loadView(){
         $data=[];
-        $this->view('pages/v_index',$data);
+        $this->view('books/v_displaybooks',$data);
     }
+    public function index() {
+        $books=$this->bookModel->getBooks();
+        $data=[
+            'books'=>$books
+        ];
+        $this->view('books/v_displaybooks',$data);
+    }
+    
     public function create(){
 
 
@@ -110,13 +118,13 @@ class Books extends Controller{
         
     }
 
-    public function edit($bookid){
+    public function edit($book_id){
 
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST=filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data=[
-                'bookid'=>$bookid,
+                'bookid'=>$book_id,
                 'booktitle' => trim($_POST['booktitle']),
                 'author' => trim($_POST['author']),
                 'genre' => trim($_POST['genre']),
@@ -159,9 +167,10 @@ class Books extends Controller{
                     $data['book_option_err']="Please select an option";
 
                 }
-                if(empty($data['book_title_err']) && empty($data['book_author_err'] && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))){
+                if(empty($data['book_title_err']) && empty($data['book_author_err']) && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))
+{
                     if($this->bookModel->update($data)){
-                        echo "<script>showAlert();</script>";
+                        flash('post_msg', 'Book is updated');
                         $this->loadView();
                         
                     }
@@ -178,7 +187,12 @@ class Books extends Controller{
         }
         else{
 
-            $book=$this->bookModel->getBooksById($bookid);
+            $book=$this->bookModel->getBooksById($book_id);
+
+            //check the onwer
+            if($book->user_id != $_SESSION['user_id']){
+                redirect('Pages/parentView');
+            }
             $data=[
             'booktitle' => $book->book_title,
             'author' => $book->book_author,

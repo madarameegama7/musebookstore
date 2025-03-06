@@ -2,10 +2,9 @@
 <!--TOP NAV BAR-->
 <?php require APPROOT.'/views/inc/components/topnavbar.php';?>
 
-<h1><?php echo $_SESSION['user_name'];?></h1>
-
 <div class="articles-container">
         <h2>Books</h2>
+        <?php flash('post_msg');?>
         <div class="articles">
             <?php foreach($data['books'] as $book):?>
             <div class="articles-card">
@@ -16,6 +15,10 @@
                 <?php if($book->user_id ==$_SESSION['user_id']):?>
                 <div class="book-ctrl-button">
                     <a href="<?php echo URLROOT?>/books/edit/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Edit</button></a>
+                </div>
+                <?php else:?>
+                <div class="book-ctrl-button">
+                    <a href="#"><button class="book-ctrl-btn">Show Details</button></a>
                 </div>
                 <?php endif; ?>
             </div>

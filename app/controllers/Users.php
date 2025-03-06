@@ -114,7 +114,8 @@ class Users extends Controller
                 //Register user
                 if ($this->userModel->registerUser($data)) {
 
-                    echo "<script>alert('Account created successfully!');</script>";
+                    //create a flash message
+                    flash('reg_flash','You are suceesfully regsitered!');
                     redirect('users/login');
 
                 } else {
