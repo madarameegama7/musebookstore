@@ -14,7 +14,9 @@ if (!isset($_SESSION['user_role'])) {
     </div>
 
     <div class="addbook-box">
-        <form action="<?php echo URLROOT; ?>/books/update" method="post">
+    <form action="<?php echo URLROOT; ?>/Books/edit" method="post">
+        <input type="text" name="book_id" value="<?php echo $data['book_id']; ?>">
+        
             <label>Book Title</label><br>
             <input type="text" name="booktitle" id="booktitle" placeholder="Enter Book Title"
                 value="<?php echo $data['booktitle']; ?>" required>
@@ -116,9 +118,9 @@ if (!isset($_SESSION['user_role'])) {
             <label>Condition</label><br>
                   <select class="bookcondition" name="bookcondition" required>
                 <option value="new" <?php if ($data['bookcondition'] == 'new')
-                    'selected'; ?>>New</option>
+                    echo 'selected'; ?>>New</option>
                 <option value="used" <?php if ($data['bookcondition'] == 'used')
-                    'selected'; ?>>Used</option>
+                    echo 'selected'; ?>>Used</option>
             </select>
             <span class="form-invalid"><?php echo $data['book_condition_err']; ?></span>
             <br>
@@ -132,14 +134,14 @@ if (!isset($_SESSION['user_role'])) {
             <label>Option</label><br>
             <select class="bookoption" name="bookoption" required>
                 <option value="sell" <?php if ($data['bookoption'] == 'sell')
-                    'selected'; ?>>Sell</option>
+                    echo 'selected'; ?>>Sell</option>
                 <option value="swap" <?php if ($data['bookoption'] == 'swap')
-                    'selected'; ?>>Swap</option>
+                    echo 'selected'; ?>>Swap</option>
             </select>
             <span class="form-invalid"><?php echo $data['book_option_err']; ?></span>
             <br><br>
 
-            <button type="submit" name="update-book-btn" class="update-book-btn" value="update">Add Book</button>
+            <button type="submit" name="update-book-btn" class="update-book-btn" value="update">Update Book</button>
 
         </form>
     </div>

@@ -114,7 +114,7 @@ if (!isset($_SESSION['user_role'])) {
             <br>
 
             <label>Condition</label><br>
-     23       <select class="bookcondition" name="bookcondition" required>
+    <select class="bookcondition" name="bookcondition" required>
                 <option value="new" <?php if ($data['bookcondition'] == 'new')
                     'selected'; ?>>New</option>
                 <option value="used" <?php if ($data['bookcondition'] == 'used')
