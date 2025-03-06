@@ -2,6 +2,12 @@
 <!--TOP NAV BAR-->
 <?php require APPROOT.'/views/inc/components/topnavbar.php';?>
 
+<?php
+if (!isset($_SESSION['user_id'])) {
+    die("Please login");
+}
+?>
+
 <div class="articles-container">
         <h2>Books</h2>
         <?php flash('post_msg');?>
