@@ -42,7 +42,15 @@ Oversee the entire platform, manage user accounts, monitor system performance, h
 escalated issues, create admin accounts, and have access to all system data and 
 functionalities.
 
-#Technologies used
+## Technologies used
 Frontend- HTML, CSS, JS
 Backend- PHP
 Database- MySQL
+
+## Contributing
+
+1. Fork this repository.
+2. Create your branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m 'Add new feature'`).
+4. Push to your branch (`git push origin feature/your-feature`).
+5. Create a new Pull Request.
