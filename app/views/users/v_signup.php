@@ -14,6 +14,30 @@
                 </div>
                 <form action="<?php echo URLROOT?>/users/signup" method="post">
 
+
+                    <div class="form-drag-area">
+                        <div class="icon">
+                            <img src="<?php echo URLROOT;?>/img/components/profilephoto/profile image placeholder.png" alt="placeholder" width="90px" height="90px" id="profilephoto">
+                        </div>
+                        <div class="right-content">
+                            <div class="description">
+                                Drag & Drop to Upload File
+                            </div>
+                            <div class="form-upload">
+                                <input type="file" name="profile-image" id="profile_image">
+                                Browse file
+                            </div>
+                        </div>
+                        <div class="form-validation">
+                            <div class="profile-image-validation">
+                                <img src="<?php echo URLROOT;?>/img/components/profilephoto/green-tick.png" alt="green-tick" width="15px" height="15px">
+                                Select a profile picture
+                            </div>
+                        </div>
+                        
+                    </div>
+    
+                    <br>
                    <label>Email</label>
                     <input type="email" id="email" name="email" placeholder="Email Address" value="<?php echo $data['email']; ?>" required>
                     <span class="form-invalid"><?php echo $data['email_err'];?></span>
@@ -29,10 +53,6 @@
                     <label>Confirm Password</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter Password" value="<?php echo $data['confirmPassword']; ?>" required>
                     <span class="form-invalid"><?php echo $data['confirmPassword_err'];?></span>
-
-                    <label>NIC</label>
-                    <input type="text" id="nic" name="nic" placeholder="NIC" value="<?php echo $data['nic']; ?>" required>
-                    <span class="form-invalid"><?php echo $data['nic_err'];?></span>
 
                     <label>Address</label>
                     <input type="text" id="address" name="address" placeholder="Enter Address" value="<?php echo $data['address']; ?>" required></input>

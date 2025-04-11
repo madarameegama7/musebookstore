@@ -19,7 +19,6 @@ class Users extends Controller
                 'name' => trim($_POST['name']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-                'nic' => trim($_POST['nic']),
                 'address' => trim($_POST['address']),
                 'contactNumber' => trim($_POST['contactNumber']),
 
@@ -27,7 +26,6 @@ class Users extends Controller
                 'name_err' => '',
                 'password_err' => '',
                 'confirmPassword_err' => '',
-                'nic_err' => '',
                 'address_err' => '',
                 'contactNumber_err' => ''
 
@@ -84,13 +82,6 @@ class Users extends Controller
                 $data['confirmPassword_err'] = 'Passwords do not match';
             }
 
-            //validate NIC
-            if (empty($data['nic'])) {
-                $data['nic_err'] = 'Please enter your NIC number';
-            } elseif (!preg_match('/^\d{9}[VvXx]$|^\d{12}$/', $data['nic'])) {
-                $data['nic_err'] = 'Invalid NIC format (e.g., 123456789V or 200012345678)';
-            }
-
             // Validate Address
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter your address';
@@ -105,8 +96,7 @@ class Users extends Controller
 
             //Validatation is completed and no error then register user
             if (
-                empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) &&
-                empty($data['nic_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])
+                empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])
             ) {
                 // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -136,7 +126,6 @@ class Users extends Controller
                 'name' => '',
                 'password' => '',
                 'confirmPassword' => '',
-                'nic' => '',
                 'address' => '',
                 'contactNumber' => '',
 
@@ -144,7 +133,6 @@ class Users extends Controller
                 'name_err' => '',
                 'password_err' => '',
                 'confirmPassword_err' => '',
-                'nic_err' => '',
                 'address_err' => '',
                 'contactNumber_err' => ''
 
