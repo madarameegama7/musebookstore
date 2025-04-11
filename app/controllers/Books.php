@@ -8,8 +8,16 @@ class Books extends Controller{
     }
     public function loadView(){
         $data=[];
-        $this->view('pages/v_index',$data);
+        $this->view('books/v_displaybooks',$data);
     }
+    public function index() {
+        $books=$this->bookModel->getBooks();
+        $data=[
+            'books'=>$books
+        ];
+        $this->view('books/v_displaybooks',$data);
+    }
+    
     public function create(){
 
 
@@ -58,10 +66,15 @@ class Books extends Controller{
                     $data['book_option_err']="Please select an option";
 
                 }
-                if(empty($data['book_title_err']) && empty($data['book_author_err'] && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))){
+                if(empty($data['book_title_err']) && 
+                empty($data['book_author_err']) && 
+                empty($data['book_genre_err']) && 
+                empty($data['book_condition_err']) && 
+                empty($data['book_price_err']) && 
+                empty($data['book_option_err'])){
                     if($this->bookModel->create($data)){
-                        echo "<script>showAlert();</script>";
-                        $this->loadView();
+                        flash('post_msg','Book added successfully!');
+                        redirect('books/index');
                         
                     }
                     else{
@@ -110,13 +123,13 @@ class Books extends Controller{
         
     }
 
-    public function edit($bookid){
+    public function edit($book_id){
 
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST=filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data=[
-                'bookid'=>$bookid,
+                'bookid'=>$book_id,
                 'booktitle' => trim($_POST['booktitle']),
                 'author' => trim($_POST['author']),
                 'genre' => trim($_POST['genre']),
@@ -159,10 +172,11 @@ class Books extends Controller{
                     $data['book_option_err']="Please select an option";
 
                 }
-                if(empty($data['book_title_err']) && empty($data['book_author_err'] && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))){
+                if(empty($data['book_title_err']) && empty($data['book_author_err']) && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))
+{
                     if($this->bookModel->update($data)){
-                        echo "<script>showAlert();</script>";
-                        $this->loadView();
+                        flash('post_msg', 'Book is updated');
+                        redirect('books/index');
                         
                     }
                     else{
@@ -178,8 +192,14 @@ class Books extends Controller{
         }
         else{
 
-            $book=$this->bookModel->getBooksById($bookid);
+            $book=$this->bookModel->getBooksById($book_id);
+
+            //check the onwer
+            if($book->user_id != $_SESSION['user_id']){
+                redirect('Pages/parentView');
+            }
             $data=[
+            'bookid'=>$book_id,
             'booktitle' => $book->book_title,
             'author' => $book->book_author,
             'genre' => $book->book_genre,
@@ -203,6 +223,28 @@ class Books extends Controller{
        
         
     }
+
+    public function delete($book_id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //get book from model
+            $book=$this->bookModel->getBooksById($book_id);
+
+            //check if the book belongs to the logged in user
+            if($book->user_id != $_SESSION['user_id']){
+                redirect('Pages/parentView');
+            }
+            if($this->bookModel->delete($book_id)){
+                flash('post_msg', 'Book deleted successfully!');
+                redirect('books/index');
+            }
+            else{
+                die("Something went wrong while deleting this book");
+            }
+        }else{
+            redirect('books/index');
+        }
+    }
+    
 
     
 

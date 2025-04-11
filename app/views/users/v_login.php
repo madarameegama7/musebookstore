@@ -27,6 +27,7 @@
                 <button type="submit" name="loginSubmit">Login</button>
             </form>
             <br>
+            <?php flash('reg_flash');?>
             <p>Don't have an account? <a href="<?php echo URLROOT?>/users/signup">Sign Up</a></p>
             </div>
         </div>

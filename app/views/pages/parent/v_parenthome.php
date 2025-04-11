@@ -21,7 +21,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
    
 </section>
 
-<a href="<?php echo URLROOT?>/books/create" class="cta-button">Browse Books</a>
+<a href="<?php echo URLROOT?>/books/show" class="cta-button">Browse Books</a>
 <br><br><br>
 <section class="categories">
     <h2>Book Categories</h2>

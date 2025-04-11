@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2025 at 09:58 AM
+-- Generation Time: Mar 05, 2025 at 07:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -45,7 +45,8 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`book_id`, `book_title`, `book_author`, `book_genre`, `book_condition`, `book_price`, `listing_type`, `owner_id`, `book_status`, `created_at`) VALUES
-(1, 'Atomic Habits', 'James Moor', 'Productivity', 'used', 2000.00, 'sell', 5, 'available', '2025-02-24 02:23:31');
+(1, 'Atomic Habits', 'James Moor', 'Productivity', 'used', 2000.00, 'sell', 5, 'available', '2025-02-24 02:23:31'),
+(14, 'Harry Potter', 'J K Rowling', 'Entertainment', 'new', 2000.00, 'sell', 5, 'available', '2025-03-02 09:39:38');
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_NIC`, `user_role`, `parent_id`, `tokens`, `user_phone`, `user_address`, `created_at`) VALUES
 (5, 'Madara Meegama', 'madarameegama7@gmail.com', '$2y$10$8Q5.liwx.IqAsmUFhvglL.9ePHkdGMrQIWf7pb/i0DvpK4hsqJ1VW', '200277600185', 'parent', NULL, 0, '0719589692', 'Homagama', '2025-02-20 13:03:57'),
 (7, 'Shehan De Alwis', 'shehan12@gmail.com', '$2y$10$Xo9yihOP5LmA1/xU0CjDl.PSlAEp93Cbg4UEGtjacTSMBVJdW9IUC', '200377600185', 'ambassador', NULL, 0, '0723295295', 'Kottawa', '2025-02-23 02:17:28'),
-(17, 'Amasha Miyuru', 'bashiniskam@gmail.com', '$2y$10$VWcNHT3Qk4SnXey4IdGxlOPErfZE9fgZ1T9ktWrk2tZIm.WS90n8m', '200277600185', 'parent', NULL, 0, '0719589787', 'Galle', '2025-02-27 10:07:15');
+(17, 'Amasha Miyuru', 'bashiniskam@gmail.com', '$2y$10$VWcNHT3Qk4SnXey4IdGxlOPErfZE9fgZ1T9ktWrk2tZIm.WS90n8m', '200277600185', 'parent', NULL, 0, '0719589787', 'Galle', '2025-02-27 10:07:15'),
+(20, 'Dinu Meegama', 'dinumeegama97@gmail.com', '$2y$10$.49XzL2siTqoAzS7mhdqfOq6e0/Fdb.y4yc5xO1pomKl8b09GKNhS', '200277600185', 'parent', NULL, 0, '0719589692', 'Ja Ela', '2025-03-05 18:16:51');
 
 -- --------------------------------------------------------
 
@@ -144,9 +146,13 @@ INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user
 CREATE TABLE `v_books` (
 `book_id` int(11)
 ,`user_id` int(11)
+,`user_name` varchar(100)
 ,`book_title` varchar(255)
 ,`book_author` varchar(255)
-,`book_genre` enum('sell','swap')
+,`book_genre` varchar(255)
+,`book_price` decimal(10,2)
+,`listing_type` enum('sell','swap')
+,`book_condition` enum('new','used')
 );
 
 -- --------------------------------------------------------
@@ -156,7 +162,7 @@ CREATE TABLE `v_books` (
 --
 DROP TABLE IF EXISTS `v_books`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_books`  AS SELECT `b`.`book_id` AS `book_id`, `u`.`user_id` AS `user_id`, `b`.`book_title` AS `book_title`, `b`.`book_author` AS `book_author`, `b`.`listing_type` AS `book_genre` FROM (`user` `u` join `book` `b` on(`u`.`user_id` = `b`.`owner_id`)) ORDER BY `b`.`created_at` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_books`  AS SELECT `b`.`book_id` AS `book_id`, `u`.`user_id` AS `user_id`, `u`.`user_name` AS `user_name`, `b`.`book_title` AS `book_title`, `b`.`book_author` AS `book_author`, `b`.`book_genre` AS `book_genre`, `b`.`book_price` AS `book_price`, `b`.`listing_type` AS `listing_type`, `b`.`book_condition` AS `book_condition` FROM (`user` `u` join `book` `b` on(`u`.`user_id` = `b`.`owner_id`)) ORDER BY `b`.`created_at` DESC ;
 
 --
 -- Indexes for dumped tables
@@ -167,7 +173,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 ALTER TABLE `book`
   ADD PRIMARY KEY (`book_id`),
-  ADD KEY `owner_id` (`owner_id`);
+  ADD KEY `fk_book_owner` (`owner_id`);
 
 --
 -- Indexes for table `notification`
@@ -197,8 +203,8 @@ ALTER TABLE `token`
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`transaction_id`),
   ADD KEY `book_id` (`book_id`),
-  ADD KEY `buyer_id` (`buyer_id`),
-  ADD KEY `seller_id` (`seller_id`);
+  ADD KEY `fk_transaction_buyer` (`buyer_id`),
+  ADD KEY `fk_transaction_seller` (`seller_id`);
 
 --
 -- Indexes for table `user`
@@ -217,7 +223,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -247,7 +253,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
@@ -257,7 +263,8 @@ ALTER TABLE `user`
 -- Constraints for table `book`
 --
 ALTER TABLE `book`
-  ADD CONSTRAINT `book_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `book_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `fk_book_owner` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints for table `notification`
@@ -282,6 +289,8 @@ ALTER TABLE `token`
 -- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
+  ADD CONSTRAINT `fk_transaction_buyer` FOREIGN KEY (`buyer_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `fk_transaction_seller` FOREIGN KEY (`seller_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
   ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `user` (`user_id`);

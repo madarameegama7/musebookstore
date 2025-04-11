@@ -20,11 +20,10 @@ class M_Users{
     }
 
     public function registerUser($data){
-        $this->db->query('INSERT INTO user(user_name,user_email,user_password, user_NIC, user_phone, user_address,user_role) VALUES (:user_name, :user_email, :user_password, :user_NIC, :user_phone, :user_address, :user_role) ');
+        $this->db->query('INSERT INTO user(user_name,user_email,user_password, user_phone, user_address,user_role) VALUES (:user_name, :user_email, :user_password, :user_phone, :user_address, :user_role) ');
         $this->db->bind(':user_name',$data['name']);
         $this->db->bind(':user_email',$data['email']);
         $this->db->bind(':user_password',$data['password']);
-        $this->db->bind(':user_NIC',$data['nic']);
         $this->db->bind(':user_phone',$data['contactNumber']);
         $this->db->bind(':user_address',$data['address']);
         $this->db->bind(':user_role', 'parent'); 
@@ -53,6 +52,13 @@ class M_Users{
         }
     
         return false; // Login failed
+    }
+
+    public function getAllUsers(){
+        $this->db->query("SELECT * FROM user WHERE user_role='parent'");
+        $results=$this->db->resultSet();
+        return $results;
+
     }
     
     
