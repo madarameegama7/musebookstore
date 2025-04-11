@@ -56,6 +56,13 @@ class M_Books{
             return false;
         }
     }
+    public function delete($id) {
+        $this->db->query('DELETE FROM book WHERE book_id = :id');
+        $this->db->bind(':id', $id);
+    
+        return $this->db->execute();
+    }
+    
 
 }
 ?>
