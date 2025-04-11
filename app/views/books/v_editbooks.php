@@ -14,9 +14,7 @@ if (!isset($_SESSION['user_role'])) {
     </div>
 
     <div class="addbook-box">
-    <form action="<?php echo URLROOT; ?>/Books/edit" method="post">
-        <input type="text" name="book_id" value="<?php echo $data['book_id']; ?>">
-        
+    <form action="<?php echo URLROOT; ?>/Books/edit/<?php echo $data['bookid']; ?>" method="post">
             <label>Book Title</label><br>
             <input type="text" name="booktitle" id="booktitle" placeholder="Enter Book Title"
                 value="<?php echo $data['booktitle']; ?>" required>

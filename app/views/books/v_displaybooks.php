@@ -2,6 +2,12 @@
 <!--TOP NAV BAR-->
 <?php require APPROOT.'/views/inc/components/topnavbar.php';?>
 
+<?php
+if (!isset($_SESSION['user_id'])) {
+    die("Please login");
+}
+?>
+
 <div class="articles-container">
         <h2>Books</h2>
         <?php flash('post_msg');?>
@@ -15,6 +21,7 @@
                 <?php if($book->user_id ==$_SESSION['user_id']):?>
                 <div class="book-ctrl-button">
                     <a href="<?php echo URLROOT?>/books/edit/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Edit</button></a>
+                    <a href="<?php echo URLROOT?>/books/delete/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Delete</button></a>
                 </div>
                 <?php else:?>
                 <div class="book-ctrl-button">
