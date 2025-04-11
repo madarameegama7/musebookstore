@@ -21,7 +21,11 @@ if (!isset($_SESSION['user_id'])) {
                 <?php if($book->user_id ==$_SESSION['user_id']):?>
                 <div class="book-ctrl-button">
                     <a href="<?php echo URLROOT?>/books/edit/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Edit</button></a>
-                    <a href="<?php echo URLROOT?>/books/delete/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Delete</button></a>
+                    <a href="#" onclick="if(confirm('Are you sure you want to delete this book?')) { document.getElementById('delete-form-<?php echo $book->book_id; ?>').submit(); }">
+    <button class="book-ctrl-btn">Delete</button>
+</a>
+<form id="delete-form-<?php echo $book->book_id; ?>" action="<?php echo URLROOT; ?>/books/delete/<?php echo $book->book_id; ?>" method="post" style="display: none;"></form>
+
                 </div>
                 <?php else:?>
                 <div class="book-ctrl-button">

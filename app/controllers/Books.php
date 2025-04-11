@@ -224,6 +224,26 @@ class Books extends Controller{
         
     }
 
+    public function delete($book_id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //get book from model
+            $book=$this->bookModel->getBooksById($book_id);
+
+            //check if the book belongs to the logged in user
+            if($book->user_id != $_SESSION['user_id']){
+                redirect('Pages/parentView');
+            }
+            if($this->bookModel->delete($book_id)){
+                flash('post_msg', 'Book deleted successfully!');
+                redirect('books/index');
+            }
+            else{
+                die("Something went wrong while deleting this book");
+            }
+        }else{
+            redirect('books/index');
+        }
+    }
     
 
     
