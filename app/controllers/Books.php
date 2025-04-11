@@ -66,10 +66,15 @@ class Books extends Controller{
                     $data['book_option_err']="Please select an option";
 
                 }
-                if(empty($data['book_title_err']) && empty($data['book_author_err'] && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))){
+                if(empty($data['book_title_err']) && 
+                empty($data['book_author_err']) && 
+                empty($data['book_genre_err']) && 
+                empty($data['book_condition_err']) && 
+                empty($data['book_price_err']) && 
+                empty($data['book_option_err'])){
                     if($this->bookModel->create($data)){
-                        echo "<script>showAlert();</script>";
-                        $this->loadView();
+                        flash('post_msg','Book added successfully!');
+                        redirect('books/index');
                         
                     }
                     else{
@@ -171,7 +176,7 @@ class Books extends Controller{
 {
                     if($this->bookModel->update($data)){
                         flash('post_msg', 'Book is updated');
-                        $this->loadView();
+                        redirect('books/index');
                         
                     }
                     else{
@@ -194,6 +199,7 @@ class Books extends Controller{
                 redirect('Pages/parentView');
             }
             $data=[
+            'bookid'=>$book_id,
             'booktitle' => $book->book_title,
             'author' => $book->book_author,
             'genre' => $book->book_genre,
@@ -217,6 +223,8 @@ class Books extends Controller{
        
         
     }
+
+    
 
     
 
