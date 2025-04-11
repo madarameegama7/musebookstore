@@ -21,6 +21,7 @@ if (!isset($_SESSION['user_id'])) {
                 <?php if($book->user_id ==$_SESSION['user_id']):?>
                 <div class="book-ctrl-button">
                     <a href="<?php echo URLROOT?>/books/edit/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Edit</button></a>
+                    <a href="<?php echo URLROOT?>/books/delete/<?php echo $book->book_id?>"><button class="book-ctrl-btn">Delete</button></a>
                 </div>
                 <?php else:?>
                 <div class="book-ctrl-button">

@@ -4,12 +4,13 @@ class Database{
     private $user = DB_USER;
     private $password = DB_PASSWORD;
     private $database = DB_NAME;
+    private $port=DB_PORT;
     private $dbh;
     private $statement;
     private $error;
 
     public function __construct(){
-        $dsn = 'mysql:host='.$this->host.';dbname='.$this->database;
+        $dsn = 'mysql:host='.$this->host.';port='.$this->port.';dbname='.$this->database;
         $options = array(
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
