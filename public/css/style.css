@@ -14,9 +14,9 @@
 @import url('components/button.css');
 
 /* amasha */
-
-
-
+@import url('community/createCom.css'); 
+@import url('community/displayCom.css'); 
+@import url('community/viewDetails.css');
 
 
 
