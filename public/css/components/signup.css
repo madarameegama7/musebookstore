@@ -82,6 +82,12 @@
     background-color: #e68a00;
 }
 
+/* profile image upload*/
+.signup .form-drag-area{
+    background-color: white;
+    margin-bottom: 5px;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
     .signup-container {
