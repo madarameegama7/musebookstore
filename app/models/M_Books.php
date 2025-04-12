@@ -62,6 +62,14 @@ class M_Books{
     
         return $this->db->execute();
     }
+
+    public function searchBooks($query)
+{
+    $this->db->query("SELECT * FROM book WHERE book_title LIKE :query OR book_author LIKE :query");
+    $this->db->bind(':query', '%' . $query . '%');
+    return $this->db->resultSet();
+}
+
     
 
 }
