@@ -73,12 +73,16 @@
         ];
 
         foreach ($categories as $index => $category) {
-            $hiddenClass = $index >= 6 ? 'hidden' : ''; // Hide categories after the 7th
-            echo "<div class='category $hiddenClass'>
-                    <img src='{$category[1]}'><br>
-                    <span>{$category[0]}</span>
-                  </div>";
-        }
+            $hiddenClass = $index >= 6 ? 'hidden' : '';
+            $categoryUrl = URLROOT . "/books/category?name=" . urlencode($category[0]);
+        
+            echo "<a href='$categoryUrl' class='category-link $hiddenClass'>
+                    <div class='category'>
+                        <img src='{$category[1]}' alt='{$category[0]}'><br>
+                        <span>{$category[0]}</span>
+                    </div>
+                  </a>";
+        }        
         ?>
     </div>
     <br>

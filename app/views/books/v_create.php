@@ -21,10 +21,28 @@ if (!isset($_SESSION['user_role'])) {
             <span class="form-invalid"><?php echo $data['book_title_err']; ?></span>
             <br>
 
+            <label>Publisher</label><br>
+            <input type="text" name="publisher" id="publisher" placeholder="Enter Book Publisher" value="<?php $data['publisher']; ?>"
+                required>
+            <span class="form-invalid"><?php echo $data['book_publisher_err']; ?></span>
+            <br>
+
+            <label>Year of Publication</label><br>
+            <input type="number" name="year" id="year" placeholder="Enter Year of Publication" value="<?php $data['year']; ?>"
+                required>
+            <span class="form-invalid"><?php echo $data['book_year_err']; ?></span>
+            <br>
+
             <label>Author</label><br>
             <input type="text" name="author" id="author" placeholder="Enter Author" value="<?php $data['author']; ?>"
                 required>
             <span class="form-invalid"><?php echo $data['book_author_err']; ?></span>
+            <br>
+
+            <label>ISBN</label><br>
+            <input type="text" name="isbn" id="isbn" placeholder="Enter ISBN of book" value="<?php $data['isbn']; ?>"
+                required>
+            <span class="form-invalid"><?php echo $data['book_isbn_err']; ?></span>
             <br>
 
             <label>Genre</label><br>

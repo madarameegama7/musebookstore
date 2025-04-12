@@ -40,5 +40,5 @@ if (!isset($_SESSION['user_id'])) {
         <?php endforeach; ?>
     </div>
     <br>
-    <a href="#" id="showMoreBtn">Show More Articles</a>
+    <a href="#" id="showMoreBtn">Show More Books</a>
 </div>

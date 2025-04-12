@@ -30,13 +30,20 @@ class Books extends Controller{
                 'bookcondition'=> trim($_POST['bookcondition']),
                 'price' => trim($_POST['price']),
                 'bookoption' => trim($_POST['bookoption']),
+                'publisher'=>trim($_POST['publisher']),
+                'year'=>trim($_POST['year']),
+                'isbn'=>trim($_POST['isbn']),
     
                 'book_title_err' => '',
                 'book_author_err' => '',
                 'book_genre_err' => '',
                 'book_condition_err' => '',
                 'book_price_err' => '',
-                'book_option_err' => ''
+                'book_option_err' => '',
+                'book_publisher_err' => '',
+                'book_year_err' => '',
+                'book_isbn_err' => ''
+
     
     
                 ];
@@ -66,12 +73,29 @@ class Books extends Controller{
                     $data['book_option_err']="Please select an option";
 
                 }
+                if(empty($data['publisher'])){
+                    $data['book_publisher_err']="Please enter publisher name";
+
+                }
+                if(empty($data['year'])){
+                    $data['book_year_err']="Please enter published year";
+
+                }
+                if(empty($data['isbn'])){
+                    $data['book_isbn_err']="Please enter ISBN";
+
+                }
+
+
                 if(empty($data['book_title_err']) && 
                 empty($data['book_author_err']) && 
                 empty($data['book_genre_err']) && 
                 empty($data['book_condition_err']) && 
                 empty($data['book_price_err']) && 
-                empty($data['book_option_err'])){
+                empty($data['book_option_err']) &&
+                empty($data['publisher']) &&
+                empty($data['year']) &&
+                empty($data['isbn'])){
                     if($this->bookModel->create($data)){
                         flash('post_msg','Book added successfully!');
                         redirect('books/index');
@@ -96,13 +120,20 @@ class Books extends Controller{
             'bookcondition'=> '',
             'price' => '',
             'bookoption' => '',
+            'publisher'=> '',
+            'year'=> '',
+            'isbn'=> '',
+    
 
             'book_title_err' => '',
             'book_author_err' => '',
             'book_genre_err' => '',
             'book_condition_err' => '',
             'book_price_err' => '',
-            'book_option_err' => ''
+            'book_option_err' => '',
+            'book_publisher_err' => '',
+            'book_year_err' => '',
+            'book_isbn_err' => ''
 
 
             ];
@@ -136,13 +167,19 @@ class Books extends Controller{
                 'bookcondition'=> trim($_POST['bookcondition']),
                 'price' => trim($_POST['price']),
                 'bookoption' => trim($_POST['bookoption']),
+                'publisher'=>trim($_POST['publisher']),
+                'year'=>trim($_POST['year']),
+                'isbn'=>trim($_POST['isbn']),
     
                 'book_title_err' => '',
                 'book_author_err' => '',
                 'book_genre_err' => '',
                 'book_condition_err' => '',
                 'book_price_err' => '',
-                'book_option_err' => ''
+                'book_option_err' => '',
+                'book_publisher_err' => '',
+                'book_year_err' => '',
+                'book_isbn_err' => ''
     
     
                 ];
@@ -172,8 +209,27 @@ class Books extends Controller{
                     $data['book_option_err']="Please select an option";
 
                 }
-                if(empty($data['book_title_err']) && empty($data['book_author_err']) && empty($data['book_genre_err']) && empty($data['book_condition_err']) && empty($data['book_price_err']) && empty($data['book_option_err']))
-{
+                if(empty($data['publisher'])){
+                    $data['book_publisher_err']="Please enter publisher name";
+
+                }
+                if(empty($data['year'])){
+                    $data['book_year_err']="Please enter published year";
+
+                }
+                if(empty($data['isbn'])){
+                    $data['book_isbn_err']="Please enter ISBN";
+
+                }
+                if(empty($data['book_title_err']) && 
+                empty($data['book_author_err']) && 
+                empty($data['book_genre_err']) && 
+                empty($data['book_condition_err']) && 
+                empty($data['book_price_err']) && 
+                empty($data['book_option_err']) &&
+                empty($data['publisher']) &&
+                empty($data['year']) &&
+                empty($data['isbn']) ){
                     if($this->bookModel->update($data)){
                         flash('post_msg', 'Book is updated');
                         redirect('books/index');
@@ -206,13 +262,20 @@ class Books extends Controller{
             'bookcondition'=> $book->book_condition,
             'price' => $book->book_price,
             'bookoption' => $book->listing_type,
+            'publisher'=> $book->book_publisher,
+            'year'=> $book->book_published_year,
+            'isbn'=>$book->book_ISBN,
+
 
             'book_title_err' => '',
             'book_author_err' => '',
             'book_genre_err' => '',
             'book_condition_err' => '',
             'book_price_err' => '',
-            'book_option_err' => ''
+            'book_option_err' => '',
+            'book_publisher_err' => '',
+            'book_year_err' => '',
+            'book_isbn_err' => ''
 
 
             ];
@@ -263,6 +326,20 @@ class Books extends Controller{
     
         $this->view('books/v_searchbooks', $data);
     }
+
+    public function category() {
+        $category = isset($_GET['name']) ? trim($_GET['name']) : '';
+    
+        $books = $this->bookModel->getBooksByCategory($category);
+    
+        $data = [
+            'books' => $books,
+            'category' => $category
+        ];
+    
+        $this->view('books/v_categorybooks', $data);
+    }
+    
     
     
 
