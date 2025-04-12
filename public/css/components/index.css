@@ -41,6 +41,50 @@
     /*border: 2px solid rgb(212, 208, 208); Add this line */
 }
 
+/* Search Bar */
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 50px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto 20px;
+    max-width: 600px;
+   
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 50px;
+    flex-grow: 1;
+}
+
+.search-container input::placeholder {
+    color: #bbb;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-button {
+    background-color: #faba26;
+    padding: 15px 30px;
+    border-bottom-left-radius: 70px;
+    border-bottom-right-radius: 70px;
+    border-top-left-radius: 70px;
+    border-top-right-radius: 70px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    font-size: 20px;
+    margin-left: 150px;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
 .categories h2 {
     font-size: 24px;
     margin-bottom: 20px;

@@ -23,6 +23,19 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 
 <a href="<?php echo URLROOT?>/books/show" class="cta-button">Browse Books</a>
 <br><br><br>
+
+<section class="search">
+    <div class="search-container">
+        <form action="<?php echo URLROOT; ?>/books/search" method="get" class="book-search-form">
+            <input type="text" name="q" placeholder="Search your book
+                value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>" />
+            <button class="search-button">Search</button>
+        </form>
+
+
+    </div>
+
+</section>
 <section class="categories">
     <h2>Book Categories</h2>
     <div class="category-container">

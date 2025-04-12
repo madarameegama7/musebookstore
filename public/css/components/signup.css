@@ -88,6 +88,15 @@
     margin-bottom: 5px;
 }
 
+.signup .form-drag-area.active{
+    border: 2px dashed #888888;
+    background-color: #d8d8d8;
+}
+.signup .form-drag-area .right-content{
+    margin: auto;
+}
+
+
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
     .signup-container {

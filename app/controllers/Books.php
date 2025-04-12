@@ -244,6 +244,26 @@ class Books extends Controller{
             redirect('books/index');
         }
     }
+
+    public function search()
+    {
+        $query = isset($_GET['q']) ? trim($_GET['q']) : '';
+    
+        $books = $this->bookModel->searchBooks($query);
+    
+        // Set a flash message if no books found
+        if (empty($books)) {
+            flash('post-msg', 'No books found matching your search.');
+        }
+    
+        $data = [
+            'books' => $books,
+            'search_query' => $query
+        ];
+    
+        $this->view('books/v_searchbooks', $data);
+    }
+    
     
 
     
