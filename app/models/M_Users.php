@@ -60,6 +60,31 @@ class M_Users{
         return $results;
 
     }
+
+    public function storeResetToken($email, $token, $expiry) {
+        $sql = "UPDATE user SET reset_token = :token, token_expiry = :expiry WHERE user_email = :email";
+        $this->db->query($sql);
+        $this->db->bind(':token', $token);
+        $this->db->bind(':expiry', $expiry);
+        $this->db->bind(':email', $email);
+        return $this->db->execute();
+    }
+    
+    public function isValidToken($token) {
+        $sql = "SELECT * FROM user WHERE reset_token = :token AND token_expiry > NOW()";
+        $this->db->query($sql);
+        $this->db->bind(':token', $token);
+        return $this->db->single();
+    }
+    
+    public function updatePasswordByToken($token, $hashedPassword) {
+        $sql = "UPDATE user SET user_password = :password, reset_token = NULL, token_expiry = NULL WHERE reset_token = :token";
+        $this->db->query($sql);
+        $this->db->bind(':password', $hashedPassword);
+        $this->db->bind(':token', $token);
+        return $this->db->execute();
+    }
+    
     
     
 

@@ -8,6 +8,11 @@ class Users extends Controller
         $this->userModel = $this->model('M_Users');
 
     }
+
+    public function forgotPassword(){
+        $data=[];
+        $this->view('users/v_forgotpassword',$data);
+    }
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -249,6 +254,186 @@ class Users extends Controller
             return false;
         }
     }
+    public function forgot_password() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = trim($_POST['email']);
+    
+            if ($this->userModel->findUserByEmail($email)) {
+                $token = bin2hex(random_bytes(50));
+                $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
+    
+                $this->userModel->storeResetToken($email, $token, $expiry);
+    
+                // Send reset link (you can use PHPMailer or simple mail())
+                $resetLink = URLROOT . "/users/reset_password?token=$token";
+                $subject = "Password Reset Request";
+                $message = "Click the following link to reset your password: $resetLink";
+    
+                mail($email, $subject, $message);
+    
+                flash('reset_link_sent', 'Check your email for the reset link.');
+                redirect('users/login');
+            } else {
+                flash('email_not_found', 'No user found with that email.', 'alert alert-danger');
+                redirect('users/forgot_password');
+            }
+        } else {
+            $this->view('users/forgot_password');
+        }
+    }
+
+    public function reset_password() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $token = $_POST['token'];
+            $newPassword = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+    
+            if ($this->userModel->isValidToken($token)) {
+                $this->userModel->updatePasswordByToken($token, $newPassword);
+                flash('password_reset_success', 'Password updated successfully. You can now log in.');
+                redirect('users/login');
+            } else {
+                flash('invalid_token', 'Invalid or expired token.', 'alert alert-danger');
+                redirect('users/forgot_password');
+            }
+        } else {
+            $this->view('users/reset_password');
+        }
+    }
+    public function edit_profile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //Form is submitting
+            //validate data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'email' => trim($_POST['email']),
+                'name' => trim($_POST['name']),
+                'password' => trim($_POST['password']),
+                'confirmPassword' => trim($_POST['confirmPassword']),
+                'address' => trim($_POST['address']),
+                'contactNumber' => trim($_POST['contactNumber']),
+
+                'email_err' => '',
+                'name_err' => '',
+                'password_err' => '',
+                'confirmPassword_err' => '',
+                'address_err' => '',
+                'contactNumber_err' => ''
+
+            ];
+            //validate each input
+
+            //validate email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter a email';
+            } else {
+                //Check if email is already registered or not
+                if ($this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'This email already exists';
+                }
+
+            }
+
+
+            //validate name
+            if (empty($data['name'])) {
+                $data['name_err'] = 'Please enter a name';
+            }
+
+            // Validate password
+            if (empty($data['password']) || empty($data['confirmPassword'])) {
+                $data['password_err'] = 'Please enter a password';
+            } else {
+                // Check minimum length
+                if (strlen($data['password']) < 8) {
+                    $data['password_err'] = 'Password must be at least 8 characters long';
+                }
+                // Check for at least one uppercase letter
+                elseif (!preg_match('/[A-Z]/', $data['password'])) {
+                    $data['password_err'] = 'Password must contain at least one uppercase letter';
+                }
+                // Check for at least one lowercase letter
+                elseif (!preg_match('/[a-z]/', $data['password'])) {
+                    $data['password_err'] = 'Password must contain at least one lowercase letter';
+                }
+                // Check for at least one digit
+                elseif (!preg_match('/\d/', $data['password'])) {
+                    $data['password_err'] = 'Password must contain at least one number';
+                }
+                // Check for at least one special character
+                elseif (!preg_match('/[\W]/', $data['password'])) {
+                    $data['password_err'] = 'Password must contain at least one special character (@, #, $, etc.)';
+                }
+            }
+
+            // Validate password confirmation
+            if (empty($data['confirmPassword'])) {
+                $data['confirmPassword_err'] = 'Please confirm your password';
+            } elseif ($data['password'] !== $data['confirmPassword']) {
+                $data['confirmPassword_err'] = 'Passwords do not match';
+            }
+
+            // Validate Address
+            if (empty($data['address'])) {
+                $data['address_err'] = 'Please enter your address';
+            }
+
+            // Validate Contact Number (Sri Lankan format)
+            if (empty($data['contactNumber'])) {
+                $data['contactNumber_err'] = 'Please enter your contact number';
+            } elseif (!preg_match('/^07[0-9]{8}$/', $data['contactNumber'])) {
+                $data['contactNumber_err'] = 'Invalid phone number (should be 10 digits, starting with 07X)';
+            }
+
+            //Validatation is completed and no error then register user
+            if (
+                empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])
+            ) {
+                // Hash password
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                //Register user
+                if ($this->userModel->registerUser($data)) {
+
+                    //create a flash message
+                    flash('reg_flash','You are suceesfully regsitered!');
+                    redirect('users/login');
+
+                } else {
+                    redirect('users/signup');
+                }
+            } else {
+                //load view
+                $this->view('users/v_signup', $data);
+
+            }
+
+
+
+        } else {
+            //Initial form
+            $data = [
+                'email' => '',
+                'name' => '',
+                'password' => '',
+                'confirmPassword' => '',
+                'address' => '',
+                'contactNumber' => '',
+
+                'email_err' => '',
+                'name_err' => '',
+                'password_err' => '',
+                'confirmPassword_err' => '',
+                'address_err' => '',
+                'contactNumber_err' => ''
+
+            ];
+            //Load view
+            $this->view('users/v_signup', $data);
+        }
+    }
+    
+    
 
 }
 ?>
