@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2025 at 07:38 PM
+-- Generation Time: Apr 17, 2025 at 08:26 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,16 +37,18 @@ CREATE TABLE `book` (
   `listing_type` enum('sell','swap') NOT NULL,
   `owner_id` int(11) NOT NULL,
   `book_status` enum('available','sold','swapped') DEFAULT 'available',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `book_publisher` varchar(100) DEFAULT NULL,
+  `book_published_year` int(11) DEFAULT NULL,
+  `book_ISBN` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `book`
 --
 
-INSERT INTO `book` (`book_id`, `book_title`, `book_author`, `book_genre`, `book_condition`, `book_price`, `listing_type`, `owner_id`, `book_status`, `created_at`) VALUES
-(1, 'Atomic Habits', 'James Moor', 'Productivity', 'used', 2000.00, 'sell', 5, 'available', '2025-02-24 02:23:31'),
-(14, 'Harry Potter', 'J K Rowling', 'Entertainment', 'new', 2000.00, 'sell', 5, 'available', '2025-03-02 09:39:38');
+INSERT INTO `book` (`book_id`, `book_title`, `book_author`, `book_genre`, `book_condition`, `book_price`, `listing_type`, `owner_id`, `book_status`, `created_at`, `book_publisher`, `book_published_year`, `book_ISBN`) VALUES
+(16, 'Atomic Habits', 'James Moor', 'Arts / Design', 'new', 1234.00, 'sell', 5, 'available', '2025-04-17 04:33:37', 'Sarasavi', 2021, '884644853135');
 
 -- --------------------------------------------------------
 
@@ -118,7 +120,6 @@ CREATE TABLE `user` (
   `user_name` varchar(100) NOT NULL,
   `user_email` varchar(100) NOT NULL,
   `user_password` varchar(255) NOT NULL,
-  `user_NIC` varchar(20) NOT NULL,
   `user_role` enum('parent','child','ambassador','admin') NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `tokens` int(11) DEFAULT 0,
@@ -131,11 +132,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_NIC`, `user_role`, `parent_id`, `tokens`, `user_phone`, `user_address`, `created_at`) VALUES
-(5, 'Madara Meegama', 'madarameegama7@gmail.com', '$2y$10$8Q5.liwx.IqAsmUFhvglL.9ePHkdGMrQIWf7pb/i0DvpK4hsqJ1VW', '200277600185', 'parent', NULL, 0, '0719589692', 'Homagama', '2025-02-20 13:03:57'),
-(7, 'Shehan De Alwis', 'shehan12@gmail.com', '$2y$10$Xo9yihOP5LmA1/xU0CjDl.PSlAEp93Cbg4UEGtjacTSMBVJdW9IUC', '200377600185', 'ambassador', NULL, 0, '0723295295', 'Kottawa', '2025-02-23 02:17:28'),
-(17, 'Amasha Miyuru', 'bashiniskam@gmail.com', '$2y$10$VWcNHT3Qk4SnXey4IdGxlOPErfZE9fgZ1T9ktWrk2tZIm.WS90n8m', '200277600185', 'parent', NULL, 0, '0719589787', 'Galle', '2025-02-27 10:07:15'),
-(20, 'Dinu Meegama', 'dinumeegama97@gmail.com', '$2y$10$.49XzL2siTqoAzS7mhdqfOq6e0/Fdb.y4yc5xO1pomKl8b09GKNhS', '200277600185', 'parent', NULL, 0, '0719589692', 'Ja Ela', '2025-03-05 18:16:51');
+INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_role`, `parent_id`, `tokens`, `user_phone`, `user_address`, `created_at`) VALUES
+(5, 'Madara Meegama', 'madarameegama7@gmail.com', '$2y$10$8Q5.liwx.IqAsmUFhvglL.9ePHkdGMrQIWf7pb/i0DvpK4hsqJ1VW', 'parent', NULL, 0, '0719589692', 'Homagama', '2025-02-20 13:03:57'),
+(7, 'Shehan De Alwis', 'shehan12@gmail.com', '$2y$10$Xo9yihOP5LmA1/xU0CjDl.PSlAEp93Cbg4UEGtjacTSMBVJdW9IUC', 'ambassador', NULL, 0, '0723295295', 'Kottawa', '2025-02-23 02:17:28'),
+(17, 'Amasha Miyuru', 'bashiniskam@gmail.com', '$2y$10$VWcNHT3Qk4SnXey4IdGxlOPErfZE9fgZ1T9ktWrk2tZIm.WS90n8m', 'parent', NULL, 0, '0719589787', 'Galle', '2025-02-27 10:07:15'),
+(20, 'Dinu Meegama', 'dinumeegama97@gmail.com', '$2y$10$.49XzL2siTqoAzS7mhdqfOq6e0/Fdb.y4yc5xO1pomKl8b09GKNhS', 'parent', NULL, 0, '0719589692', 'Ja Ela', '2025-03-05 18:16:51');
 
 -- --------------------------------------------------------
 
@@ -145,14 +146,17 @@ INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user
 --
 CREATE TABLE `v_books` (
 `book_id` int(11)
-,`user_id` int(11)
-,`user_name` varchar(100)
+,`book_owner_id` int(11)
+,`book_owner_name` varchar(100)
 ,`book_title` varchar(255)
 ,`book_author` varchar(255)
 ,`book_genre` varchar(255)
 ,`book_price` decimal(10,2)
 ,`listing_type` enum('sell','swap')
 ,`book_condition` enum('new','used')
+,`book_publisher` varchar(100)
+,`book_published_year` int(11)
+,`book_ISBN` varchar(100)
 );
 
 -- --------------------------------------------------------
@@ -162,7 +166,7 @@ CREATE TABLE `v_books` (
 --
 DROP TABLE IF EXISTS `v_books`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_books`  AS SELECT `b`.`book_id` AS `book_id`, `u`.`user_id` AS `user_id`, `u`.`user_name` AS `user_name`, `b`.`book_title` AS `book_title`, `b`.`book_author` AS `book_author`, `b`.`book_genre` AS `book_genre`, `b`.`book_price` AS `book_price`, `b`.`listing_type` AS `listing_type`, `b`.`book_condition` AS `book_condition` FROM (`user` `u` join `book` `b` on(`u`.`user_id` = `b`.`owner_id`)) ORDER BY `b`.`created_at` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_books`  AS SELECT `book`.`book_id` AS `book_id`, `user`.`user_id` AS `book_owner_id`, `user`.`user_name` AS `book_owner_name`, `book`.`book_title` AS `book_title`, `book`.`book_author` AS `book_author`, `book`.`book_genre` AS `book_genre`, `book`.`book_price` AS `book_price`, `book`.`listing_type` AS `listing_type`, `book`.`book_condition` AS `book_condition`, `book`.`book_publisher` AS `book_publisher`, `book`.`book_published_year` AS `book_published_year`, `book`.`book_ISBN` AS `book_ISBN` FROM (`book` join `user` on(`book`.`owner_id` = `user`.`user_id`)) ORDER BY `book`.`created_at` ASC ;
 
 --
 -- Indexes for dumped tables
@@ -223,7 +227,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `notification`
