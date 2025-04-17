@@ -66,5 +66,10 @@ class Pages extends Controller {
        
     }
 
+    public function parentProfileView(){
+        $data=[];
+        $this->view('pages/parent/v_userprofile',$data);
+    }
+
 }
 ?>

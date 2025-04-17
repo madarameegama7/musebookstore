@@ -42,10 +42,17 @@ Oversee the entire platform, manage user accounts, monitor system performance, h
 escalated issues, create admin accounts, and have access to all system data and 
 functionalities.
 
-## Technologies used
-Frontend- HTML, CSS, JS
-Backend- PHP
-Database- MySQL
+## Technologies used  
+
+Frontend - HTML, CSS, JS  <br>  
+Backend - PHP  <br>  
+Database - MySQL
+
+## Tools and Softwares used 
+
+Coding- Visual Studio Code <br>
+Web Server Application- XAMPP <br>
+Version Controlling- GitHub
 
 ## Contributing
 
@@ -54,3 +61,12 @@ Database- MySQL
 3. Commit your changes (`git commit -m 'Add new feature'`).
 4. Push to your branch (`git push origin feature/your-feature`).
 5. Create a new Pull Request.
+
+## Contributors
+
+1. Kaviru Hapuarachchi
+2. Amasha Miyuru
+3. Gayashan Rathnayaka
+4. Madara Meegama
+
+

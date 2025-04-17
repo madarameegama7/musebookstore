@@ -21,7 +21,7 @@
             <li class="login-button"><a href="<?php echo URLROOT?>/users/logout">Logout</a></li>
 
             <!-- Check user role and redirect to admin dashboard or user profile -->
-            <a href="#">
+            <a href="<?php echo URLROOT?>/pages/parentProfileView">
                <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="user-male-circle--v1"/>
             </a>
 
