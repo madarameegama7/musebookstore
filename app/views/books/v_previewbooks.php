@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
         <?php if ($data['books']->listing_type === 'sell'): ?>
             <button class="cta-button">Buy Book</button>
 
-        <?php elseif ($data['books']->book_listing_type === 'swap'): ?>
+        <?php elseif ($data['books']->listing_type === 'swap'): ?>
             <button class="cta-button">Swap Book</button>
         <?php endif; ?>
 

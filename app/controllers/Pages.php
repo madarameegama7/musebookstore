@@ -70,6 +70,10 @@ class Pages extends Controller {
         $data=[];
         $this->view('pages/parent/v_userprofile',$data);
     }
+    public function homeView(){
+        $data=[];
+        $this->view('pages/homeView',$data);
+    }
 
 }
 ?>

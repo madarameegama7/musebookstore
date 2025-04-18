@@ -19,7 +19,7 @@
                     <p>By <?php echo $book->book_author; ?></p>
                     <p><?php echo $book->book_genre; ?></p>
                     <div class="book-ctrl-button">
-                        <a href="#"><button class="book-ctrl-btn">Show Details</button></a>
+                        <a href="<?php echo URLROOT; ?>/books/book_preview/<?php echo $book->book_id; ?>"><button class="book-ctrl-btn">Show Details</button></a>
                     </div>
                 </div>
             <?php endforeach; ?>
