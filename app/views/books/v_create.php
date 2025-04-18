@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_role'])) {
     die("Please login");
 }
 ?>
-
 <div class="addbook-container">
     <div class="addbook-photo">
         <img src="/musebookstore/public/img/books/book-reading.jpg" alt="Muse Bookstore Logo">

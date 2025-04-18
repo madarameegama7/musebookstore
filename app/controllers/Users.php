@@ -8,6 +8,11 @@ class Users extends Controller
         $this->userModel = $this->model('M_Users');
 
     }
+    public function loadProfile()
+    {
+        $data = [];
+        $this->view('pages/parent/v_userprofile', $data);
+    }
 
     public function forgotPassword(){
         $data=[];
@@ -220,6 +225,8 @@ class Users extends Controller
         $_SESSION['user_email'] = $user->user_email;
         $_SESSION['user_name'] = $user->user_name;
         $_SESSION['user_role'] = $user->user_role;
+        $_SESSION['user_address']=$user->user_address;
+        $_SESSION['user_phone']=$user->user_phone;
 
         if ($_SESSION['user_role'] === 'parent') {
             redirect('Pages/parentView'); // Parent view
@@ -302,136 +309,119 @@ class Users extends Controller
     public function edit_profile()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //Form is submitting
-            //validate data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
             $data = [
+                'user_id' => $_SESSION['user_id'], // get current logged-in user ID
                 'email' => trim($_POST['email']),
                 'name' => trim($_POST['name']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
                 'address' => trim($_POST['address']),
                 'contactNumber' => trim($_POST['contactNumber']),
-
+    
+                // error messages
                 'email_err' => '',
                 'name_err' => '',
                 'password_err' => '',
                 'confirmPassword_err' => '',
                 'address_err' => '',
                 'contactNumber_err' => ''
-
             ];
-            //validate each input
-
-            //validate email
+    
+            // Email validation
             if (empty($data['email'])) {
-                $data['email_err'] = 'Please enter a email';
-            } else {
-                //Check if email is already registered or not
-                if ($this->userModel->findUserByEmail($data['email'])) {
-                    $data['email_err'] = 'This email already exists';
-                }
-
+                $data['email_err'] = 'Please enter an email';
+            } elseif ($data['email'] !== $_SESSION['user_email'] && $this->userModel->findUserByEmail($data['email'])) {
+                $data['email_err'] = 'This email is already taken';
             }
-
-
-            //validate name
+    
+            // Name validation
             if (empty($data['name'])) {
                 $data['name_err'] = 'Please enter a name';
             }
-
-            // Validate password
-            if (empty($data['password']) || empty($data['confirmPassword'])) {
-                $data['password_err'] = 'Please enter a password';
-            } else {
-                // Check minimum length
-                if (strlen($data['password']) < 8) {
-                    $data['password_err'] = 'Password must be at least 8 characters long';
-                }
-                // Check for at least one uppercase letter
-                elseif (!preg_match('/[A-Z]/', $data['password'])) {
-                    $data['password_err'] = 'Password must contain at least one uppercase letter';
-                }
-                // Check for at least one lowercase letter
-                elseif (!preg_match('/[a-z]/', $data['password'])) {
-                    $data['password_err'] = 'Password must contain at least one lowercase letter';
-                }
-                // Check for at least one digit
-                elseif (!preg_match('/\d/', $data['password'])) {
-                    $data['password_err'] = 'Password must contain at least one number';
-                }
-                // Check for at least one special character
-                elseif (!preg_match('/[\W]/', $data['password'])) {
-                    $data['password_err'] = 'Password must contain at least one special character (@, #, $, etc.)';
-                }
-            }
-
-            // Validate password confirmation
-            if (empty($data['confirmPassword'])) {
-                $data['confirmPassword_err'] = 'Please confirm your password';
-            } elseif ($data['password'] !== $data['confirmPassword']) {
-                $data['confirmPassword_err'] = 'Passwords do not match';
-            }
-
-            // Validate Address
+    
+            // Address validation
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter your address';
             }
-
-            // Validate Contact Number (Sri Lankan format)
+    
+            // Contact number validation (Sri Lankan format)
             if (empty($data['contactNumber'])) {
                 $data['contactNumber_err'] = 'Please enter your contact number';
             } elseif (!preg_match('/^07[0-9]{8}$/', $data['contactNumber'])) {
-                $data['contactNumber_err'] = 'Invalid phone number (should be 10 digits, starting with 07X)';
+                $data['contactNumber_err'] = 'Invalid phone number format';
             }
-
-            //Validatation is completed and no error then register user
+    
+            // Password validation (if user entered something)
+            if (!empty($data['password']) || !empty($data['confirmPassword'])) {
+                if (strlen($data['password']) < 8 ||
+                    !preg_match('/[A-Z]/', $data['password']) ||
+                    !preg_match('/[a-z]/', $data['password']) ||
+                    !preg_match('/\d/', $data['password']) ||
+                    !preg_match('/[\W]/', $data['password'])) {
+                    $data['password_err'] = 'Password must be 8+ chars and include uppercase, lowercase, digit, and special char';
+                }
+    
+                if ($data['password'] !== $data['confirmPassword']) {
+                    $data['confirmPassword_err'] = 'Passwords do not match';
+                }
+            }
+    
+            // If no errors
             if (
-                empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])
+                empty($data['email_err']) && empty($data['name_err']) &&
+                empty($data['password_err']) && empty($data['confirmPassword_err']) &&
+                empty($data['address_err']) && empty($data['contactNumber_err'])
             ) {
-                // Hash password
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-                //Register user
-                if ($this->userModel->registerUser($data)) {
-
-                    //create a flash message
-                    flash('reg_flash','You are suceesfully regsitered!');
-                    redirect('users/login');
-
+                // Hash password if changed
+                if (!empty($data['password'])) {
+                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 } else {
-                    redirect('users/signup');
+                    $data['password'] = null; // signal to model that password isn't changing
+                }
+    
+                // Update user
+                if ($this->userModel->updateUserProfile($data)) {
+                    // Update session data
+                    $_SESSION['user_email'] = $data['email'];
+                    $_SESSION['user_name'] = $data['name'];
+                    $_SESSION['user_address'] = $data['address'];
+                    $_SESSION['user_phone'] = $data['contactNumber'];
+    
+                    flash('profile_flash', 'Profile updated successfully');
+                    redirect('users/loadProfile'); // or wherever the profile page is
+                } else {
+                    die('Something went wrong');
                 }
             } else {
-                //load view
-                $this->view('users/v_signup', $data);
-
+                // Load the same profile form with errors
+                $this->view('users/v_userprofile', $data);
             }
-
-
-
         } else {
-            //Initial form
+            // Not POST request
+            $user = $this->userModel->getUserById($_SESSION['user_id']);
             $data = [
-                'email' => '',
-                'name' => '',
+                'email' => $user->email,
+                'name' => $user->name,
+                'address' => $user->address,
+                'contactNumber' => $user->contact_number,
                 'password' => '',
                 'confirmPassword' => '',
-                'address' => '',
-                'contactNumber' => '',
-
                 'email_err' => '',
                 'name_err' => '',
                 'password_err' => '',
                 'confirmPassword_err' => '',
                 'address_err' => '',
                 'contactNumber_err' => ''
-
             ];
-            //Load view
-            $this->view('users/v_signup', $data);
+    
+            $this->view('users/v_userprofile', $data);
         }
     }
+
+    
+    
     
     
 

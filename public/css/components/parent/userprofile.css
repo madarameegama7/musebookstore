@@ -1,24 +1,9 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body Styling */
-body {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    background-color: white;
-}
-
 /* Sidebar Styling */
 .sidebar {
     position: fixed;
     width: 250px;
     background-color: #ffffff;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     height: 100vh;
     overflow-y: auto;
 }
@@ -139,7 +124,7 @@ body {
     width: 350px;
 }
 
-button {
+.profile-container button {
     font-family: 'Poppins', sans-serif;
     padding: 10px 20px;
     background-color: #4a90e2;
@@ -151,7 +136,7 @@ button {
     margin-top: 20px; /* Add space above buttons */
 
 }
-button .save-btn {
+.profile-container button .save-btn {
     font-family: 'Poppins', sans-serif;
     padding: 10px 20px;
     background-color: #4a90e2;
@@ -163,19 +148,8 @@ button .save-btn {
     margin-top: 20px; /* Add space above buttons */
 }
 
-button:hover {
+.profile-container button:hover {
     background-color: #357ab7;
-}
-.logo-container {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-}
-
-.logo-container img {
-    width: 200px; 
-    height: 100px;
-    margin-right: 10px;
 }
 /* Media Query for responsiveness */
 @media (max-width: 768px) {

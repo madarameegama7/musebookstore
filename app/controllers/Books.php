@@ -347,6 +347,16 @@ class Books extends Controller
         $this->view('books/v_categorybooks', $data);
     }
 
+    public function book_preview($book_id) {
+        $books = $this->bookModel->getBooksById($book_id);
+        $data = [
+            'books' => $books
+        ];
+        $this->view('books/v_previewbooks', $data);
+
+
+    }
+
 
 
 

@@ -81,9 +81,7 @@ public function getBooksByCategory($category) {
     $this->db->bind(':category', $category);
     return $this->db->resultSet();
 }
-
+}
 
     
-
-}
 ?>

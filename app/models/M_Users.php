@@ -84,6 +84,27 @@ class M_Users{
         $this->db->bind(':token', $token);
         return $this->db->execute();
     }
+
+    public function updateUserProfile($data) {
+        if ($data['password']) {
+            $sql = "UPDATE user SET user_name = :name, user_email = :email, user_password = :password, user_phone = :phone, user_address = :address WHERE user_id = :id";
+            $this->db->query($sql);
+            $this->db->bind(':password', $data['password']);
+        } else {
+            $sql = "UPDATE user SET user_name = :name, user_email = :email, user_phone = :phone, user_address = :address WHERE user_id = :id";
+            $this->db->query($sql);
+        }
+    
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone', $data['contactNumber']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':id', $data['id']);
+    
+        return $this->db->execute();
+    }
+    
+    
     
     
     

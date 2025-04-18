@@ -33,7 +33,7 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                 <?php else: ?>
                     <div class="book-ctrl-button">
-                        <a href="#"><button class="book-ctrl-btn">Show Details</button></a>
+                        <a href="<?php echo URLROOT; ?>/books/book_preview/<?php echo $book->book_id; ?>"><button class="book-ctrl-btn">Show Details</button></a>
                     </div>
                 <?php endif; ?>
             </div>

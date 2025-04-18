@@ -1,14 +1,11 @@
 <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <li class="logo-container">
-            <img src="./public/images/muse logo.png" alt="Muse Bookstore Logo">
-        </li>
         <nav>
             <ul>
                 <li class="active"><a href="user.php"><i class="fas fa-tachometer-alt"></i> Welcome to dashboard</a></li>
                 <li><a href="index"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="userprofile"><i class="fas fa-user"></i> Profile</a></li>
-                <li><a href="selectoption"><i class="fas fa-book"></i> Post Books</a></li>
+                <li><a href="<?php echo URLROOT?>/books/create"><i class="fas fa-book"></i> Post Books</a></li>
                 <li><a href="userCommunities"><i class="fas fa-users"></i> Communities</a></li>
                 <li><a href="blogs"><i class="fas fa-blog"></i> Blogs</a></li>
                 <li><a href="calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
