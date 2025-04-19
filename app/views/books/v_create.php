@@ -14,6 +14,10 @@ if (!isset($_SESSION['user_role'])) {
 
     <div class="addbook-box">
         <form action="<?php echo URLROOT; ?>/Books/create" method="post">
+            <label>Book Image</label>
+            <input type="file" name="bookimage" id="bookimage" placeholder="Add Book Image"
+            value="<?php $data['booktitle']; ?>" required>
+
             <label>Book Title</label><br>
             <input type="text" name="booktitle" id="booktitle" placeholder="Enter Book Title"
                 value="<?php $data['booktitle']; ?>" required>

@@ -20,7 +20,8 @@ class M_Users{
     }
 
     public function registerUser($data){
-        $this->db->query('INSERT INTO user(user_name,user_email,user_password, user_phone, user_address,user_role) VALUES (:user_name, :user_email, :user_password, :user_phone, :user_address, :user_role) ');
+        $this->db->query('INSERT INTO user(user_name,user_photo,user_email,user_password, user_phone, user_address,user_role) VALUES (:user_name, :user_photo, :user_email, :user_password, :user_phone, :user_address, :user_role) ');
+        $this->db->bind(':user_photo',$data['profile_image_name']);
         $this->db->bind(':user_name',$data['name']);
         $this->db->bind(':user_email',$data['email']);
         $this->db->bind(':user_password',$data['password']);

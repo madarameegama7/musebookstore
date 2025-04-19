@@ -96,6 +96,89 @@
     margin: auto;
 }
 
+/* profile picture */
+.form-drag-area {
+    background-color: #eeeded;
+    height: 100px;
+    width: 95%;
+    border: 5px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    transition: 300ms ease-in;
+    padding: 10px;
+}
+
+.form-drag-area.active {
+    border: 2px dashed #888888;
+    background-color: #d8d8d8;
+}
+
+.form-drag-area .right-content {
+    margin: 0 auto;
+}
+
+.form-drag-area .form-upload {
+    background-color: #494949;
+}
+
+.form-drag-area .icon {
+    margin: 0 auto;
+}
+
+.form-drag-area .icon img {
+    border-radius: 50%;
+}
+
+.form-drag-area .description {
+    font-size: 13px;
+    font-weight: 500;
+    color: #494949;
+}
+
+.form-drag-area .form-upload {
+    background-color: #7474eb;
+    color: white;
+    padding: 8px 8px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    border-radius: 3px;
+    width: 100px;
+}
+
+.form-drag-area .form-upload:hover {
+    opacity: 1;
+}
+
+/* form validations */
+.form-validation {
+    padding: 5px;
+    transition: .2s all;
+}
+
+.form-validation.active {
+    opacity: 1;
+    height: auto;
+}
+
+.form-validation > div {
+    opacity: 0.5;
+}
+
+.form-validation > div.active {
+    opacity: 1;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.form-validation > div.img {
+    opacity: 1;
+}
+
 
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
