@@ -29,6 +29,8 @@ class Books extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
+                'book_image'=> $_FILES['book_image'],
+                'book_image_name'=> time().'_'.$_FILES['book_image']['name'],
                 'booktitle' => trim($_POST['booktitle']),
                 'author' => trim($_POST['author']),
                 'genre' => trim($_POST['genre']),
@@ -39,6 +41,7 @@ class Books extends Controller
                 'year' => trim($_POST['year']),
                 'isbn' => trim($_POST['isbn']),
 
+                'book_image_err' => '',
                 'book_title_err' => '',
                 'book_author_err' => '',
                 'book_genre_err' => '',
@@ -52,6 +55,16 @@ class Books extends Controller
 
 
             ];
+
+                //validate book image and upload
+                if(uploadImage($data['book_image']['tmp_name'], $data['book_image_name'], '/img/bookImgs/')){
+                    //done
+                }
+                else{
+    
+                    $data['book_image_err'] = 'Book image uploaded unsuccesfully';
+                }
+    
 
             //validation
             if (empty($data['booktitle'])) {
@@ -93,6 +106,7 @@ class Books extends Controller
 
 
             if (
+                empty($data['book_image_err'])&&
                 empty($data['book_title_err']) &&
                 empty($data['book_author_err']) &&
                 empty($data['book_genre_err']) &&
@@ -119,6 +133,8 @@ class Books extends Controller
 
         } else {
             $data = [
+                'book_image'=> '',
+                'book_image_name'=> '',
                 'booktitle' => '',
                 'author' => '',
                 'genre' => '',
@@ -129,7 +145,7 @@ class Books extends Controller
                 'year' => '',
                 'isbn' => '',
 
-
+                'book_image_err' => '',
                 'book_title_err' => '',
                 'book_author_err' => '',
                 'book_genre_err' => '',
@@ -156,6 +172,16 @@ class Books extends Controller
             'books' => $books
         ];
         $this->view('books/v_displaybooks', $data);
+
+
+    }
+    public function myBooks()
+    {
+        $books = $this->bookModel->getBooks();
+        $data = [
+            'books' => $books
+        ];
+        $this->view('books/v_parentownedbooks', $data);
 
 
     }

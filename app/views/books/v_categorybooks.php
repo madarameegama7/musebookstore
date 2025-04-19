@@ -10,12 +10,12 @@
         <div class="articles">
             <?php foreach ($data['books'] as $book): ?>
                 <div class="articles-card">
-                    <img src="/musebookstore/public/img/index-page.jpg">
+                <img src="<?php echo URLROOT . '/img/bookImgs/' . ($book->book_image ?? 'default.jpg'); ?>" alt="Book Image">
                     <h3><?php echo $book->book_title; ?></h3>
                     <p>By <?php echo $book->book_author; ?></p>
                     <p><?php echo $book->book_genre; ?></p>
                     <div class="book-ctrl-button">
-                        <a href="#"><button class="book-ctrl-btn">Show Details</button></a>
+                        <a href="<?php echo URLROOT; ?>/books/book_preview/<?php echo $book->book_id; ?>"><button class="book-ctrl-btn">Show Details</button></a>
                     </div>
                 </div>
             <?php endforeach; ?>

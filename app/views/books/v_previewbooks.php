@@ -1,15 +1,9 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
 
-<?php
-if (!isset($_SESSION['user_id'])) {
-    die("Please login");
-}
-?>
-
 <div class="book-preview-container">
     <div class="book-cover">
-        <img src="<?php echo URLROOT; ?>/img/book_covers/<?php echo $data['books']->book_cover; ?>" alt="Book Cover">
+    <img src="<?php echo URLROOT . '/img/bookImgs/' . ($data['books']->book_image ?? 'default.jpg'); ?>" alt="Book Image">
     </div>
     <div class="book-details">
         <p><strong><?php echo strtoupper($data['books']->book_genre); ?></strong></p>

@@ -14,7 +14,7 @@
         <div class="articles">
             <?php foreach ($data['books'] as $book): ?>
                 <div class="articles-card">
-                    <img src="/musebookstore/public/img/index-page.jpg">
+                <img src="<?php echo URLROOT . '/img/bookImgs/' . ($book->book_image ?? 'default.jpg'); ?>" alt="Book Image">
                     <h3><?php echo $book->book_title; ?></h3>
                     <p>By <?php echo $book->book_author; ?></p>
                     <p><?php echo $book->book_genre; ?></p>

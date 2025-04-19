@@ -1,0 +1,35 @@
+.display-books .articles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* spacing between cards */
+        justify-content: space-between;
+    }
+
+.display-books .articles-card {
+        width: 30%; /* roughly 3 cards per row */
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+.display-books .articles-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+@media (max-width: 900px) {
+        .display-books .articles-card {
+            width: 45%;
+        }
+    }
+
+@media (max-width: 600px) {
+        .display-books .articles-card {
+            width: 100%;
+        }
+    }
