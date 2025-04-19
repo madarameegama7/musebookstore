@@ -20,7 +20,8 @@ class M_Users{
     }
 
     public function registerUser($data){
-        $this->db->query('INSERT INTO user(user_name,user_email,user_password, user_phone, user_address,user_role) VALUES (:user_name, :user_email, :user_password, :user_phone, :user_address, :user_role) ');
+        $this->db->query('INSERT INTO user(user_name,user_photo,user_email,user_password, user_phone, user_address,user_role) VALUES (:user_name, :user_photo, :user_email, :user_password, :user_phone, :user_address, :user_role) ');
+        $this->db->bind(':user_photo',$data['profile_image_name']);
         $this->db->bind(':user_name',$data['name']);
         $this->db->bind(':user_email',$data['email']);
         $this->db->bind(':user_password',$data['password']);
@@ -84,6 +85,27 @@ class M_Users{
         $this->db->bind(':token', $token);
         return $this->db->execute();
     }
+
+    public function updateUserProfile($data) {
+        if ($data['password']) {
+            $sql = "UPDATE user SET user_name = :name, user_email = :email, user_password = :password, user_phone = :phone, user_address = :address WHERE user_id = :id";
+            $this->db->query($sql);
+            $this->db->bind(':password', $data['password']);
+        } else {
+            $sql = "UPDATE user SET user_name = :name, user_email = :email, user_phone = :phone, user_address = :address WHERE user_id = :id";
+            $this->db->query($sql);
+        }
+    
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone', $data['contactNumber']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':id', $data['id']);
+    
+        return $this->db->execute();
+    }
+    
+    
     
     
     

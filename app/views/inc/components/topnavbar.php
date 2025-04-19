@@ -22,7 +22,7 @@
 
             <!-- Check user role and redirect to admin dashboard or user profile -->
             <a href="<?php echo URLROOT?>/pages/parentProfileView">
-               <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="user-male-circle--v1"/>
+               <img width="50" height="50" src="<?php echo URLROOT?>/img/profileImgs/<?php echo $_SESSION['user_photo']?>" alt="user-male-circle--v1"/>
             </a>
 
         <?php else: ?>

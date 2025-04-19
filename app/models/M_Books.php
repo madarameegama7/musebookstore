@@ -7,7 +7,8 @@ class M_Books{
     }
    
     public function create($data){
-        $this->db->query('INSERT INTO book(book_title, book_author, book_genre, book_condition, book_price, listing_type, owner_id, book_publisher, book_published_year, book_ISBN) VALUES(:book_title, :book_author, :book_genre, :book_condition, :book_price,  :listing_type, :owner_id, :book_publisher, :book_published_year, :book_ISBN )');
+        $this->db->query('INSERT INTO book(book_title, book_author, book_genre, book_condition, book_price, listing_type, owner_id, book_publisher, book_published_year, book_ISBN, book_image) VALUES(:book_title, :book_author, :book_genre, :book_condition, :book_price,  :listing_type, :owner_id, :book_publisher, :book_published_year, :book_ISBN, :book_image)');
+        $this->db->bind(':book_image',$data['book_image_name']);
         $this->db->bind(':book_title',$data['booktitle']);
         $this->db->bind(':book_author',$data['author']);
         $this->db->bind(':book_genre',$data['genre']);
@@ -36,6 +37,14 @@ class M_Books{
     public function getBooksById($book_id){
         $this->db->query('SELECT * FROM v_books WHERE book_id = :book_id');
         $this->db->bind(':book_id',$book_id);
+
+        $row = $this->db->single();
+        return $row;
+    }
+
+    public function getBooksByUserId($user_id){
+        $this->db->query('SELECT * FROM v_books WHERE owner_id = :user_id');
+        $this->db->bind(':user_id',$user_id);
 
         $row = $this->db->single();
         return $row;
@@ -81,9 +90,7 @@ public function getBooksByCategory($category) {
     $this->db->bind(':category', $category);
     return $this->db->resultSet();
 }
-
+}
 
     
-
-}
 ?>
