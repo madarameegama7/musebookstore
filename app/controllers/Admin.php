@@ -34,13 +34,50 @@ class Admin extends Controller
         $this->view('pages/admin/v_adminhome', $data);
     }
 
+    // Analytics Dashboard
+    public function analytics()
+    {
+        // Fetch data needed for analytics (start with basic counts)
+        $userCount = $this->adminModel->getUserCount();
+        $bookCount = $this->adminModel->getBookCount();
+        // Add more complex data fetching later (e.g., signups per month, listings per category)
+
+        $data = [
+            'title' => 'Site Analytics',
+            'userCount' => $userCount,
+            'bookCount' => $bookCount,
+            // Add other analytics data here
+        ];
+        $this->view('pages/admin/v_analytics', $data);
+    }
+
     // User Management
     public function manageUsers()
     {
-        $users = $this->adminModel->getAllUsers();
+        // This method handles the page load and search via GET parameter.
+        $searchTerm = $_GET['search'] ?? null;
+        $users = [];
+
+        if ($searchTerm) {
+            $searchTerm = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
+            // Trim the search term
+            $searchTerm = trim($searchTerm);
+            // Only search if the trimmed term is not empty
+            if (!empty($searchTerm)) {
+                $users = $this->adminModel->searchUsers($searchTerm);
+            } else {
+                // If search term is empty after trimming, show all users
+                $users = $this->adminModel->getAllUsers();
+                $searchTerm = null; // Reset searchTerm to null if it was just whitespace
+            }
+        } else {
+            $users = $this->adminModel->getAllUsers();
+        }
+
         $data = [
             'title' => 'Manage Users',
-            'users' => $users
+            'users' => $users,
+            'searchTerm' => $searchTerm
         ];
         $this->view('pages/admin/v_manage_users', $data);
     }
@@ -128,9 +165,9 @@ class Admin extends Controller
             } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 $data['email_err'] = 'Invalid email format';
             } else {
-                // Check if email exists for *another* user
-                $existingUser = $this->userModel->findUserByEmail($data['email']);
-                if ($existingUser && $existingUser->user_id != $userId) {
+                // Check if the email exists AND belongs to a DIFFERENT user
+                $userWithEmail = $this->userModel->getUserByEmail($data['email']);
+                if ($userWithEmail && $userWithEmail->user_id != $userId) {
                     $data['email_err'] = 'This email is already taken by another user';
                 }
             }
@@ -351,10 +388,30 @@ class Admin extends Controller
     // Book Management
     public function manageBooks()
     {
-        $books = $this->adminModel->getAllBooks();
+        // This method handles the page load and search via GET parameter.
+        $searchTerm = $_GET['search'] ?? null;
+        $books = [];
+
+        if ($searchTerm) {
+            $searchTerm = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
+            // Trim the search term
+            $searchTerm = trim($searchTerm);
+            // Only search if the trimmed term is not empty
+            if (!empty($searchTerm)) {
+                $books = $this->adminModel->searchBooks($searchTerm);
+            } else {
+                // If search term is empty after trimming, show all books
+                $books = $this->adminModel->getAllBooks();
+                $searchTerm = null; // Reset searchTerm to null if it was just whitespace
+            }
+        } else {
+            $books = $this->adminModel->getAllBooks();
+        }
+
         $data = [
             'title' => 'Manage Books',
-            'books' => $books
+            'books' => $books,
+            'searchTerm' => $searchTerm
         ];
         $this->view('pages/admin/v_manage_books', $data);
     }

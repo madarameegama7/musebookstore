@@ -207,4 +207,40 @@ class M_Admin
             return false;
         }
     }
+
+    // Search users by name, email, or ID
+    public function searchUsers($searchTerm)
+    {
+        $this->db->query('SELECT user_id, user_name, user_email, user_role 
+                          FROM user 
+                          WHERE user_id = :id_term 
+                             OR user_name LIKE :name_term 
+                             OR user_email LIKE :email_term
+                          ORDER BY user_name');
+        $likeTerm = '%' . $searchTerm . '%';
+        $this->db->bind(':id_term', $searchTerm); // Exact match for ID
+        $this->db->bind(':name_term', $likeTerm);
+        $this->db->bind(':email_term', $likeTerm);
+        return $this->db->resultSet();
+    }
+
+    // Search books by title, author, ISBN, or owner name/ID
+    public function searchBooks($searchTerm)
+    {
+        $this->db->query('SELECT b.*, u.user_name as owner_name 
+                          FROM book b 
+                          JOIN user u ON b.owner_id = u.user_id 
+                          WHERE b.book_id = :id_term
+                             OR b.book_title LIKE :term
+                             OR b.book_author LIKE :term
+                             OR b.book_ISBN LIKE :term
+                             OR u.user_name LIKE :term
+                             OR b.owner_id = :owner_id_term
+                          ORDER BY b.created_at DESC');
+        $likeTerm = '%' . $searchTerm . '%';
+        $this->db->bind(':id_term', $searchTerm); // Exact match for Book ID
+        $this->db->bind(':term', $likeTerm);
+        $this->db->bind(':owner_id_term', $searchTerm); // Exact match for Owner ID
+        return $this->db->resultSet();
+    }
 }
