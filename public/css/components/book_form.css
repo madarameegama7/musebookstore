@@ -12,7 +12,6 @@
 .addbook-container {
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
@@ -21,9 +20,9 @@
 }
 
 .addbook-photo{
-    width: 50%;
+    width: 100%;
     max-width: 600px;
-    height: auto;
+    height: 100%;
 }
 
 .addbook-box {
@@ -48,6 +47,7 @@
 .addphoto-img {
     max-width: 100%;
     height: auto;
+    margin-top: 0%;
 }
 .logo{
     width:200px;
@@ -157,6 +157,105 @@
     margin-top: 10px;
     cursor: pointer;
 }
+
+.addbook-container h3{
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+    background-color: #FFF7E6;
+    padding: 20px 30px;
+    border-left: 5px solid #ff9900;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/** book image */
+.addbook-box .form-drag-area {
+    background-color: white;
+    height: 100px;
+    width: 95%;
+    border: 5px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    transition: 300ms ease-in;
+    padding: 10px;
+}
+
+.addbook-box .form-drag-area.active {
+    border: 2px dashed #888888;
+    background-color: #d8d8d8;
+}
+
+.addbook-box .form-drag-area .right-content {
+    margin: 0 auto;
+}
+
+.addbook-box .form-drag-area .form-upload {
+    background-color: #494949;
+}
+
+.addbook-box .form-drag-area .icon {
+    margin: 0 auto;
+}
+
+.addbook-box .form-drag-area .icon img {
+    border-radius: 0%;
+    padding-right: 10px;
+    
+}
+
+.addbook-box .form-drag-area .description {
+    font-size: 15px;
+    font-weight: 500;
+    color: #494949;
+}
+
+.addbook-box .form-drag-area .form-upload {
+    background-color: #7474eb;
+    color: white;
+    padding: 8px 8px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    border-radius: 3px;
+    width: 100px;
+}
+
+.addbook-box .form-drag-area .form-upload:hover {
+    opacity: 1;
+}
+
+/* form validations */
+.addbook-box .form-validation {
+    padding: 5px;
+    transition: .2s all;
+}
+
+.addbook-box .form-validation.active {
+    opacity: 1;
+    height: auto;
+}
+
+.addbook-box .form-validation > div {
+    opacity: 0.5;
+}
+
+.addbook-box .form-validation > div.active {
+    opacity: 1;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.addbook-box .form-validation > div.img {
+    opacity: 1;
+}
+
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
     .addbook-container select {

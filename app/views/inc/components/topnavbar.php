@@ -20,6 +20,7 @@
 
             <li class="login-button"><a href="<?php echo URLROOT?>/users/logout">Logout</a></li>
 
+
             <!-- Check user role and redirect to appropriate profile view -->
             <?php
                 $profileLink = '#'; // Default link
@@ -41,6 +42,7 @@
             ?>
             <a href="<?php echo $profileLink; ?>">
                <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="user-male-circle--v1"/>
+
             </a>
 
         <?php else: ?>

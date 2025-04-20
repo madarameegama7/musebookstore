@@ -69,12 +69,16 @@ class Pages extends Controller
         $this->view('pages/parent/v_userprofile', $data);
     }
 
-    public function adminProfileView()
-    {
-        // Ensure user is logged in and is an admin
-        if (!isLoggedIn() || $_SESSION['user_role'] !== 'admin') {
-            redirect('users/login');
-        }
+
+    public function parentProfileView(){
+        $data=[];
+        $this->view('pages/parent/v_userprofile',$data);
+    }
+    public function homeView(){
+        $data=[];
+        $this->view('pages/homeView',$data);
+    }
+
 
         // Prepare data for the admin profile view
         $data = [
