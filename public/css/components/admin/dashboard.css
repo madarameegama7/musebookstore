@@ -1,0 +1,25 @@
+/* Styles specific to the admin dashboard content area */
+.admin-dashboard-content {
+    padding: 20px;
+    background-color: #f4f6f9; /* Light background for content area */
+}
+
+.admin-dashboard-content h1,
+.admin-dashboard-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Example card styling */
+.dashboard-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.dashboard-card h3 {
+    margin-top: 0;
+    color: #555;
+}

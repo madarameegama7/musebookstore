@@ -1,2 +1,3 @@
 app/config/config.php
 config.php
+app/libraries/Core.php

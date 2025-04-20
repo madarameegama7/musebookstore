@@ -14,10 +14,9 @@
 @import url('components/button.css');
 
 /* amasha */
-
-
-
-
+@import url('components/admin/sidebar.css');
+@import url('components/admin/dashboard.css');
+@import url('components/admin/userprofile.css');
 
 
 

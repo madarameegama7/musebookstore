@@ -224,10 +224,11 @@ class Users extends Controller
         if ($_SESSION['user_role'] === 'parent') {
             redirect('Pages/parentView'); // Parent view
         } elseif ($_SESSION['user_role'] === 'admin') {
-            redirect('Pages/adminView'); // Admin view
+            redirect('admin'); // Corrected: Redirect admin to Admin controller index
         } elseif ($_SESSION['user_role'] === 'ambassador') {
             redirect('Pages/ambassadorView'); // Ambassador view
         } else {
+             // Assuming the only other role is 'child'
             redirect('Pages/childView'); // Child view
         }
 
