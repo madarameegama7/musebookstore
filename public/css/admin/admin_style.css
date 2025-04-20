@@ -136,3 +136,140 @@
 .admin-main-content td button.delete-btn:hover {
     background-color: #c82333;
 }
+
+/* Button hover styles */
+.btn-view:hover {
+    background-color: #138496; /* Darker info blue */
+}
+
+.btn-update:hover {
+    background-color: #218838; /* Darker success green */
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* Darker danger red */
+}
+
+.btn-back:hover {
+    background-color: #5a6268; /* Darker secondary grey */
+}
+
+/* Buttons in Tables and Forms */
+.btn-view, .btn-edit, .btn-update, .btn-delete, .btn-back {
+    padding: 6px 12px;
+    margin: 2px 4px 2px 0; /* Added slight right margin */
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: white !important; /* Ensure text is white */
+    font-size: 0.9em;
+    text-decoration: none !important; /* Ensure no underline for links */
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out; /* Smooth transition */
+}
+
+.btn-view {
+    background-color: #17a2b8; /* Info blue */
+}
+.btn-view:hover {
+    background-color: #138496;
+    color: white !important;
+}
+
+.btn-edit {
+    background-color: #ffc107; /* Warning yellow */
+    color: #212529 !important; /* Dark text for yellow background */
+}
+.btn-edit:hover {
+    background-color: #e0a800;
+    color: #212529 !important;
+}
+
+.btn-update {
+    background-color: #28a745; /* Success green */
+}
+.btn-update:hover {
+    background-color: #218838;
+    color: white !important;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Danger red */
+}
+.btn-delete:hover {
+    background-color: #c82333;
+    color: white !important;
+}
+
+.btn-back {
+     background-color: #6c757d; /* Secondary grey */
+     margin-bottom: 15px;
+}
+.btn-back:hover {
+     background-color: #5a6268;
+     color: white !important;
+}
+
+/* Style form buttons consistently */
+.update-role-form button,
+.edit-user-form button,
+.edit-book-form button,
+.admin-actions button {
+    padding: 8px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: white !important;
+    font-size: 1em;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Ensure form selects and inputs are styled nicely */
+.update-role-form select,
+.edit-user-form select,
+.edit-user-form input[type="text"],
+.edit-user-form input[type="email"],
+.edit-user-form textarea,
+.edit-book-form select,
+.edit-book-form input[type="text"],
+.edit-book-form input[type="number"],
+.edit-book-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border */
+    font-size: 0.95em;
+}
+
+.edit-user-form label,
+.edit-book-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Add specific form container styles if needed */
+.edit-user-form,
+.edit-book-form {
+     background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dee2e6;
+}
+
+.edit-user-form h2,
+.edit-book-form h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
