@@ -6,23 +6,26 @@
 
     <main class="admin-main-content">
         <h1><?php echo $data['title']; ?></h1>
-        <p>Welcome to the Admin Dashboard.</p>
+        <p>Overview of website activity.</p>
 
         <div class="admin-dashboard-stats">
             <div class="stat-card">
                 <h2>Total Users</h2>
                 <p><?php echo $data['userCount']; ?></p>
-                <a href="<?php echo URLROOT; ?>/admin/manageUsers" class="stat-link">Manage Users</a>
             </div>
             <div class="stat-card">
                 <h2>Total Books Listed</h2>
                 <p><?php echo $data['bookCount']; ?></p>
-                <a href="<?php echo URLROOT; ?>/admin/manageBooks" class="stat-link">Manage Books</a>
             </div>
-            <!-- Add more stat cards as needed -->
+            <!-- Add more analytics displays here -->
+            <!-- Example: Charts using Chart.js could be added later -->
         </div>
 
-        <!-- Optional: Add quick links or recent activity section here -->
+        <!-- Placeholder for future charts/graphs -->
+        <div style="margin-top: 30px;">
+            <h2>More Analytics Coming Soon...</h2>
+            <!-- <canvas id="userSignupChart"></canvas> -->
+        </div>
 
     </main>
 </div>

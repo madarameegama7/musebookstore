@@ -6,7 +6,6 @@ class Users extends Controller
     public function __construct()
     {
         $this->userModel = $this->model('M_Users');
-
     }
     public function loadProfile()
     {
@@ -14,9 +13,10 @@ class Users extends Controller
         $this->view('pages/parent/v_userprofile', $data);
     }
 
-    public function forgotPassword(){
-        $data=[];
-        $this->view('users/v_forgotpassword',$data);
+    public function forgotPassword()
+    {
+        $data = [];
+        $this->view('users/v_forgotpassword', $data);
     }
     public function signup()
     {
@@ -62,7 +62,6 @@ class Users extends Controller
                 if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'This email already exists';
                 }
-
             }
 
 
@@ -127,20 +126,15 @@ class Users extends Controller
                 if ($this->userModel->registerUser($data)) {
 
                     //create a flash message
-                    flash('reg_flash','You are suceesfully regsitered!');
+                    flash('reg_flash', 'You are suceesfully regsitered!');
                     redirect('users/login');
-
                 } else {
                     redirect('users/signup');
                 }
             } else {
                 //load view
                 $this->view('users/v_signup', $data);
-
             }
-
-
-
         } else {
             //Initial form
             $data = [
@@ -204,7 +198,6 @@ class Users extends Controller
                     //user is authenticated
                     //create user session
                     $this->createUserSession($loggedUser);
-
                 } else {
                     $data['password_err'] = 'Invalid Password';
 
@@ -214,7 +207,6 @@ class Users extends Controller
             } else {
                 //load view with errors
                 $this->view('users/v_login', $data);
-
             }
         } else {
             //Initial form
@@ -230,9 +222,6 @@ class Users extends Controller
             //Load view
             $this->view('users/v_login', $data);
         }
-
-
-
     }
     public function createUserSession($user)
     {
@@ -247,14 +236,13 @@ class Users extends Controller
         if ($_SESSION['user_role'] === 'parent') {
             redirect('Pages/parentView'); // Parent view
         } elseif ($_SESSION['user_role'] === 'admin') {
-            redirect('Pages/adminView'); // Admin view
+            redirect('admin'); // Corrected: Redirect admin to Admin controller index
         } elseif ($_SESSION['user_role'] === 'ambassador') {
             redirect('Pages/ambassadorView'); // Ambassador view
         } else {
+            // Assuming the only other role is 'child'
             redirect('Pages/childView'); // Child view
         }
-
-
     }
 
     public function logout()
@@ -269,7 +257,6 @@ class Users extends Controller
         session_destroy();
 
         redirect('Users/login');
-
     }
 
     public function isLoggedIn()
@@ -280,23 +267,24 @@ class Users extends Controller
             return false;
         }
     }
-    public function forgot_password() {
+    public function forgot_password()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = trim($_POST['email']);
-    
+
             if ($this->userModel->findUserByEmail($email)) {
                 $token = bin2hex(random_bytes(50));
                 $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
-    
+
                 $this->userModel->storeResetToken($email, $token, $expiry);
-    
+
                 // Send reset link (you can use PHPMailer or simple mail())
                 $resetLink = URLROOT . "/users/reset_password?token=$token";
                 $subject = "Password Reset Request";
                 $message = "Click the following link to reset your password: $resetLink";
-    
+
                 mail($email, $subject, $message);
-    
+
                 flash('reset_link_sent', 'Check your email for the reset link.');
                 redirect('users/login');
             } else {
@@ -308,11 +296,12 @@ class Users extends Controller
         }
     }
 
-    public function reset_password() {
+    public function reset_password()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $token = $_POST['token'];
             $newPassword = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-    
+
             if ($this->userModel->isValidToken($token)) {
                 $this->userModel->updatePasswordByToken($token, $newPassword);
                 flash('password_reset_success', 'Password updated successfully. You can now log in.');
@@ -350,6 +339,7 @@ class Users extends Controller
     
             // Email validation
             if (empty($data['email'])) {
+
                 $data['email_err'] = 'Please enter an email';
             } elseif ($data['email'] !== $_SESSION['user_email'] && $this->userModel->findUserByEmail($data['email'])) {
                 $data['email_err'] = 'This email is already taken';
@@ -393,6 +383,7 @@ class Users extends Controller
                 empty($data['password_err']) && empty($data['confirmPassword_err']) &&
                 empty($data['address_err']) && empty($data['contactNumber_err'])
             ) {
+
                 // Hash password if changed
                 if (!empty($data['password'])) {
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -414,8 +405,10 @@ class Users extends Controller
                     die('Something went wrong');
                 }
             } else {
+
                 // Load the same profile form with errors
                 $this->view('users/v_userprofile', $data);
+
             }
         } else {
             // Not POST request
@@ -439,10 +432,4 @@ class Users extends Controller
         }
     }
 
-    
-    
-    
-    
-
 }
-?>
