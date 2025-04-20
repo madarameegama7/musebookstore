@@ -1,22 +1,24 @@
 <?php
-class M_Users{
+class M_Users
+{
     private $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = new Database();
     }
-    public function findUserByEmail($email){
-       $this->db->query('SELECT * FROM user WHERE user_email= :email');
-       $this->db->bind(':email',$email);
+    public function findUserByEmail($email)
+    {
+        $this->db->query('SELECT * FROM user WHERE user_email= :email');
+        $this->db->bind(':email', $email);
 
-       $row=$this->db->single();
+        $row = $this->db->single();
 
-       if($this->db->rowCount()>0){
-          return true;
-       }
-       else{
-        return false;
-       }
+        if ($this->db->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function registerUser($data){
@@ -29,40 +31,40 @@ class M_Users{
         $this->db->bind(':user_address',$data['address']);
         $this->db->bind(':user_role', 'parent'); 
 
-        if($this->db->execute()){
+        if ($this->db->execute()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
-
     }
-    public function login($email, $password) {
+    public function login($email, $password)
+    {
         $this->db->query('SELECT * FROM user WHERE user_email = :email');
         $this->db->bind(':email', $email);
-    
+
         $row = $this->db->single();
-    
+
         // Check if a row is returned
         if ($row) {
             $hashed_password = $row->user_password; // Use 'user_password' as per your DB
-    
+
             if (password_verify($password, $hashed_password)) {
                 return $row; // Login successful
             }
         }
-    
+
         return false; // Login failed
     }
 
-    public function getAllUsers(){
+    public function getAllUsers()
+    {
         $this->db->query("SELECT * FROM user WHERE user_role='parent'");
-        $results=$this->db->resultSet();
+        $results = $this->db->resultSet();
         return $results;
-
     }
 
-    public function storeResetToken($email, $token, $expiry) {
+    public function storeResetToken($email, $token, $expiry)
+    {
         $sql = "UPDATE user SET reset_token = :token, token_expiry = :expiry WHERE user_email = :email";
         $this->db->query($sql);
         $this->db->bind(':token', $token);
@@ -70,21 +72,24 @@ class M_Users{
         $this->db->bind(':email', $email);
         return $this->db->execute();
     }
-    
-    public function isValidToken($token) {
+
+    public function isValidToken($token)
+    {
         $sql = "SELECT * FROM user WHERE reset_token = :token AND token_expiry > NOW()";
         $this->db->query($sql);
         $this->db->bind(':token', $token);
         return $this->db->single();
     }
-    
-    public function updatePasswordByToken($token, $hashedPassword) {
+
+    public function updatePasswordByToken($token, $hashedPassword)
+    {
         $sql = "UPDATE user SET user_password = :password, reset_token = NULL, token_expiry = NULL WHERE reset_token = :token";
         $this->db->query($sql);
         $this->db->bind(':password', $hashedPassword);
         $this->db->bind(':token', $token);
         return $this->db->execute();
     }
+
 
     public function updateUserProfile($data) {
         if ($data['password']) {
@@ -110,5 +115,17 @@ class M_Users{
     
     
 
+
+    public function getUserByEmail($email)
+    {
+        $this->db->query('SELECT * FROM user WHERE user_email= :email');
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+        // Check if row was returned
+        if ($this->db->rowCount() > 0) {
+            return $row; // Return the user object
+        } else {
+            return false; // Return false if no user found
+        }
+    }
 }
-?>
