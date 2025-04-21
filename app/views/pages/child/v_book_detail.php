@@ -202,6 +202,129 @@
             margin: 0 auto;
         }
     }
+    
+    /* Comments section styling */
+    .comments-section {
+        margin-top: 40px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+    
+    .comments-header {
+        border-bottom: 2px solid #f1f1f1;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .comments-header h2 {
+        color: #336699;
+        margin: 0;
+    }
+    
+    .comment-count {
+        background: #f1f1f1;
+        color: #666;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    
+    .comment-form {
+        margin-bottom: 30px;
+    }
+    
+    .comment-form textarea {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: vertical;
+        min-height: 100px;
+        margin-bottom: 15px;
+    }
+    
+    .comment-form button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    
+    .comment-form button:hover {
+        background-color: #388E3C;
+    }
+    
+    .comments-list {
+        margin-top: 20px;
+    }
+    
+    .comment-item {
+        padding: 15px;
+        border-bottom: 1px solid #f1f1f1;
+        margin-bottom: 15px;
+    }
+    
+    .comment-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    
+    .comment-user {
+        font-weight: 600;
+        color: #336699;
+    }
+    
+    .comment-date {
+        color: #999;
+        font-size: 0.9rem;
+    }
+    
+    .comment-content {
+        color: #444;
+        line-height: 1.5;
+    }
+    
+    .comment-actions {
+        margin-top: 10px;
+        text-align: right;
+    }
+    
+    .btn-delete-comment {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.2s;
+    }
+    
+    .btn-delete-comment:hover {
+        background-color: #d32f2f;
+    }
+    
+    .no-comments {
+        text-align: center;
+        color: #999;
+        padding: 20px 0;
+        font-style: italic;
+    }
 </style>
 
 <div class="book-detail-container">
@@ -282,11 +405,57 @@
                     </button>
                 <?php endif; ?>
                 
-                <a href="<?= URLROOT ?>/child/childHome">
+                <a href="<?= URLROOT ?>/pages/index">
                     <button class="btn-back">Back to Books</button>
                 </a>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Comments Section -->
+<div class="comments-section">
+    <?php flash('comment_success'); ?>
+    <?php flash('comment_error'); ?>
+    
+    <div class="comments-header">
+        <h2>Book Comments</h2>
+        <span class="comment-count"><?= count($data['comments']) ?> comments</span>
+    </div>
+    
+    <!-- Comment form -->
+    <div class="comment-form">
+        <form action="<?php echo URLROOT; ?>/child/addComment/<?php echo $data['book']->book_id; ?>" method="post">
+            <textarea name="comment" placeholder="Share your thoughts about this book..."></textarea>
+            <button type="submit">Post Comment</button>
+        </form>
+    </div>
+    
+    <!-- Comments list -->
+    <div class="comments-list">
+        <?php if(empty($data['comments'])) : ?>
+            <div class="no-comments">No comments yet. Be the first to comment!</div>
+        <?php else : ?>
+            <?php foreach($data['comments'] as $comment) : ?>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-user"><?php echo $comment->user_name; ?></span>
+                        <span class="comment-date"><?php echo date('F j, Y g:i a', strtotime($comment->created_at)); ?></span>
+                    </div>
+                    <div class="comment-content">
+                        <?php echo $comment->comment; ?>
+                    </div>
+                    <?php if($comment->user_id == $_SESSION['user_id']) : ?>
+                        <div class="comment-actions">
+                            <a href="<?php echo URLROOT; ?>/child/deleteComment/<?php echo $comment->id; ?>/<?php echo $data['book']->book_id; ?>" 
+                               onclick="return confirm('Are you sure you want to delete this comment?');">
+                                <button class="btn-delete-comment">Delete</button>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </div>
 
