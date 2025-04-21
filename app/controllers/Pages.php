@@ -55,9 +55,8 @@ class Pages extends Controller {
     }
 
     public function childView() {
-        $data=[];
-        $this->view('pages/child/v_childhome',$data);
-       
+        // Redirect to Child controller which properly loads book data
+        redirect('child/childHome');
     }
 
     public function parentView() {
