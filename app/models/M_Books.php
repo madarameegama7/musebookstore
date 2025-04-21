@@ -27,10 +27,21 @@ class M_Books{
             return false;
         }
     }
-    public function getBooks(){
+    /**
+     * Get books from the database
+     * @param int $limit Optional limit for number of books to return
+     * @return array Books from the database
+     */
+    public function getBooks($limit = null){
         // Query from the book table directly instead of the v_books view
-        $this->db->query('SELECT * FROM book');
-        $results=$this->db->resultSet();
+        if ($limit) {
+            $this->db->query('SELECT * FROM book ORDER BY created_at DESC LIMIT :limit');
+            $this->db->bind(':limit', $limit);
+        } else {
+            $this->db->query('SELECT * FROM book ORDER BY created_at DESC');
+        }
+        
+        $results = $this->db->resultSet();
         return $results;
     }
 

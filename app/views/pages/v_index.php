@@ -121,7 +121,52 @@
             </div>
         </div>
         <br>
-        <a href="#" id="showMoreBtn">Show More Articles</a>
+        <a href="/musebookstore/child/childHome" id="showMoreBtn">Show More Articles</a>
+</div>
+
+<!-- Browse All Books Section -->
+<div class="books-container">
+    <h2>Featured Books</h2>
+    <p class="subtitle">Browse our latest collection of books</p>
+    
+    <?php if(empty($data['books'])) : ?>
+        <div class="alert alert-info">No books available at the moment. Please check back later.</div>
+    <?php else : ?>
+        <div class="books-grid">
+            <?php foreach($data['books'] as $book) : ?>
+                <div class="book-card">
+                    <!-- Use a placeholder image if no specific book image is available -->
+                    <img src="<?= URLROOT ?>/public/img/index-page.jpg" alt="<?= $book->book_title ?>">
+                    <div class="book-card-content">
+                        <h3><?= $book->book_title ?></h3>
+                        <p><strong>By:</strong> <?= $book->book_author ?></p>
+                        <p><strong>Genre:</strong> <?= $book->book_genre ?></p>
+                        <p><strong>Condition:</strong> <?= $book->book_condition ?></p>
+                        <p><strong>Price:</strong> <?= number_format($book->book_price, 2) ?> LKR</p>
+                        <div class="book-controls">
+                            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'child') : ?>
+                                <!-- Child users go to child/viewBook -->
+                                <a href="<?= URLROOT ?>/child/viewBook/<?= $book->book_id ?>" class="book-btn view-btn">View Details</a>
+                                <a href="<?= URLROOT ?>/child/requestBook/<?= $book->book_id ?>" class="book-btn request-btn">Request Book</a>
+                            <?php else : ?>
+                                <!-- Regular users go to books/view -->
+                                <a href="<?= URLROOT ?>/books/view/<?= $book->book_id ?>" class="book-btn view-btn">View Details</a>
+                                <?php if(isset($_SESSION['user_id'])) : ?>
+                                    <a href="<?= URLROOT ?>/books/purchase/<?= $book->book_id ?>" class="book-btn request-btn">Purchase</a>
+                                <?php else : ?>
+                                    <a href="<?= URLROOT ?>/users/login" class="book-btn request-btn">Login to Buy</a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        
+        <div class="view-all-container">
+            <a href="<?= URLROOT ?>/books/show" class="cta-button">View All Books</a>
+        </div>
+    <?php endif; ?>
 </div>
 
 <div class="communities-container">

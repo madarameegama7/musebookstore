@@ -21,7 +21,7 @@
             <!-- Add Browse All Books option for child users -->
             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'child'): ?>
                 <li class="menu-item" style="margin-right: 15px;">
-                    <a href="<?php echo URLROOT?>/child/childHome" style="color: #336699; font-weight: bold;">
+                    <a href="<?php echo URLROOT?>/pages/index" style="color: #336699; font-weight: bold;">
                         <i class="fas fa-book"></i> Browse All Books
                     </a>
                 </li>

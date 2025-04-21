@@ -232,7 +232,7 @@
             <div class="requests-empty">
                 <img src="<?= URLROOT ?>/public/img/empty-requests.png" alt="No Requests" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5058/5058432.png';this.onerror='';" >
                 <p>You haven't made any book requests yet.</p>
-                <a href="<?= URLROOT ?>/child/childHome" class="btn-browse">Browse Books</a>
+                <a href="<?= URLROOT ?>/pages/index" class="btn-browse">Browse Books</a>
             </div>
         <?php else : ?>
             <div class="table-responsive">
@@ -275,7 +275,7 @@
         <?php endif; ?>
         
         <div class="action-button">
-            <a href="<?= URLROOT ?>/child/childHome" class="btn-back">
+            <a href="<?= URLROOT ?>/pages/index" class="btn-back">
                 <i class="fas fa-arrow-left"></i> Back to Books
             </a>
         </div>

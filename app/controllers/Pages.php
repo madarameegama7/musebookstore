@@ -8,9 +8,17 @@ class Pages extends Controller {
     }
 
     public function index() {
-        $data=[];
-        $this->view('pages/v_index',$data);
-       
+        // Load the book model to fetch books
+        $bookModel = $this->model('M_Books');
+        
+        // Get featured books (limit to 6 for display)
+        $books = $bookModel->getBooks(6);
+        
+        $data = [
+            'books' => $books
+        ];
+        
+        $this->view('pages/v_index', $data);
     }
     public function aboutus() {
         $data=[];
@@ -56,7 +64,7 @@ class Pages extends Controller {
 
     public function childView() {
         // Redirect to Child controller which properly loads book data
-        redirect('child/childHome');
+        redirect('pages/index');
     }
 
     public function parentView() {
