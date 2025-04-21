@@ -17,6 +17,20 @@
 
         <?php if (isset($_SESSION['user_name'])): ?>
             <span class="welcome-text" style="font-family: 'Poppins', sans-serif; font-weight: 500; margin-right: 15px">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+            
+            <!-- Add Browse All Books option for child users -->
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'child'): ?>
+                <li class="menu-item" style="margin-right: 15px;">
+                    <a href="<?php echo URLROOT?>/child/childHome" style="color: #336699; font-weight: bold;">
+                        <i class="fas fa-book"></i> Browse All Books
+                    </a>
+                </li>
+                <li class="menu-item" style="margin-right: 15px;">
+                    <a href="<?php echo URLROOT?>/child/myRequests" style="color: #336699;">
+                        <i class="fas fa-bookmark"></i> My Requests
+                    </a>
+                </li>
+            <?php endif; ?>
 
             <li class="login-button"><a href="<?php echo URLROOT?>/users/logout">Logout</a></li>
 

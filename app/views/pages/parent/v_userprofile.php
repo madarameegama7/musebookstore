@@ -51,6 +51,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
                 <div style="width: 100%; text-align: center;">
                     <button type="button" class="edit-btn" onclick="enableEdit()">Edit Profile</button>
                     <button type="submit" name="saveprofile" id="saveBtn" style="display: none;">Save Changes</button>
+                    <a href="<?php echo URLROOT ?>/parent_user" class="manage-btn" style="display: inline-block; margin-left: 15px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Manage Children</a>
                 </div>
             </form>
 
