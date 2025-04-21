@@ -28,13 +28,14 @@ class M_Books{
         }
     }
     public function getBooks(){
-        $this->db->query('SELECT * FROM v_books');
+        // Query from the book table directly instead of the v_books view
+        $this->db->query('SELECT * FROM book');
         $results=$this->db->resultSet();
         return $results;
     }
 
     public function getBooksById($book_id){
-        $this->db->query('SELECT * FROM v_books WHERE book_id = :book_id');
+        $this->db->query('SELECT * FROM book WHERE book_id = :book_id');
         $this->db->bind(':book_id',$book_id);
 
         $row = $this->db->single();
