@@ -49,6 +49,14 @@ class M_Books{
         $row = $this->db->single();
         return $row;
     }
+    public function getBookTitleByBookId($book_id){
+        $this->db->query('SELECT book_title FROM v_books WHERE book_id = :book_id');
+        $this->db->bind(':book_id',$book_id);
+
+        $row = $this->db->single();
+        return $row;
+
+    }
     public function update($data){
         $this->db->query('UPDATE book SET book_title = :book_title , book_author = :book_author, book_genre = :book_genre, book_condition= :book_condition, book_price =:book_price, listing_type = :listing_type, book_publisher = :book_publisher, book_published_year = :book_published_year, book_ISBN = :book_ISBN WHERE book_id = :book_id AND owner_id = :owner_id');
         $this->db->bind(':book_title',$data['booktitle']);

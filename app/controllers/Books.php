@@ -2,10 +2,14 @@
 class Books extends Controller
 {
     private $bookModel;
+    private $transactionModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->bookModel = $this->model('M_Books');
+        $this->transactionModel =  $this->model('M_Transactions');
+        $this->notificationModel =  $this->model('M_Notifications');
 
     }
     public function loadView()
@@ -372,16 +376,54 @@ class Books extends Controller
 
         $this->view('books/v_categorybooks', $data);
     }
-
     public function book_preview($book_id) {
-        $books = $this->bookModel->getBooksById($book_id);
+        // Fetch the book by its ID
+        $book = $this->bookModel->getBooksById($book_id);
+        $userId = $_SESSION['user_id'] ?? null;
+        $transaction = null;
+    
+        // Fetch the transaction if the user is logged in
+        if ($userId) {
+            // Pass the book_id, not the entire $book object
+            $transaction = $this->transactionModel->getTransactionByBookAndUser($book_id, $userId);
+        }
+    
+        // Prepare the data to be passed to the view
         $data = [
-            'books' => $books
+            'books' => $book,
+            'transactions' => $transaction
         ];
+    
+        // Load the view
         $this->view('books/v_previewbooks', $data);
-
-
     }
+    
+    public function swapbook($bookId) {
+        // Get book owner (receiver) ID
+        $book = $this->bookModel->getBooksById($bookId);
+        $receiverId = $book->book_owner_id;
+        $bookTitle = $this->bookModel->getBookTitleByBookId($bookId);
+    
+        // Insert into transaction table
+        $newTransactionId = $this->transactionModel->createSwapTransaction(
+            $bookId,
+            $_SESSION['user_id'], // buyer/swap initiator
+            $receiverId
+        );
+    
+        // Add to notification table
+        $message = $_SESSION['user_name'] . " has requested to swap a book with you.";
+        $this->notificationModel->createNotification([
+            'user_id' => $receiverId,
+            'message' => $message,
+            'transaction_id' => $newTransactionId,
+        ]);
+    
+    
+        // Redirect or return response
+        redirect('books/details/' . $bookId); // example redirect
+    }
+    
 
 
 

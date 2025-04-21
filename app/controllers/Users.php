@@ -2,10 +2,12 @@
 class Users extends Controller
 {
     private $userModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->userModel = $this->model('M_Users');
+        $this->notificationModel =  $this->model('M_Notifications');
     }
     public function loadProfile()
     {
@@ -18,6 +20,22 @@ class Users extends Controller
         $data = [];
         $this->view('users/v_forgotpassword', $data);
     }
+
+    public function notifications() {
+        // Assuming the user is logged in and userId is stored in session
+        $userId = $_SESSION['user_id']; // Adjust key if needed
+    
+        $notifications = $this->notificationModel->getNotifications($userId);
+    
+        $data = [
+            'notifications' => $notifications
+        ];
+    
+        // Load the view and pass the data to it
+        $this->view('books/v_booknotifications', $data);
+    }
+    
+    
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

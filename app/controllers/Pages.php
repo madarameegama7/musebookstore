@@ -68,22 +68,10 @@ class Pages extends Controller
         $data = [];
         $this->view('pages/parent/v_userprofile', $data);
     }
-
-
-    public function parentProfileView(){
-        $data=[];
-        $this->view('pages/parent/v_userprofile',$data);
-    }
     public function homeView(){
         $data=[];
         $this->view('pages/homeView',$data);
     }
 
 
-        // Prepare data for the admin profile view
-        $data = [
-            'title' => 'Admin Profile',
-        ];
-        $this->view('pages/admin/v_userprofile', $data);
-    }
 }

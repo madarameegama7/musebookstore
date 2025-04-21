@@ -1,5 +1,5 @@
 /* Sidebar Styling */
-.sidebar {
+.parent-sidebar {
     position: fixed;
     width: 250px;
     background-color: #ffffff;
@@ -8,14 +8,14 @@
     overflow-y: auto;
 }
 
-.sidebar h2 {
+.parent-sidebar h2 {
     font-size: 1.5em;
     color: #333;
     margin-bottom: 20px;
 }
 
 /* Sidebar Link Styling */
-.sidebar nav ul li a {
+.parent-sidebar nav ul li a {
     color: #333; /* Sets text color */
     text-decoration: none; /* Removes underline */
     font-family: 'Poppins', sans-serif;
@@ -27,23 +27,23 @@
 }
 
 
-.sidebar ul li a i {
+.parent-sidebar ul li a i {
     margin-right: 8px; /* Adjust spacing */
     font-size: 18px;   /* Adjust icon size */
 }
 
 
-.sidebar nav ul li a:hover {
+.parent-sidebar nav ul li a:hover {
     color: #4a90e2; /* Changes color on hover */
 }
 
 /* Active Link Styling */
-.sidebar nav ul li.active a {
+.parent-sidebar nav ul li.active a {
     color: black;
     font-weight: 600;
 }
 /* Sidebar Styling */
-.sidebar nav ul {
+.parent-sidebar nav ul {
     list-style-type: none; /* Removes bullet points */
     padding: 0; /* Removes default padding */
     margin: 0; /* Removes default margin */
@@ -151,16 +151,58 @@
 .profile-container button:hover {
     background-color: #357ab7;
 }
+
+.container-notifications {
+    padding: 20px;
+    margin-left: 300px;
+}
+
+.container-notifications table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.container-notifications th, .container-notifications td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.container-notifications th {
+    background-color: #f2f2f2;
+}
+.container-notifications .btn-accept {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.container-notifications .btn-view, .container-notifications .btn-delete {
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+.container-notifications .btn-view{
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
 /* Media Query for responsiveness */
 @media (max-width: 768px) {
     /* Sidebar adjustments */
-    .sidebar {
+    .parent-sidebar {
         width: 100%;
         height: auto;
         position: relative;
     }
 
-    .sidebar nav ul li a {
+    .parent-sidebar nav ul li a {
         font-size: 14px;
         padding: 10px;
     }
