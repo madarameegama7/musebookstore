@@ -171,7 +171,7 @@ if (!isset($_SESSION['user_role'])) {
 
             <label>Price in Rs.</label><br>
             <input type="number" name="price" id="price" placeholder="Enter price of book"
-                value="<?php $data['price']; ?>" required>
+                value="<?php $data['price']; ?>">
             <span class="form-invalid"><?php echo $data['book_price_err']; ?></span>
             <br>
 
