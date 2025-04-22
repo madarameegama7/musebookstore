@@ -14,22 +14,30 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
         <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th>Message</th>
-                    <th>Transaction ID</th>
-                    <th>Actions</th> <!-- Add a new column for actions -->
+                   <th>Transaction ID</th>
+                    <th>Requester Name</th>
+                    <th>Available Books</th>
+                    <th>Requested Date</th>
+                    <th>City</th>
+                    <th>Contact Number</th>
+                    <th>Actions</th>
+                     
+
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($data['notifications'] as $notification): ?>
                     <tr>
-                        <td><?= htmlspecialchars($notification->message) ?></td>
-                        <td><?= htmlspecialchars($notification->transaction_id) ?></td>
+                    <td><?= htmlspecialchars($notification->transaction_id) ?></td>
+                        <td><?= htmlspecialchars($notification->sender_name) ?></td>
+                        <td><?= nl2br(htmlspecialchars($notification->available_books)) ?></td>
+                        <td><?= (new DateTime($notification->requested_date))->format('F j, Y \a\t g:i A') ?></td>
+                        <td><?= htmlspecialchars($notification->city) ?></td>
+                        <td><?= htmlspecialchars($notification->contact_number) ?></td>
                         <td> <!-- Add action buttons here -->
                             <!-- Accept button -->
-                            <a href="<?= URLROOT . '/notifications/accept/' . $notification->transaction_id ?>" class="btn btn-accept">Accept</a>
-
-                            <!-- View button -->
-                            <a href="<?= URLROOT . '/notifications/view/' . $notification->transaction_id ?>" class="btn btn-view">View</a>
+                            <a href="<?= URLROOT . '/books/acceptswaprequest/' . $notification->transaction_id ?>" class="btn btn-accept">Accept</a>
+                            <br><br>
 
                             <!-- Delete button -->
                             <a href="<?= URLROOT . '/notifications/delete/' . $notification->transaction_id ?>" class="btn btn-delete">Delete</a>

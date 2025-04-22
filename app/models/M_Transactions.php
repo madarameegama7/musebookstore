@@ -26,7 +26,23 @@ class M_Transactions{
         $this->db->bind(':user_id', $userId);
     
         return $this->db->single();  // Return the entire transaction object
-    }    
+    } 
+    public function acceptSwapRequest($transaction_id) {
+        $this->db->query("UPDATE transaction SET status = 'approved' WHERE transaction_id = :transaction_id");
+        $this->db->bind(':transaction_id', $transaction_id);
+    
+        return $this->db->execute();
+    }
+    public function getTransaction($userId) {
+        $this->db->query("SELECT b.book_title, t.type, t.status
+                          FROM book b
+                          INNER JOIN transaction t ON b.book_id = t.book_id
+                          WHERE t.requester_id = :user_id");
+        $this->db->bind(':user_id', $userId);
+        
+        return $this->db->resultSet();
+    }
+      
     
     
 }

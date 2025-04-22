@@ -26,6 +26,19 @@ class Books extends Controller
         $this->view('books/v_displaybooks', $data);
     }
 
+    public function bookhistory() {
+        // Assuming the user is logged in and userId is stored in session
+        $userId = $_SESSION['user_id']; // Adjust key if needed
+    
+        $transactions = $this->transactionModel->getTransaction($userId);
+    
+        $data = [
+            'transactions' => $transactions
+        ];
+    
+        // Load the view and pass the data to it
+        $this->view('books/v_bookhistory', $data);
+    }
     public function create()
     {
 
@@ -402,7 +415,7 @@ class Books extends Controller
         // Get book owner (receiver) ID
         $book = $this->bookModel->getBooksById($bookId);
         $receiverId = $book->book_owner_id;
-        $bookTitle = $this->bookModel->getBookTitleByBookId($bookId);
+        $bookTitle = $this->bookModel->getBookTitleByBookId($bookId)->book_title;
     
         // Insert into transaction table
         $newTransactionId = $this->transactionModel->createSwapTransaction(
@@ -412,16 +425,20 @@ class Books extends Controller
         );
     
         // Add to notification table
-        $message = $_SESSION['user_name'] . " has requested to swap a book with you.";
+        $message = $_SESSION['user_name'] . " has requested to swap the book titled '" . $bookTitle . "' with you.";
         $this->notificationModel->createNotification([
             'user_id' => $receiverId,
             'message' => $message,
             'transaction_id' => $newTransactionId,
         ]);
     
-    
-        // Redirect or return response
-        redirect('books/details/' . $bookId); // example redirect
+        flash('post_msg', 'Book swap request sent successfully!');
+        redirect('books/v_previewbooks');
+    }
+
+    public function acceptswaprequest(){
+
+
     }
     
 
