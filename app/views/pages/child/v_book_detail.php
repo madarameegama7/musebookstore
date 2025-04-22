@@ -193,6 +193,38 @@
         background-color: #ddd;
     }
     
+    .btn-favorite-add {
+        background-color: #03A9F4;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    
+    .btn-favorite-add:hover {
+        background-color: #039BE5;
+    }
+    
+    .btn-favorite-remove {
+        background-color: #F44336;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    
+    .btn-favorite-remove:hover {
+        background-color: #d32f2f;
+    }
+    
     @media (max-width: 768px) {
         .book-detail-content {
             flex-direction: column;
@@ -304,6 +336,21 @@
         text-align: right;
     }
     
+    .btn-edit-comment {
+        background-color: #03A9F4;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.2s;
+    }
+    
+    .btn-edit-comment:hover {
+        background-color: #039BE5;
+    }
+    
     .btn-delete-comment {
         background-color: #f44336;
         color: white;
@@ -330,6 +377,8 @@
 <div class="book-detail-container">
     <?php flash('request_success'); ?>
     <?php flash('request_error'); ?>
+    <?php flash('favorite_success'); ?>
+    <?php flash('favorite_error'); ?>
     
     <div class="book-detail-header">
         <h1><?= $data['book']->book_title ?></h1>
@@ -405,6 +454,18 @@
                     </button>
                 <?php endif; ?>
                 
+                <?php if($data['is_favorited']) : ?>
+                    <!-- Book is in favorites, show Remove from Favorites button -->
+                    <a href="<?= URLROOT ?>/child/removeFromFavorites/<?= $data['book']->book_id ?>">
+                        <button class="btn-favorite-remove">Remove from Favorites</button>
+                    </a>
+                <?php else : ?>
+                    <!-- Book is not in favorites, show Add to Favorites button -->
+                    <a href="<?= URLROOT ?>/child/addToFavorites/<?= $data['book']->book_id ?>">
+                        <button class="btn-favorite-add">Add to Favorites</button>
+                    </a>
+                <?php endif; ?>
+                
                 <a href="<?= URLROOT ?>/pages/index">
                     <button class="btn-back">Back to Books</button>
                 </a>
@@ -447,6 +508,9 @@
                     </div>
                     <?php if($comment->user_id == $_SESSION['user_id']) : ?>
                         <div class="comment-actions">
+                            <a href="<?php echo URLROOT; ?>/child/editComment/<?php echo $comment->id; ?>/<?php echo $data['book']->book_id; ?>">
+                                <button class="btn-edit-comment">Edit</button>
+                            </a>
                             <a href="<?php echo URLROOT; ?>/child/deleteComment/<?php echo $comment->id; ?>/<?php echo $data['book']->book_id; ?>" 
                                onclick="return confirm('Are you sure you want to delete this comment?');">
                                 <button class="btn-delete-comment">Delete</button>
