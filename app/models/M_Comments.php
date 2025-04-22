@@ -91,5 +91,21 @@ class M_Comments {
         
         return $this->db->execute();
     }
+
+    /**
+     * Get count of comments by a specific user
+     * @param int $userId The user ID
+     * @return int Number of comments by the user
+     */
+    public function getCommentCountByUser($userId) {
+        $this->db->query('SELECT COUNT(*) as comment_count 
+                          FROM book_comments 
+                          WHERE user_id = :user_id');
+        
+        $this->db->bind(':user_id', $userId);
+        
+        $result = $this->db->single();
+        return $result ? $result->comment_count : 0;
+    }
 }
 ?>

@@ -545,6 +545,42 @@ class Child extends Controller {
             $this->view('pages/child/v_delete_article', $data);
         }
     }
+
+    /**
+     * View child user profile dashboard
+     * @return void
+     */
+    public function profile() {
+        $userId = $_SESSION['user_id'];
+        
+        // Get child user data
+        $child = $this->childModel->getUserById($userId);
+        
+        // Get activity statistics
+        $requests = $this->childModel->getRequestsByChild($userId);
+        $favorites = $this->favoriteModel->getFavoriteBooks($userId);
+        $articles = $this->articleModel->getArticlesByUser($userId);
+        
+        // Count comments (using comment model)
+        $commentCount = $this->commentModel->getCommentCountByUser($userId);
+        
+        // Format data for view
+        $data = [
+            'child' => $child,
+            'request_count' => count($requests),
+            'approved_count' => array_reduce($requests, function($carry, $item) { 
+                return $carry + ($item->status === 'approved' ? 1 : 0); 
+            }, 0),
+            'pending_count' => array_reduce($requests, function($carry, $item) { 
+                return $carry + ($item->status === 'pending' ? 1 : 0); 
+            }, 0),
+            'favorite_count' => count($favorites),
+            'article_count' => count($articles),
+            'comment_count' => $commentCount
+        ];
+        
+        $this->view('pages/child/v_profile', $data);
+    }
 }
 
 ?>

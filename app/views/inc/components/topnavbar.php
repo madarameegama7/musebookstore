@@ -35,9 +35,15 @@
             <li class="login-button"><a href="<?php echo URLROOT?>/users/logout">Logout</a></li>
 
             <!-- Check user role and redirect to admin dashboard or user profile -->
-            <a href="<?php echo URLROOT?>/pages/parentProfileView">
-               <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="user-male-circle--v1"/>
-            </a>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'child'): ?>
+                <a href="<?php echo URLROOT?>/child/profile">
+                   <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="Child Profile"/>
+                </a>
+            <?php else: ?>
+                <a href="<?php echo URLROOT?>/pages/parentProfileView">
+                   <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="User Profile"/>
+                </a>
+            <?php endif; ?>
 
         <?php else: ?>
             <li class="login-button"><a href="<?php echo URLROOT?>/users/login">Login</a></li>

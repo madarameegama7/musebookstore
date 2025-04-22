@@ -98,6 +98,7 @@
     });
 </script>
 
+<?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child'): ?>
 <div class="articles-container">
         <h2>Articles</h2>
         <div class="articles">
@@ -123,6 +124,7 @@
         <br>
         <a href="/musebookstore/child/childHome" id="showMoreBtn">Show More Articles</a>
 </div>
+<?php endif; ?>
 
 <!-- Browse All Books Section -->
 <div class="books-container">
@@ -169,6 +171,7 @@
     <?php endif; ?>
 </div>
 
+<?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child'): ?>
 <div class="communities-container">
         <h2>Communities</h2>
         <div class="communities">
@@ -190,5 +193,6 @@
         </div>
         <br>
 </div>
+<?php endif; ?>
 
 <?php require APPROOT.'/views/inc/footer.php';?>

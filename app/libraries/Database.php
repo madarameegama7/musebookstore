@@ -68,12 +68,6 @@ public function rowCount(){
     return $this->statement->rowCount();
 }
 
-/**
- * Get the ID of the last inserted record
- * This method is essential for retrieving IDs of newly created records,
- * such as when creating new articles, comments, or other database entries.
- * @return string The ID of the last inserted record
- */
 public function lastInsertId(){
     return $this->dbh->lastInsertId();
 }

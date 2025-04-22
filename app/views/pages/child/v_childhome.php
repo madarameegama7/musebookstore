@@ -445,34 +445,6 @@ body {
     </div>
     
 
-<section id="books" class="books-container">
-    <h2>Available Books</h2>
-    <p class="subtitle">Browse books and request them from your parent</p>
-    
-    <?php if(empty($data['books'])) : ?>
-      <div class="alert alert-info">No books available at the moment. Please check back later.</div>
-    <?php else : ?>
-      <div class="books">
-        <?php foreach($data['books'] as $book) : ?>
-          <div class="book-card">
-            <!-- Use a placeholder image if no specific book image is available -->
-            <img src="<?= URLROOT ?>/public/img/index-page.jpg" alt="<?= $book->book_title ?>">
-            <div class="book-card-content">
-              <h3><?= $book->book_title ?></h3>
-              <p><strong>By:</strong> <?= $book->book_author ?></p>
-              <p><strong>Genre:</strong> <?= $book->book_genre ?></p>
-              <p><strong>Condition:</strong> <?= $book->book_condition ?></p>
-              <p><strong>Price:</strong> <?= number_format($book->book_price, 2) ?> LKR</p>
-              <div class="book-controls">
-                <a href="<?= URLROOT ?>/child/viewBook/<?= $book->book_id ?>" class="book-btn view-btn">View Details</a>
-                <a href="<?= URLROOT ?>/child/requestBook/<?= $book->book_id ?>" class="book-btn request-btn">Request Book</a>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    <?php endif; ?>
-</section>
 <?php
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'child') {
     die("Access denied! You do not have permission to view this page.");

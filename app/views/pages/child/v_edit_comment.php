@@ -1,10 +1,4 @@
-<?php
-/**
- * Edit Comment View
- * Allows child users to edit their existing comments on books
- */
-require APPROOT.'/views/inc/header.php';
-?>
+<?php require APPROOT.'/views/inc/header.php'; ?>
 <!--TOP NAV BAR-->
 <?php require APPROOT.'/views/inc/components/topnavbar.php'; ?>
 
