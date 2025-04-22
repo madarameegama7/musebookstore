@@ -60,5 +60,36 @@ class M_Comments {
         
         return $this->db->execute();
     }
+
+    /**
+     * Get a comment by ID
+     * @param int $commentId The comment ID
+     * @return object|false The comment object or false if not found
+     */
+    public function getCommentById($commentId) {
+        $this->db->query('SELECT * FROM book_comments WHERE id = :id');
+        $this->db->bind(':id', $commentId);
+        
+        return $this->db->single();
+    }
+    
+    /**
+     * Update a comment
+     * @param int $commentId The comment ID
+     * @param int $userId The user ID (for verification)
+     * @param string $comment The updated comment text
+     * @return bool True if successful, false otherwise
+     */
+    public function updateComment($commentId, $userId, $comment) {
+        $this->db->query('UPDATE book_comments 
+                          SET comment = :comment
+                          WHERE id = :id AND user_id = :user_id');
+        
+        $this->db->bind(':comment', $comment);
+        $this->db->bind(':id', $commentId);
+        $this->db->bind(':user_id', $userId);
+        
+        return $this->db->execute();
+    }
 }
 ?>
