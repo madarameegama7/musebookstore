@@ -325,6 +325,64 @@ body {
     border-color: #f5c6cb;
     color: #721c24;
 }
+
+/* Features section */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.feature-tile {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.feature-icon i {
+    color: #4CAF50;
+}
+
+.heart-icon i {
+    color: #ff69b4;
+}
+
+.article-icon i {
+    color: #2196f3;
+}
+
+.my-article-icon i {
+    color: #ff9800;
+}
+
+.request-icon i {
+    color: #4CAF50;
+}
+
+.feature-link {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.feature-link:hover {
+    color: #388E3C;
+}
 </style>
 <section class="hero">
     <div class="hero-content">
@@ -333,100 +391,60 @@ body {
         <p>Discover amazing books, request them from your parents, and explore a world of knowledge and adventure.</p>
     </div>
 </section>
-
-<div class="text-center" style="margin: 20px auto; width: 80%; max-width: 600px;">
-    <a href="#books" class="cta-button">Browse Available Books</a>
-</div>
-<section class="search">
-    <div class="search-container">
-        <form action="<?php echo URLROOT; ?>/child/searchBooks" method="get" class="book-search-form">
-            <input type="text" name="q" placeholder="Search for books..." 
-                value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>" />
-            <button class="search-button">Search</button>
-        </form>
-    </div>
-</section>
-
 <?php flash('request_success'); ?>
 <?php flash('request_error'); ?>
 
 <section class="activities">
-    <h2>Explore Activities</h2>
+    <h2>Features</h2>
     
-    <div class="activities-header">
-        <h3>Fun Reading Activities</h3>
-        <a href="<?=URLROOT?>/child/myRequests" class="cta-button">
-            <i class="fas fa-book-reader"></i> My Book Requests
-        </a>
+    <div class="features-grid">
+        <div class="feature-tile">
+            <div class="feature-icon">
+                <i class="fas fa-book fa-3x"></i>
+            </div>
+            <h3>Browse All Books</h3>
+            <p>Explore our collection of books available for request</p>
+            <a href="<?=URLROOT?>/pages/index" class="feature-link">Browse Books</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon heart-icon">
+                <i class="fas fa-heart fa-3x"></i>
+            </div>
+            <h3>My Favorites</h3>
+            <p>View and manage your favorite books</p>
+            <a href="<?=URLROOT?>/child/favorites" class="feature-link">View Favorites</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon article-icon">
+                <i class="fas fa-newspaper fa-3x"></i>
+            </div>
+            <h3>Articles</h3>
+            <p>Read interesting articles written by other children</p>
+            <a href="<?=URLROOT?>/child/articles" class="feature-link">Read Articles</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon my-article-icon">
+                <i class="fas fa-pencil-alt fa-3x"></i>
+            </div>
+            <h3>My Articles</h3>
+            <p>Write and manage your own articles</p>
+            <a href="<?=URLROOT?>/child/myArticles" class="feature-link">My Articles</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon request-icon">
+                <i class="fas fa-bookmark fa-3x"></i>
+            </div>
+            <h3>My Requests</h3>
+            <p>Track the status of your book requests</p>
+            <a href="<?=URLROOT?>/child/myRequests" class="feature-link">View Requests</a>
+        </div>
     </div>
-   
-   <div class="news-item">
-    <img alt="A colorful book cover with a magical theme" height="150" src="https://storage.googleapis.com/a1aa/image/qf70Mlj8NsymPC19VFcgONBKVBcHGnp6WbdCaHWhRN0pe60TA.jpg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/bookRelease">New Book Release: The Magic Forest</a>
-     </h3>
-     <p>
-      Discover the enchanting world of The Magic Forest, a new book by acclaimed author Jane Doe.
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="creativity" height="150" src="https://images.pexels.com/photos/288100/pexels-photo-288100.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     Test creativity
-     </h3>
-     <p>
-      Creative life
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A child reading a book under a tree" height="150" src="https://images.pexels.com/photos/4609046/pexels-photo-4609046.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <!-- <a href="<= route('childAward') ?>">Creative kids of the week</a> -->
-     </h3>
-     <p>
-      Think Different!
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A group of children listening to a storyteller" height="150" src="https://images.pexels.com/photos/2098604/pexels-photo-2098604.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/childAuthourAward">Award winning children books of the week</a> 
-     </h3>
-     <p>
-      Read before death
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A stack of colorful children's books" height="150" src="https://storage.googleapis.com/a1aa/image/oNUjjPaai4LQM5LV7o47tw6PwZRm86eP8j0oqfZYh3xU960TA.jpg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/childTopBooks">Top 10 books for kids</a>
-     </h3>
-     <p>
-      Check out our list of the top 10 books for kids this month. Find your next favorite read!
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A stack of colorful children's books" height="150" src="https://images.pexels.com/photos/1820559/pexels-photo-1820559.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/childAuto">Life story of an authour</a>
-     </h3>
-     <p>
-      Learn life from them
-     </p>
-    </div>
-   </div>
-   
+    
+
 <section id="books" class="books-container">
     <h2>Available Books</h2>
     <p class="subtitle">Browse books and request them from your parent</p>
