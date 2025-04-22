@@ -26,6 +26,21 @@
                     </a>
                 </li>
                 <li class="menu-item" style="margin-right: 15px;">
+                    <a href="<?php echo URLROOT?>/child/favorites" style="color: #673AB7;">
+                        <i class="fas fa-heart"></i> My Favorites
+                    </a>
+                </li>
+                <li class="menu-item" style="margin-right: 15px;">
+                    <a href="<?php echo URLROOT?>/child/articles" style="color: #FF5722;">
+                        <i class="fas fa-newspaper"></i> Articles
+                    </a>
+                </li>
+                <li class="menu-item" style="margin-right: 15px;">
+                    <a href="<?php echo URLROOT?>/child/myArticles" style="color: #E91E63;">
+                        <i class="fas fa-pencil-alt"></i> My Articles
+                    </a>
+                </li>
+                <li class="menu-item" style="margin-right: 15px;">
                     <a href="<?php echo URLROOT?>/child/myRequests" style="color: #336699;">
                         <i class="fas fa-bookmark"></i> My Requests
                     </a>
