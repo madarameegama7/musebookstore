@@ -36,11 +36,11 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
                         <td><?= htmlspecialchars($notification->contact_number) ?></td>
                         <td> <!-- Add action buttons here -->
                             <!-- Accept button -->
-                            <a href="<?= URLROOT . '/books/acceptswaprequest/' . $notification->transaction_id ?>" class="btn btn-accept">Accept</a>
+                            <a href="<?= URLROOT . '/books/acceptswaprequest/' . $notification->book_id . '/'.$notification->transaction_id ?>" class="btn btn-accept">Accept</a>
                             <br><br>
 
                             <!-- Delete button -->
-                            <a href="<?= URLROOT . '/notifications/delete/' . $notification->transaction_id ?>" class="btn btn-delete">Delete</a>
+                            <a href="<?= URLROOT . '/books/delete/' . $notification->transaction_id ?>" class="btn btn-delete">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

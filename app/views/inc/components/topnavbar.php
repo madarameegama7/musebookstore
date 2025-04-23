@@ -1,4 +1,11 @@
 
+<script>
+  function toggleMenu() {
+    const menu = document.querySelector('.topnavbar .menu');
+    menu.classList.toggle('show');
+  }
+</script>
+
 <div class="topnavbar">
 <ul>
         <li class="logo-container">
