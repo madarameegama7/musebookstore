@@ -19,4 +19,10 @@
         <?php endforeach; ?>
     </div>
     <br>
+<<<<<<< HEAD
 </div>
+=======
+    <a href="#" id="showMoreBtn">Show More Books</a>
+</div>
+        </div>
+>>>>>>> 7dc12481799260a22b1973cd8f2611a425322698

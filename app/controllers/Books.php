@@ -12,11 +12,13 @@ class Books extends Controller
         $this->notificationModel =  $this->model('M_Notifications');
 
     }
+   
     public function loadView()
     {
         $data = [];
         $this->view('books/v_displaybooks', $data);
     }
+   
     public function index()
     {
         $books = $this->bookModel->getBooks();
@@ -269,6 +271,7 @@ class Books extends Controller
 
 
     }
+
     public function show()
     {
         $books = $this->bookModel->getBooks();
@@ -387,7 +390,7 @@ class Books extends Controller
             $book = $this->bookModel->getBooksById($book_id);
 
             //check the onwer
-            if ($book->book_owner_id != $_SESSION['user_id']) {
+            if ($book->owner_id != $_SESSION['user_id']) {
                 redirect('Pages/parentView');
             }
             $data = [
@@ -430,7 +433,7 @@ class Books extends Controller
             $book = $this->bookModel->getBooksById($book_id);
 
             //check if the book belongs to the logged in user
-            if ($book->book_owner_id != $_SESSION['user_id']) {
+            if ($book->owner_id != $_SESSION['user_id']) {
                 redirect('Pages/parentView');
             }
             if ($this->bookModel->delete($book_id)) {
@@ -501,7 +504,7 @@ class Books extends Controller
     public function swapbook($bookId) {
         // Get book owner (receiver) ID
         $book = $this->bookModel->getBooksById($bookId);
-        $receiverId = $book->book_owner_id;
+        $receiverId = $book->owner_id;
         $bookTitle = $this->bookModel->getBookTitleByBookId($bookId)->book_title;
     
         // Insert into transaction table
