@@ -27,12 +27,7 @@ class M_Transactions{
     
         return $this->db->single();  // Return the entire transaction object
     } 
-    public function acceptSwapRequest($transaction_id) {
-        $this->db->query("UPDATE transaction SET status = 'approved' WHERE transaction_id = :transaction_id");
-        $this->db->bind(':transaction_id', $transaction_id);
-    
-        return $this->db->execute();
-    }
+
     public function getTransaction($userId) {
         $this->db->query("SELECT b.book_title, t.type, t.status
                           FROM book b

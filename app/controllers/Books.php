@@ -436,9 +436,33 @@ class Books extends Controller
         redirect('books/v_previewbooks');
     }
 
-    public function acceptswaprequest(){
+    public function acceptswaprequest($book_id, $transaction_id){
+        //approve selected transaction
+        $approve=$this->bookModel->acceptSwapRequest($book_id, $transaction_id);
 
+        //decline other transaction for same book
+        $decline=$this->bookModel->deleteSwapRequest($book_id, $transaction_id);
 
+        //mark book as unavailable
+        $unavailable=$this->bookModel->updateBookStatusSwapRequest($book_id);
+
+        //notify requester
+
+        //redirect
+
+        $data = [
+            'approve' => $approve,
+            'decline' => $decline,
+            'unavailable' => $unavailable
+        ];
+    
+        flash('post_msg', 'Swap request accepted and other requests declined.');
+        $this->view('users/notifications', $data);
+       
+    }
+
+    public function deleteswaprequest(){
+        
     }
     
 

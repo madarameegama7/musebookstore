@@ -17,7 +17,7 @@
 
         <?php if ($data['books']->listing_type === 'swap'): ?>
             <?php if (isset($_SESSION['user_id'])): ?>
-                <?php if (isset($data['transactions']) && $data['transactions']->status === 'pending'): ?>
+                <?php if (isset($data['transactions']) && is_object($data['transactions']) && $data['transactions']->status == 'pending'): ?>
                     <button class="cta-button" disabled>Request Pending</button>
                 <?php else: ?>
                     <a href="<?= URLROOT . '/books/swapbook/' . $data['books']->book_id ?>" class="cta-button">Swap Book</a>

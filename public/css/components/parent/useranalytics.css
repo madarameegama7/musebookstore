@@ -1,0 +1,66 @@
+.stat-content img {
+  height: 128px;
+  width: 128px;
+}
+.stat-content .container {
+  display: flex;
+}
+
+.stat-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+.stat-content .dashboard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+.stat-content .dashboard h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.stat-content .stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.stat-content .stats .stat {
+  background-color: #f5f6fa;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  flex: 1;
+  margin-right: 20px;
+}
+.stat-content .stats .stat:last-child {
+  margin-right: 0;
+}
+.stat-content .stats .stat h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.stat-content .stats .stat p {
+  font-size: 16px;
+  color: #888;
+}
+.stat-content .stats .stat .icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+.stat-content .stats .stat .up {
+  color: #4caf50;
+}
+.stat-content .stats .stat .down {
+  color: #f44336;
+}
+.stat-content .chart {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.stat-content .chart h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}

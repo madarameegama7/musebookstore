@@ -46,8 +46,7 @@ class M_Books{
         $this->db->query('SELECT * FROM v_books WHERE owner_id = :user_id');
         $this->db->bind(':user_id',$user_id);
 
-        $row = $this->db->single();
-        return $row;
+        return $this->db->resultSet();
     }
     public function getBookTitleByBookId($book_id){
         $this->db->query('SELECT book_title FROM v_books WHERE book_id = :book_id');
@@ -106,6 +105,27 @@ public function getBooksByCategory($category) {
     $this->db->query("SELECT * FROM book WHERE book_genre = :category");
     $this->db->bind(':category', $category);
     return $this->db->resultSet();
+}
+public function acceptSwapRequest($book_id, $transaction_id) {
+    $this->db->query("UPDATE transaction SET status = 'approved' WHERE book_id = :book_id AND transaction_id = :transaction_id ");
+    $this->db->bind(':book_id', $book_id);
+    $this->db->bind(':transaction_id', $transaction_id);
+
+    return $this->db->execute();
+}
+public function deleteSwapRequest($book_id, $transaction_id){
+    $this->db->query("UPDATE transaction SET status = 'declined' WHERE book_id = :book_id AND transaction_id = :transaction_id ");
+    $this->db->bind(':book_id', $book_id);
+    $this->db->bind(':transaction_id', $transaction_id);
+
+    return $this->db->execute();
+
+
+}
+public function updateBookStatusSwapRequest($book_id){
+    $this->db->query("UPDATE book SET book_status = 'swapped' WHERE book_id = :book_id");
+    $this->db->bind(':book_id', $book_id);
+    return $this->db->execute();
 }
 }
 
