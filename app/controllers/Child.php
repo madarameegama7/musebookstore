@@ -11,7 +11,7 @@ class Child extends Controller {
         if(!isset($_SESSION['user_id'])) {
             redirect('users/login');
         } elseif($_SESSION['user_role'] !== 'child') {
-            redirect('pages/index');
+            redirect('child/index');
         }
 
         $this->childModel = $this->model('M_Child');
@@ -25,7 +25,7 @@ class Child extends Controller {
      * Default index method - redirects to childHome
      */
     public function index() {
-        redirect('pages/index');
+        redirect('pages/childindex');
     }
 
     public function childHome() {
