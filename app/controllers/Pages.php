@@ -8,10 +8,11 @@ class Pages extends Controller
     {
         $this->pagesModel = $this->model('M_Pages');
     }
-
+        
     public function index()
     {
         $data = [];
+
         $this->view('pages/v_index', $data);
     }
     public function aboutus()
@@ -50,13 +51,7 @@ class Pages extends Controller
         $data = [];
         $this->view('pages/ambassador/v_ambassadorhome', $data);
     }
-
-    public function childView()
-    {
-        $data = [];
-        $this->view('pages/child/v_childhome', $data);
-    }
-
+ 
     public function parentView()
     {
         $data = [];

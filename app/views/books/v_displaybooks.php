@@ -22,4 +22,4 @@
     <br>
     <a href="#" id="showMoreBtn">Show More Books</a>
 </div>
-</div>
+        </div>
