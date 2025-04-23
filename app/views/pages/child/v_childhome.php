@@ -1,59 +1,137 @@
 <?php require APPROOT.'/views/inc/header.php';?>
 <!--TOP NAV BAR-->
 <?php require APPROOT.'/views/inc/components/topnavbar.php';?>
-<html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Muse Bookstore
-  </title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./public/assets/css/childuser/childhome.css">
-  </head>
- <body>
 
- <style>
- body {
+<style>
+body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f5faff;
-    font-size: large;
 }
 
-
+/* Hero section styling */
 .hero {
-  background-image: url('https://images.pexels.com/photos/6437496/pexels-photo-6437496.jpeg');
-  background-position: center;
-  background-size: cover;
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
- .hero h1 {
-    font-size: 48px;
-    margin: 0;
+    background-image: url('https://images.pexels.com/photos/6437496/pexels-photo-6437496.jpeg');
+    background-position: center;
+    background-size: cover;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
     color: white;
 }
-.hero p {
-    font-size: 24px;
-    color: white;
-} 
 
-.content {
-    max-width: 1200px;
-    margin: 20px auto;
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
     padding: 0 20px;
 }
-.content h2 {
+
+.hero h1 {
+    font-size: 48px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin: 0 0 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Button styling */
+.cta-button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 25px;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 30px;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.cta-button:hover {
+    background-color: #388E3C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Search section */
+.search {
+    padding: 30px 0;
+    text-align: center;
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.book-search-form {
+    display: flex;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.book-search-form input {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    font-size: 16px;
+}
+
+.book-search-form button {
+    padding: 15px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Activities section */
+.activities {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.activities h2 {
     font-size: 32px;
     margin-bottom: 20px;
+    text-align: center;
 }
+
+.activities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .news-item {
     display: flex;
     margin-bottom: 20px;
@@ -61,111 +139,316 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
+
+.news-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .news-item img {
     width: 150px;
     height: 150px;
     border-radius: 8px;
     margin-right: 20px;
+    object-fit: cover;
 }
+
 .news-item .news-content {
     flex: 1;
 }
+
 .news-item .news-content h3 {
     margin: 0 0 10px;
     font-size: 24px;
 }
+
+.news-item .news-content a {
+    color: #336699;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.news-item .news-content a:hover {
+    text-decoration: underline;
+}
+
 .news-item .news-content p {
     margin: 0;
+    color: #666;
+}
+
+/* Books section */
+.books-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.books-container h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.books-container .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.book-card {
+    width: calc(33.333% - 20px);
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.book-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.book-card-content {
+    padding: 15px;
+}
+
+.book-card h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.book-card p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.book-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.book-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+}
+
+.view-btn {
+    background-color: #336699;
+    color: white;
+}
+
+.request-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.view-btn:hover, .request-btn:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 992px) {
+    .book-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .book-card {
+        width: 100%;
+    }
+    
+    .news-item {
+        flex-direction: column;
+    }
+    
+    .news-item img {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
+
+/* Alert styling */
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Features section */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.feature-tile {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.feature-icon i {
+    color: #4CAF50;
+}
+
+.heart-icon i {
+    color: #ff69b4;
+}
+
+.article-icon i {
+    color: #2196f3;
+}
+
+.my-article-icon i {
+    color: #ff9800;
+}
+
+.request-icon i {
+    color: #4CAF50;
+}
+
+.feature-link {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.feature-link:hover {
+    color: #388E3C;
 }
 </style>
-  <div class="hero">
-   <div>
-    <h1>
-     Welcome to Muse Store
-    </h1>
-    <p>
-     Your gateway to magical stories
-    </p>
-   </div>
-  </div>
-  <div class="content">
-   <h2>
-    Explore Muse
-   </h2>
-   <div class="news-item">
-    <img alt="A colorful book cover with a magical theme" height="150" src="https://storage.googleapis.com/a1aa/image/qf70Mlj8NsymPC19VFcgONBKVBcHGnp6WbdCaHWhRN0pe60TA.jpg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/bookRelease">New Book Release: The Magic Forest</a>
-     </h3>
-     <p>
-      Discover the enchanting world of The Magic Forest, a new book by acclaimed author Jane Doe.
-     </p>
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Muse Store</h1>
+        <h2>Your Child Reading Journey</h2>
+        <p>Discover amazing books, request them from your parents, and explore a world of knowledge and adventure.</p>
     </div>
-   </div>
-   <div class="news-item">
-    <img alt="creativity" height="150" src="https://images.pexels.com/photos/288100/pexels-photo-288100.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     Test creativity
-     </h3>
-     <p>
-      Creative life
-     </p>
+</section>
+<?php flash('request_success'); ?>
+<?php flash('request_error'); ?>
+
+<section class="activities">
+    <h2>Features</h2>
+    
+    <div class="features-grid">
+        <div class="feature-tile">
+            <div class="feature-icon">
+                <i class="fas fa-book fa-3x"></i>
+            </div>
+            <h3>Browse All Books</h3>
+            <p>Explore our collection of books available for request</p>
+            <a href="<?=URLROOT?>/pages/index" class="feature-link">Browse Books</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon heart-icon">
+                <i class="fas fa-heart fa-3x"></i>
+            </div>
+            <h3>My Favorites</h3>
+            <p>View and manage your favorite books</p>
+            <a href="<?=URLROOT?>/child/favorites" class="feature-link">View Favorites</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon article-icon">
+                <i class="fas fa-newspaper fa-3x"></i>
+            </div>
+            <h3>Articles</h3>
+            <p>Read interesting articles written by other children</p>
+            <a href="<?=URLROOT?>/child/articles" class="feature-link">Read Articles</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon my-article-icon">
+                <i class="fas fa-pencil-alt fa-3x"></i>
+            </div>
+            <h3>My Articles</h3>
+            <p>Write and manage your own articles</p>
+            <a href="<?=URLROOT?>/child/myArticles" class="feature-link">My Articles</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon request-icon">
+                <i class="fas fa-bookmark fa-3x"></i>
+            </div>
+            <h3>My Requests</h3>
+            <p>Track the status of your book requests</p>
+            <a href="<?=URLROOT?>/child/myRequests" class="feature-link">View Requests</a>
+        </div>
     </div>
-   </div>
-   <div class="news-item">
-    <img alt="A child reading a book under a tree" height="150" src="https://images.pexels.com/photos/4609046/pexels-photo-4609046.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <!-- <a href="<= route('childAward') ?>">Creative kids of the week</a> -->
-     </h3>
-     <p>
-      Think Different!
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A group of children listening to a storyteller" height="150" src="https://images.pexels.com/photos/2098604/pexels-photo-2098604.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/childAuthourAward">Award winning children books of the week</a> 
-     </h3>
-     <p>
-      Read before death
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A stack of colorful children's books" height="150" src="https://storage.googleapis.com/a1aa/image/oNUjjPaai4LQM5LV7o47tw6PwZRm86eP8j0oqfZYh3xU960TA.jpg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/childTopBooks">Top 10 books for kids</a>
-     </h3>
-     <p>
-      Check out our list of the top 10 books for kids this month. Find your next favorite read!
-     </p>
-    </div>
-   </div>
-   <div class="news-item">
-    <img alt="A stack of colorful children's books" height="150" src="https://images.pexels.com/photos/1820559/pexels-photo-1820559.jpeg" width="150"/>
-    <div class="news-content">
-     <h3>
-     <a href="<?=URLROOT?>/Child/childAuto">Life story of an authour</a>
-     </h3>
-     <p>
-      Learn life from them
-     </p>
-    </div>
-   </div>
-  </div>
-  
- </body>
-</html>
+    
+
 <?php
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'child') {
     die("Access denied! You do not have permission to view this page.");
 }
 ?>
+
 <?php require APPROOT.'/views/inc/footer.php';?>

@@ -1,0 +1,153 @@
+/* Book Grid Styling for Muse Bookstore */
+
+.books-container {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 20px;
+}
+
+.books-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.books-container .subtitle {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #7f8c8d;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.book-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.book-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.book-card-content {
+    padding: 1.5rem;
+}
+
+.book-card-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    height: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.book-card-content p {
+    margin: 0.5rem 0;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.book-controls {
+    display: flex;
+    margin-top: 1.5rem;
+    gap: 0.5rem;
+}
+
+.book-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.view-btn {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+.view-btn:hover {
+    background: #d5dbdb;
+}
+
+.request-btn {
+    background: #3498db;
+    color: white;
+}
+
+.request-btn:hover {
+    background: #2980b9;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+.view-all-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.alert {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .book-card-content {
+        padding: 1rem;
+    }
+    
+    .book-controls {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+}

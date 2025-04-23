@@ -8,6 +8,8 @@
     <title><?php echo SITENAME; ?></title>
 
     <link rel="stylesheet" href="/musebookstore/public/css/style.css">
+    <link rel="stylesheet" href="/musebookstore/public/css/book-grid.css">
+
     <link rel="stylesheet" href="/musebookstore/public/css/admin/admin_style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
