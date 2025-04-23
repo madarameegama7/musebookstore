@@ -106,7 +106,8 @@ CREATE TABLE `transaction` (
   `seller_id` int(11) NOT NULL,
   `type` enum('sell','swap') NOT NULL,
   `status` enum('pending','approved','declined','completed') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -122,10 +123,11 @@ CREATE TABLE `user` (
   `user_password` varchar(255) NOT NULL,
   `user_role` enum('parent','child','ambassador','admin') NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
-  `tokens` int(11) DEFAULT 0,
   `user_phone` varchar(20) DEFAULT NULL,
   `user_address` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+   PRIMARY KEY (`token_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

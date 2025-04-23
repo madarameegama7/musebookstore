@@ -1,4 +1,11 @@
 
+<script>
+  function toggleMenu() {
+    const menu = document.querySelector('.topnavbar .menu');
+    menu.classList.toggle('show');
+  }
+</script>
+
 <div class="topnavbar">
 <ul>
         <li class="logo-container">
@@ -34,16 +41,32 @@
 
             <li class="login-button"><a href="<?php echo URLROOT?>/users/logout">Logout</a></li>
 
-            <!-- Check user role and redirect to admin dashboard or user profile -->
-            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'child'): ?>
-                <a href="<?php echo URLROOT?>/child/profile">
-                   <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="Child Profile"/>
-                </a>
-            <?php else: ?>
-                <a href="<?php echo URLROOT?>/pages/parentProfileView">
-                   <img width="50" height="50" src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="User Profile"/>
-                </a>
-            <?php endif; ?>
+
+            <!-- Check user role and redirect to appropriate profile view -->
+            <?php
+                $profileLink = '#'; // Default link
+                if (isset($_SESSION['user_role'])) {
+                    switch ($_SESSION['user_role']) {
+                        case 'admin':
+                            $profileLink = URLROOT . '/pages/adminProfileView';
+                            break;
+                        case 'parent':
+                            $profileLink = URLROOT . '/pages/parentProfileView';
+                            break;
+                        case 'child':
+                            $profileLink = URLROOT . '/chid/profile';
+                            break;    
+                        case 'ambassador':
+                            // Add ambassador profile link if it exists
+                            // $profileLink = URLROOT . '/pages/ambassadorProfileView';
+                            break;
+                        // Add other roles as needed
+                    }
+                }
+            ?>
+            <a href="<?php echo $profileLink; ?>">
+              <img width="50" height="50" src="<?php echo URLROOT?>/img/profileImgs/<?php echo $_SESSION['user_photo']?>" alt="user-male-circle--v1"/>
+            </a>
 
         <?php else: ?>
             <li class="login-button"><a href="<?php echo URLROOT?>/users/login">Login</a></li>

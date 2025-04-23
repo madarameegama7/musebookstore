@@ -14,10 +14,12 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 <script>
         // Enable the fields for editing
         function enableEdit() {
-            document.getElementById("username").disabled = false;
             document.getElementById("email").disabled = false;
             document.getElementById("address").disabled = false;
+            document.getElementById("name").disabled = false;
             document.getElementById("contactNumber").disabled = false;
+            document.getElementById("password").disabled = false;
+            document.getElementById("confirmPassword").disabled = false;
             document.getElementById("saveBtn").style.display = "block";
         }
 </script>
@@ -30,21 +32,32 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
         <div class="profile-container">
             <h2>User Profile</h2>
 
-            <form action="<?php echo URLROOT?>/users/edit_profile" class="profile-form" action="POST">
+            <form action="<?php echo URLROOT; ?>/users/edit_profile" method="POST" class="profile-form">
                 <!-- Left Column -->
                 <div class="profile-column">
 
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" disabled>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['user_email']); ?>" disabled>
+
+                    <label for="name">Username</label>
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_SESSION['user_name']); ?>" disabled>
+
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter new password" disabled>
+
                 </div>
 
                 <!-- Right Column -->
                 <div class="profile-column">
                     <label for="address">Address</label>
-                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($_SESSION['address']); ?>" disabled>
+                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($_SESSION['user_address']); ?>" disabled>
 
                     <label for="contactNumber">Contact Number</label>
-                    <input type="text" id="contactNumber" name="contactNumber" value="<?php echo htmlspecialchars($_SESSION['contactNumber']); ?>" disabled>
+                    <input type="text" id="contactNumber" name="contactNumber" value="<?php echo htmlspecialchars($_SESSION['user_phone']); ?>" disabled>
+
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter new password" disabled>
+
                 </div>
 
                 <!-- Edit and Save Buttons -->
@@ -56,7 +69,6 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
             </form>
 
         </div>
-        <?php include 'mybooks.php'; ?>
 
     </div>
 

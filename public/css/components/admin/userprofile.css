@@ -1,0 +1,81 @@
+/* Styles for the admin profile container */
+.profile-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Limit width */
+    margin: 20px auto; /* Center the container */
+}
+
+.profile-container h2 {
+    color: #2c3e50; /* Dark blue heading */
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.profile-form .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-size: 16px;
+}
+
+.profile-form input:disabled {
+    background-color: #f8f8f8; /* Lighter background for disabled fields */
+    cursor: not-allowed;
+}
+
+.profile-form .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-form .edit-btn {
+    background-color: #3498db; /* Blue */
+    color: white;
+    border: none;
+    margin-right: 10px;
+}
+
+.profile-form .edit-btn:hover {
+    background-color: #2980b9;
+}
+
+.profile-form .save-btn {
+    background-color: #2ecc71; /* Green */
+    color: white;
+    border: none;
+    display: none; /* Initially hidden */
+}
+
+.profile-form .save-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Styles for the stats section within the profile page */
+.admin-stats-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}

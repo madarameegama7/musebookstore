@@ -2,10 +2,14 @@
 class Books extends Controller
 {
     private $bookModel;
+    private $transactionModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->bookModel = $this->model('M_Books');
+        $this->transactionModel =  $this->model('M_Transactions');
+        $this->notificationModel =  $this->model('M_Notifications');
 
     }
     public function loadView()
@@ -22,6 +26,19 @@ class Books extends Controller
         $this->view('books/v_displaybooks', $data);
     }
 
+    public function bookhistory() {
+        // Assuming the user is logged in and userId is stored in session
+        $userId = $_SESSION['user_id']; // Adjust key if needed
+    
+        $transactions = $this->transactionModel->getTransaction($userId);
+    
+        $data = [
+            'transactions' => $transactions
+        ];
+    
+        // Load the view and pass the data to it
+        $this->view('books/v_bookhistory', $data);
+    }
     public function create()
     {
 
@@ -29,6 +46,8 @@ class Books extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
+                'book_image'=> $_FILES['book_image'],
+                'book_image_name'=> time().'_'.$_FILES['book_image']['name'],
                 'booktitle' => trim($_POST['booktitle']),
                 'author' => trim($_POST['author']),
                 'genre' => trim($_POST['genre']),
@@ -39,6 +58,7 @@ class Books extends Controller
                 'year' => trim($_POST['year']),
                 'isbn' => trim($_POST['isbn']),
 
+                'book_image_err' => '',
                 'book_title_err' => '',
                 'book_author_err' => '',
                 'book_genre_err' => '',
@@ -52,6 +72,16 @@ class Books extends Controller
 
 
             ];
+
+                //validate book image and upload
+                if(uploadImage($data['book_image']['tmp_name'], $data['book_image_name'], '/img/bookImgs/')){
+                    //done
+                }
+                else{
+    
+                    $data['book_image_err'] = 'Book image uploaded unsuccesfully';
+                }
+    
 
             //validation
             if (empty($data['booktitle'])) {
@@ -93,6 +123,7 @@ class Books extends Controller
 
 
             if (
+                empty($data['book_image_err'])&&
                 empty($data['book_title_err']) &&
                 empty($data['book_author_err']) &&
                 empty($data['book_genre_err']) &&
@@ -119,6 +150,8 @@ class Books extends Controller
 
         } else {
             $data = [
+                'book_image'=> '',
+                'book_image_name'=> '',
                 'booktitle' => '',
                 'author' => '',
                 'genre' => '',
@@ -129,7 +162,7 @@ class Books extends Controller
                 'year' => '',
                 'isbn' => '',
 
-
+                'book_image_err' => '',
                 'book_title_err' => '',
                 'book_author_err' => '',
                 'book_genre_err' => '',
@@ -156,6 +189,16 @@ class Books extends Controller
             'books' => $books
         ];
         $this->view('books/v_displaybooks', $data);
+
+
+    }
+    public function myBooks()
+    {
+        $books = $this->bookModel->getBooks();
+        $data = [
+            'books' => $books
+        ];
+        $this->view('books/v_parentownedbooks', $data);
 
 
     }
@@ -346,6 +389,82 @@ class Books extends Controller
 
         $this->view('books/v_categorybooks', $data);
     }
+    public function book_preview($book_id) {
+        // Fetch the book by its ID
+        $book = $this->bookModel->getBooksById($book_id);
+        $userId = $_SESSION['user_id'] ?? null;
+        $transaction = null;
+    
+        // Fetch the transaction if the user is logged in
+        if ($userId) {
+            // Pass the book_id, not the entire $book object
+            $transaction = $this->transactionModel->getTransactionByBookAndUser($book_id, $userId);
+        }
+    
+        // Prepare the data to be passed to the view
+        $data = [
+            'books' => $book,
+            'transactions' => $transaction
+        ];
+    
+        // Load the view
+        $this->view('books/v_previewbooks', $data);
+    }
+    
+    public function swapbook($bookId) {
+        // Get book owner (receiver) ID
+        $book = $this->bookModel->getBooksById($bookId);
+        $receiverId = $book->book_owner_id;
+        $bookTitle = $this->bookModel->getBookTitleByBookId($bookId)->book_title;
+    
+        // Insert into transaction table
+        $newTransactionId = $this->transactionModel->createSwapTransaction(
+            $bookId,
+            $_SESSION['user_id'], // buyer/swap initiator
+            $receiverId
+        );
+    
+        // Add to notification table
+        $message = $_SESSION['user_name'] . " has requested to swap the book titled '" . $bookTitle . "' with you.";
+        $this->notificationModel->createNotification([
+            'user_id' => $receiverId,
+            'message' => $message,
+            'transaction_id' => $newTransactionId,
+        ]);
+    
+        flash('post_msg', 'Book swap request sent successfully!');
+        redirect('books/v_previewbooks');
+    }
+
+    public function acceptswaprequest($book_id, $transaction_id){
+        //approve selected transaction
+        $approve=$this->bookModel->acceptSwapRequest($book_id, $transaction_id);
+
+        //decline other transaction for same book
+        $decline=$this->bookModel->deleteSwapRequest($book_id, $transaction_id);
+
+        //mark book as unavailable
+        $unavailable=$this->bookModel->updateBookStatusSwapRequest($book_id);
+
+        //notify requester
+
+        //redirect
+
+        $data = [
+            'approve' => $approve,
+            'decline' => $decline,
+            'unavailable' => $unavailable
+        ];
+    
+        flash('post_msg', 'Swap request accepted and other requests declined.');
+        $this->view('users/notifications', $data);
+       
+    }
+
+    public function deleteswaprequest(){
+        
+    }
+    
 
 
 

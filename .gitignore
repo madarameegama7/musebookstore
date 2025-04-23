@@ -1,2 +1,5 @@
 app/config/config.php
 config.php
+./composer.json
+./composer.lock
+./composer.phar
