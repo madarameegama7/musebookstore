@@ -2,7 +2,6 @@
 <!--TOP NAV BAR-->
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
 
-<<<<<<< HEAD
 <?php
 if (!isset($_SESSION['user_id'])) {
     die("Please login");
@@ -38,7 +37,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <!-- Regular users go to books/view -->
                                 <a href="<?php echo URLROOT; ?>/books/view/<?php echo $book->book_id; ?>" class="book-btn view-btn">View Details</a>
                                 <?php if(isset($_SESSION['user_id'])) : ?>
-                                    <?php if($book->book_owner_id == $_SESSION['user_id']) : ?>
+                                    <?php if($book->owner_id == $_SESSION['user_id']) : ?>
                                         <a href="<?php echo URLROOT; ?>/books/edit/<?php echo $book->book_id; ?>" class="book-btn request-btn">Edit</a>
                                         <a href="#" onclick="if(confirm('Are you sure you want to delete this book?')) { document.getElementById('delete-form-<?php echo $book->book_id; ?>').submit(); }" class="book-btn delete-btn">Delete</a>
                                         <form id="delete-form-<?php echo $book->book_id; ?>" action="<?php echo URLROOT; ?>/books/delete/<?php echo $book->book_id; ?>" method="post" style="display: none;"></form>

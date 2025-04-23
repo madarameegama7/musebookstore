@@ -8,18 +8,6 @@ class Pages extends Controller
     {
         $this->pagesModel = $this->model('M_Pages');
     }
-
-    public function childindex() {
-        // Load the book model to fetch books
-        $bookModel = $this->model('M_Books');
-        
-        // Get featured books (limit to 6 for display)
-        $books = $bookModel->getBooks(6);
-        
-        $data = [
-            'books' => $books
-        ];
-    }
         
     public function index()
     {
@@ -63,11 +51,7 @@ class Pages extends Controller
         $data = [];
         $this->view('pages/ambassador/v_ambassadorhome', $data);
     }
-
-    public function childView() {
-        // Redirect to Child controller which properly loads book data
-        redirect('pages/childindex');
-    }
+ 
     public function parentView()
     {
         $data = [];

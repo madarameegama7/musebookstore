@@ -25,8 +25,12 @@ class Child extends Controller {
      * Default index method - redirects to childHome
      */
     public function index() {
-        redirect('pages/childindex');
+        redirect('pages/index');
     }
+    //public function childView() {
+        // Redirect to Child controller which properly loads book data
+        //redirect('pages/index');
+    //}
 
     public function childHome() {
         // Get all books for the child to browse
