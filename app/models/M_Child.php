@@ -205,6 +205,7 @@ class M_Child{
         $this->db->bind(':book_id', $bookId);
         return $this->db->single();
     }
+
 }
 
 ?>

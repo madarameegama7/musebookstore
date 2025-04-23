@@ -581,6 +581,12 @@ class Child extends Controller {
         
         $this->view('pages/child/v_profile', $data);
     }
+
+
+    public function childtest(){
+        $data = [];
+        $this->view ('pages/child/testchild', $data);
+    }
 }
 
 ?>

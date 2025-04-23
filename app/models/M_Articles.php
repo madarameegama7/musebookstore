@@ -43,6 +43,9 @@ class M_Articles {
      * @param string $status The article status (published/draft)
      * @return int|bool The new article ID if successful, false otherwise
      */
+
+
+     
     public function addArticle($userId, $title, $content, $imageUrl = null, $status = 'published') {
         $this->db->query('INSERT INTO articles (user_id, title, content, image_url, status) 
                           VALUES (:user_id, :title, :content, :image_url, :status)');
