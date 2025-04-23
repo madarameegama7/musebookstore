@@ -9,7 +9,7 @@
                 <li><a href="userCommunities"><i class="fas fa-users"></i> Communities</a></li>
                 <li><a href="<?php echo URLROOT?>/users/notifications"><i class="fas fa-bell"></i> Notifications</a></li>
                 <li><a href="childsafe"><i class="fas fa-child"></i> Child Safe Accounts</a></li>
-                <li><a href="booktoken"><i class="fas fa-wallet"></i> Book Token</a></li>
+                <li><a href="<?php echo URLROOT?>/books/booktoken"><i class="fas fa-wallet"></i> Book Token</a></li>
                 <li><a href="<?php echo URLROOT?>/books/myBooks"><i class="fas fa-book"></i> My Books</a></li>
                 <li><a href="<?php echo URLROOT?>/books/bookhistory"><i class="fas fa-book"></i> Book Exchange History</a></li>
                 <li><a href="<?php echo URLROOT?>/users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

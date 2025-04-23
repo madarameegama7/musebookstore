@@ -3,7 +3,6 @@
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
 
 <div class="display-books">
-<div class="articles-container">
     <h2>Books</h2>
     <?php flash('post_msg'); ?>
     <div class="articles">
@@ -20,6 +19,4 @@
         <?php endforeach; ?>
     </div>
     <br>
-    <a href="#" id="showMoreBtn">Show More Books</a>
-</div>
         </div>

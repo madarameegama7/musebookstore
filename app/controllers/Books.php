@@ -41,6 +41,93 @@ class Books extends Controller
         // Load the view and pass the data to it
         $this->view('books/v_bookhistory', $data);
     }
+
+    public function booktoken(){
+        $data = [];
+        $this->view('books/v_booktoken', $data);
+
+    }
+    public function tokenpayment(){
+        $data = [];
+        $this->view('books/v_booktokenpay', $data);
+
+    }
+   
+    public function payherenotify() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                // Initialize payments model
+                $paymentModel = $this->model('M_Payments');
+    
+                // Retrieve and sanitize data
+                $paymentData = [
+                    'merchant_id' => trim($_POST["merchant_id"] ?? ''),
+                    'order_id' => trim($_POST["order_id"] ?? ''),
+                    'user_id' => trim($_POST["user_id"] ?? ''),
+                    'payment_id' => trim($_POST["payment_id"] ?? ''),
+                    'amount' => (float)($_POST["payhere_amount"] ?? 0),
+                    'currency' => trim($_POST["payhere_currency"] ?? 'LKR'),
+                    'status_code' => (int)($_POST["status_code"] ?? 0),
+                    'status' => trim($_POST["status"] ?? 'Pending'),
+                    'md5sig' => trim($_POST["md5sig"] ?? '')
+                ];
+    
+                // Get merchant secret from model
+                $merchantSecret = $paymentModel->getMerchantSecret();
+    
+                // Validate hash
+                $localHash = $this->generatePayhereHash(
+                    $paymentData['merchant_id'],
+                    $paymentData['order_id'],
+                    $paymentData['amount'],
+                    $paymentData['currency'],
+                    $paymentData['status_code'], // Include status code
+                    $merchantSecret
+                );
+    
+                if ($this->validateSignature($localHash, $paymentData['md5sig'])) {
+                    if ($paymentData['status_code'] === 2) {
+                        $paymentRecord = [
+                            'order_id' => $paymentData['order_id'],
+                            'payment_id' => $paymentData['payment_id'],
+                            'user_id' => $paymentData['user_id'],
+                            'amount' => $paymentData['amount'],
+                            'currency' => $paymentData['currency'],
+                            'status' => $paymentData['status']
+                        ];
+
+                    }
+                    http_response_code(200);
+                } else {
+                    error_log("Hash mismatch. Received: {$paymentData['md5sig']} | Calculated: $localHash");
+                    http_response_code(403);
+                }
+            } catch (Exception $e) {
+                error_log("Payment error: " . $e->getMessage());
+                http_response_code(500);
+            }
+        } else {
+            http_response_code(405);
+        }
+    }
+    
+    private function generatePayhereHash($merchant_id, $order_id, $amount, $currency, $status_code, $merchant_secret) {
+        return strtoupper(md5(
+            $merchant_id .
+            $order_id .
+            number_format($amount, 2, '.', '') .
+            $currency .
+            $status_code . // Include status code in hash
+            strtoupper(md5($merchant_secret))
+        ));
+    }
+    
+    private function validateSignature($generated, $received) {
+        return hash_equals($generated, $received);
+    }
+   
+    
+    
     public function create()
     {
 
