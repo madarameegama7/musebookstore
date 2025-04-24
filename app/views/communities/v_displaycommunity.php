@@ -7,34 +7,43 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'ambassador') {
 }
 ?>
 
+<div class="communities-main">
+    <div class="communities-container">
+        <h1 class="communities-title">Communities</h1>
 
-<div class="main-content">
-    <div class="profile-container">
-        <h1><center>Communities</center></h1>
-
-        <!-- Display error message if any -->
         <?php if (!empty($data['error']) && $data['error'] == 'nocommunityid'): ?>
-            <p class="error">No community ID provided. Please select a community to view details.</p>
+            <p class="communities-error">No community ID provided. Please select a community to view details.</p>
         <?php endif; ?>
 
-        <a href="<?php echo URLROOT; ?>/communities/create" class="create-community-btn">Create Community</a>
+        <a href="<?php echo URLROOT; ?>/communities/create" class="create-community-link">+ Create Community</a>
 
-        <!-- Communities Blocks -->
         <div class="communities-grid">
-    <?php if (!empty($data['communities'])): ?>
-        <?php foreach ($data['communities'] as $community): ?>
-            <div class="community-block">
-                <img src="<?php echo URLROOT; ?>/<?php echo $community->communityImage; ?>" alt="Community Image">
-                <h2><?php echo $community->communityName; ?></h2>
-                <p class="community-type"><?php echo $community->membership_type; ?></p>
-                <a href="<?php echo URLROOT; ?>/communities/details/<?php echo $community->communityId; ?>" class="view-details-btn">View Details</a>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>No communities found.</p>
-    <?php endif; ?>
-</div>
+            <?php if (!empty($data['communities'])): ?>
+                <?php foreach ($data['communities'] as $community): ?>
+    <div class="community-card">
+        <a href="<?php echo $community->status === 'approved' ? URLROOT . '/communities/details/' . $community->communityId : '#'; ?>"
+           <?php echo $community->status !== 'approved' ? 'onclick="return false;" style="pointer-events: none; opacity: 0.5;"' : ''; ?>>
+            <img src="<?php echo URLROOT . '/' . $community->communityImage; ?>" alt="Community Image" class="community-image">
+        </a>
+        <h2 class="community-name"><?php echo $community->communityName; ?></h2>
+        <p class="community-type"><?php echo $community->membership_type; ?></p>
 
+        <?php if ($community->status === 'pending'): ?>
+            <p class="community-pending-status">Pending Approval</p>
+        <?php else: ?>
+            <div class="community-action-btns">
+                <a href="<?php echo URLROOT; ?>/communities/editCom/<?php echo $community->communityId; ?>" class="community-edit-btn">Edit</a>
+                <a href="<?php echo URLROOT; ?>/communities/requestDeleteForm/<?php echo $community->communityId; ?>" class="community-delete-btn">Delete</a>
+
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+
+            <?php else: ?>
+                <p class="communities-empty">No communities found.</p>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

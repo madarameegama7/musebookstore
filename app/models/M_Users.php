@@ -55,7 +55,7 @@ class M_Users{
     }
 
     public function getAllUsers(){
-        $this->db->query("SELECT * FROM user WHERE user_role='parent'");
+        $this->db->query("SELECT * FROM user WHERE user_role='parent' OR user_role='ambassador'");
         $results=$this->db->resultSet();
         return $results;
 

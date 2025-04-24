@@ -13,22 +13,25 @@
 @import url('components/index.css');
 @import url('components/button.css');
 
-/* amasha */
-@import url('community/createCom.css'); 
-@import url('community/displayCom.css'); 
-@import url('community/viewDetails.css');
-
-
-
-
-
-
-
-
-
-
-
-
+/* amasha */ 
+@import url('community/communityDetails.css');
+@import url('community/createcommunity.css');
+@import url('community/displayCom.css');
+@import url('community/editCommunity.css');
+@import url('community/displayMembers.css');
+@import url('community/writingGroups.css');
+@import url('community/createWritingGroup.css');
+@import url('community/communityEvents.css');
+@import url('community/createEvent.css');
+@import url('community/editEvent.css');
+@import url('community/deleteEvent.css');
+@import url('community/eventDetails.css');
+@import url('community/writingGroupPosts.css');
+@import url('community/requestDelete.css');
+@import url('community/viewCommunityPosts.css');
+@import url('community/viewSinglePost.css');
+@import url('community/createPosts.css');
+@import url('community/addMembers.css');
 
 
 /*gayashan*/

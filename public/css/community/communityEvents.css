@@ -1,0 +1,143 @@
+/* Container Layout */
+.community-events-page {
+    background-color: #f0f2f5;
+    padding: 60px 20px;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.community-events-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+}
+
+/* Title */
+.community-events-title {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Messages */
+.community-events-message {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.community-events-message.error {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Button - Create Event */
+.btn-create-event {
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 12px 20px;
+    background-color: #198754;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-create-event:hover {
+    background-color: #157347;
+}
+
+/* Event Grid */
+.community-events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* Event Card */
+.event-card {
+    background: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Event Info */
+.event-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.event-date {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.event-description,
+.event-location {
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+/* Actions */
+.event-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-event-action {
+    padding: 10px 14px;
+    border-radius: 6px;
+    background-color: #0d6efd;
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-event-action:hover {
+    background-color: #0a58ca;
+}
+
+.btn-event-action.delete {
+    background-color: #dc3545;
+}
+
+.btn-event-action.delete:hover {
+    background-color: #bb2d3b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .btn-create-event {
+        width: 100%;
+        text-align: center;
+    }
+
+    .event-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-event-action {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,128 @@
+.ambassador-main-container {
+    padding: 40px;
+    background-color: #f7f9fc;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.community-profile-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.community-page-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.community-detail-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.community-image {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.community-info-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.community-name {
+    font-size: 28px;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.community-action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.community-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.community-btn:hover {
+    background-color: #2980b9;
+}
+
+.community-info {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #555;
+}
+
+.community-blog-section {
+    margin-top: 40px;
+}
+
+.community-page-subtitle {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.create-blog-btn {
+    background-color: #27ae60;
+    margin-bottom: 20px;
+}
+
+.community-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.community-post-card {
+    background: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.community-post-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.community-post-body {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.view-btn {
+    background-color: #3498db;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    margin-left: 10px;
+}
+
+.no-posts-message {
+    font-style: italic;
+    color: #999;
+}

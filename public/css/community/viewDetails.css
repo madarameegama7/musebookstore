@@ -15,7 +15,7 @@ header, .topnavbar {
 }
 
 header a, .topnavbar a {
-    color: white;
+    color: #ff9900;
     text-decoration: none;
     padding: 8px 20px;
 }
@@ -88,7 +88,7 @@ h1 {
 
 .community-details .view-details-btn {
     display: inline-block;
-    background-color: #007BFF;
+    background-color: #ff9900;
     color: white;
     padding: 10px 20px;
     text-decoration: none;

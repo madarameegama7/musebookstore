@@ -1,125 +1,149 @@
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
-    color: #333;
+/* Reset */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Header and Navbar */
-header, .topnavbar {
-    color: white;
-    padding: 10px 0;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    color: #2d3436;
+}
+
+/* Page Wrapper */
+.communities-main {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container */
+.communities-container {
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Title */
+.communities-title {
     text-align: center;
-}
-
-header a, .topnavbar a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 20px;
-}
-
-/* Main Content */
-.main-content {
-    margin: 20px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-}
-
-/* Profile Container */
-.profile-container {
-    text-align: center;
-}
-
-h1 {
     font-size: 2rem;
+    color: #2c3e50;
     margin-bottom: 20px;
 }
 
-/* Error Message */
-.error {
-    color: red;
-    font-size: 1.2rem;
-    margin-top: 10px;
-}
-
-/* Create Community Section */
-.create-community-section {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.create-community-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
+/* Create Button */
+.create-community-link {
     display: inline-block;
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
-.create-community-btn:hover {
-    background-color: #45a049;
+.create-community-link:hover {
+    background-color: #2980b9;
 }
 
-/* Communities Grid */
+/* Grid */
 .communities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
 }
 
-/* Community Block */
-.community-block {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* Card */
+.community-card {
+    background-color: #ecf0f1;
     padding: 20px;
+    border-radius: 10px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.3s;
 }
 
-.community-block img {
+.community-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Content */
+.community-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
     border-radius: 8px;
+    margin-bottom: 15px;
 }
 
-.community-block h2 {
-    font-size: 1.5rem;
-    margin: 15px 0;
+.community-name {
+    font-size: 1.25rem;
+    color: #2c3e50;
+    margin-bottom: 8px;
 }
 
-.community-block .community-type {
-    font-size: 1rem;
-    color: #777;
+.community-type {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
 }
 
-.community-block .view-details-btn {
-    display: inline-block;
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
+.community-action-btns {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Make buttons equal width and aligned to card */
+.community-edit-btn,
+.community-delete-btn {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 6px;
     text-decoration: none;
-    border-radius: 5px;
-    margin-top: 15px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.3s ease;
 }
 
-.community-block .view-details-btn:hover {
+/* Individual button styles */
+.community-edit-btn {
+    background-color: #007bff;
+}
+
+.community-edit-btn:hover {
     background-color: #0056b3;
 }
 
-/* Footer */
-footer {
-    background-color: #003366;
-    color: white;
-    text-align: center;
+.community-delete-btn {
+    background-color: #dc3545;
+}
+
+.community-delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Error & Empty States */
+.communities-error {
+    color: #e74c3c;
+    background: #fdecea;
     padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.communities-empty {
+    text-align: center;
+    color: #95a5a6;
+    font-style: italic;
 }

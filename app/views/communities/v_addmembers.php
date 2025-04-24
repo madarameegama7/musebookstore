@@ -1,45 +1,36 @@
-<?php require APPROOT . '/views/inc/header.php'; ?>
-<!--TOP NAV BAR-->
-<?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
+<!-- Updated Button -->
+<button id="openModalBtn" class="add-member-btn-submit">Add New Member</button>
 
-<?php
-if (!isset($_SESSION['user_role'])) {
-    die("Please login");
-}
-?>
+<!-- Modal -->
+<div id="addMemberModal" class="add-member-modal">
+  <div class="add-member-modal-content">
+    <span class="add-member-close" id="closeModalBtn">&times;</span>
 
-<div class="main-content">
-    <div class="profile-container">
-        <h1>Create a New Community</h1>
+    <h2>Add Member to Community</h2>
 
-        <?php if (!empty($data['error'])): ?>
-            <p class="error"><?php echo htmlspecialchars($data['error']); ?></p>
-        <?php endif; ?>
+    <?php if (!empty($data['error'])): ?>
+      <div class="add-member-error-msg"><?php echo $data['error']; ?></div>
+    <?php endif; ?>
 
-        <?php if (!empty($data['success'])): ?>
-            <p class="success"><?php echo htmlspecialchars($data['success']); ?></p>
-        <?php endif; ?>
+    <?php if (!empty($data['success'])): ?>
+      <div class="add-member-success-msg"><?php echo $data['success']; ?></div>
+    <?php endif; ?>
 
-        <form method="POST" action="<?php echo URLROOT; ?>/communities/add_members" enctype="multipart/form-data" class="community-form">
-    
-    <label for="user_id">Select Member:</label>
-    <select id="user_id" name="user_id" required>
-        <option value="">-- Select a User --</option>
-        <?php foreach ($data['users'] as $user): ?>
-            <option value="<?php echo $user->id; ?>">
-                <?php echo htmlspecialchars($user->name); ?> (<?php echo htmlspecialchars($user->email); ?>)
-            </option>
+    <form action="<?php echo URLROOT; ?>/communities/addMembers/<?php echo $data['community_id']; ?>" method="post" class="add-member-form-container">
+      <label for="community_member_name">Member Name:</label>
+      <input type="text" name="community_member_name" required>
+
+      <label for="user_id">Select User:</label>
+      <select name="user_id" required>
+        <option value="">-- Select a user --</option>
+        <?php foreach ($data['user'] as $user): ?>
+          <option value="<?php echo $user->user_id; ?>"><?php echo $user->user_name; ?></option>
         <?php endforeach; ?>
-    </select>
+      </select>
 
-    <label for="community_id">Community ID:</label>
-    <input type="text" id="community_id" name="community_id" value="<?php echo $data['community_id']; ?>" readonly>
-
-
-    <button type="submit" class="submit-btn">Add Member</button>
-      </form>
-
-    </div>
+      <button type="submit" class="add-member-btn-submit">Add Member</button>
+    </form>
+  </div>
 </div>
 
-<?php require APPROOT . '/views/inc/footer.php'; ?>
+<a href="<?php echo URLROOT; ?>/communities/details/<?php echo $data['community_id']; ?>" class="add-member-view-details-btn">⬅ Back to Community</a>
