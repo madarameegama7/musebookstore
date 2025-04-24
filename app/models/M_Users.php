@@ -93,29 +93,22 @@ class M_Users
 
     public function updateUserProfile($data) {
         if ($data['password']) {
-            $sql = "UPDATE user SET user_name = :name, user_email = :email, user_password = :password, user_phone = :phone, user_address = :address WHERE user_id = :id";
+            $sql = "UPDATE user SET user_name = :name, user_password = :password, user_phone = :phone, user_address = :address WHERE user_id = :id";
             $this->db->query($sql);
             $this->db->bind(':password', $data['password']);
         } else {
-            $sql = "UPDATE user SET user_name = :name, user_email = :email, user_phone = :phone, user_address = :address WHERE user_id = :id";
+            $sql = "UPDATE user SET user_name = :name, user_phone = :phone, user_address = :address WHERE user_id = :id";
             $this->db->query($sql);
         }
     
         $this->db->bind(':name', $data['name']);
-        $this->db->bind(':email', $data['email']);
         $this->db->bind(':phone', $data['contactNumber']);
         $this->db->bind(':address', $data['address']);
-        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':id', $data['user_id']);
     
         return $this->db->execute();
     }
     
-    
-    
-    
-    
-
-
     public function getUserByEmail($email)
     {
         $this->db->query('SELECT * FROM user WHERE user_email= :email');
@@ -127,5 +120,26 @@ class M_Users
         } else {
             return false; // Return false if no user found
         }
+    }
+    //user dashboard analytics
+    public function getTokenCount($user_id){
+        $this->db->query('SELECT token_count FROM token WHERE user_id= :user_id');
+        $this->db->bind(':user_id',$user_id);
+        return $this->db->single();
+
+    }
+    public function getChildCount($user_id){
+        $this->db->query('SELECT COUNT(user_id) AS total FROM user WHERE parent_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+        $result = $this->db->single();
+        return $result ? $result->total : 0;
+    }
+    
+    
+    public function getBookCount($user_id){
+        $this->db->query('SELECT COUNT(book_id) FROM book WHERE owner_id= :user_id');
+        $this->db->bind(':owner_id',$user_id);
+        $results = $this->db->resultSet();
+        return $this->db->single();
     }
 }

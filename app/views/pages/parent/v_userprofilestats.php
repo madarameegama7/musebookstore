@@ -12,7 +12,10 @@
                     Child Accounts
                 </h3>
                 <p>
-                    1
+                <p>
+                   3
+                </p>
+
                 </p>
             </div>
             <div class="stat">

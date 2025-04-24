@@ -26,15 +26,17 @@
                 <a href="<?= URLROOT . '/users/login'; ?>" class="cta-button">Swap Book</a>
             <?php endif; ?>
         <?php endif; ?>
-
-    </div>
-</div>
-
-<div class="about-section">
+        <div class="about-section">
     <h3>About Book</h3>
     <p>Book Condition <strong><?php echo $data['books']->book_condition; ?></strong></p>
     <p>Book Publisher <strong><?php echo $data['books']->book_publisher; ?></strong></p>
     <p>Published Year <strong><?php echo $data['books']->book_published_year; ?></strong></p>
+    
 </div>
+
+    </div>
+</div>
+
+
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>

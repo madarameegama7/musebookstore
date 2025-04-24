@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 <script>
         // Enable the fields for editing
         function enableEdit() {
-            document.getElementById("email").disabled = false;
+
             document.getElementById("address").disabled = false;
             document.getElementById("name").disabled = false;
             document.getElementById("contactNumber").disabled = false;
@@ -27,11 +27,13 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 
     <!-- Main content -->
     <div class="main-content">
-    <?php require APPROOT.'/views/inc/components/parent/v_userprofilestats.php';?>
+    <?php flash('profile_flash'); ?>
+    <?php 
+    require APPROOT.'/views/pages/parent/v_userprofilestats.php';?>
 
         <div class="profile-container">
             <h2>User Profile</h2>
-
+            
             <form action="<?php echo URLROOT; ?>/users/edit_profile" method="POST" class="profile-form">
                 <!-- Left Column -->
                 <div class="profile-column">
@@ -63,8 +65,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
                 <!-- Edit and Save Buttons -->
                 <div style="width: 100%; text-align: center;">
                     <button type="button" class="edit-btn" onclick="enableEdit()">Edit Profile</button>
-                    <button type="submit" name="saveprofile" id="saveBtn" style="display: none;">Save Changes</button>
-                    <a href="<?php echo URLROOT ?>/parent_user" class="manage-btn" style="display: inline-block; margin-left: 15px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Manage Children</a>
+                    <button type="submit" name="saveprofile" id="saveBtn" class="save-btn" style="display: none;">Save Changes</button>
                 </div>
             </form>
 

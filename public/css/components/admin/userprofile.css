@@ -67,10 +67,15 @@
     color: white;
     border: none;
     display: none; /* Initially hidden */
+
 }
 
 .profile-form .save-btn:hover {
     background-color: #27ae60;
+}
+
+button#saveBtn {
+    margin-left: 320px;
 }
 
 /* Styles for the stats section within the profile page */

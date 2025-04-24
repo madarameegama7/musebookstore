@@ -27,7 +27,7 @@ $hash = strtoupper(
         $order_id .
         number_format($amount, 2, '.', '') .
         $currency .
-        strtoupper(md5($merchant_secret)) // ⚠️ Better to fetch secret securely
+        strtoupper(md5($merchant_secret))
     )
 );
 
