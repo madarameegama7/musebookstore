@@ -125,15 +125,15 @@ public function acceptSwapRequest($book_id, $transaction_id) {
 
     return $this->db->execute();
 }
-public function deleteSwapRequest($book_id, $transaction_id){
-    $this->db->query("UPDATE transaction SET status = 'declined' WHERE book_id = :book_id AND transaction_id = :transaction_id ");
+public function deleteSwapRequest($book_id, $approved_transaction_id) {
+    $this->db->query("UPDATE transaction 
+                      SET status = 'declined' 
+                      WHERE book_id = :book_id AND transaction_id != :transaction_id");
     $this->db->bind(':book_id', $book_id);
-    $this->db->bind(':transaction_id', $transaction_id);
-
+    $this->db->bind(':transaction_id', $approved_transaction_id);
     return $this->db->execute();
-
-
 }
+
 public function updateBookStatusSwapRequest($book_id){
     $this->db->query("UPDATE book SET book_status = 'swapped' WHERE book_id = :book_id");
     $this->db->bind(':book_id', $book_id);

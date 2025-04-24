@@ -82,7 +82,7 @@ class Books extends Controller
                     $paymentData['amount'],
                     $paymentData['currency'],
                     $paymentData['status_code'], // Include status code
-                    $merchantSecret
+                    
                 );
     
                 if ($this->validateSignature($localHash, $paymentData['md5sig'])) {
@@ -111,13 +111,12 @@ class Books extends Controller
         }
     }
     
-    private function generatePayhereHash($merchant_id, $order_id, $amount, $currency, $status_code, $merchant_secret) {
+    private function generatePayhereHash($merchant_id, $order_id, $amount, $currency, $merchant_secret) {
         return strtoupper(md5(
             $merchant_id .
             $order_id .
             number_format($amount, 2, '.', '') .
             $currency .
-            $status_code . // Include status code in hash
             strtoupper(md5($merchant_secret))
         ));
     }
@@ -519,40 +518,77 @@ class Books extends Controller
         $this->notificationModel->createNotification([
             'user_id' => $receiverId,
             'message' => $message,
+            'requester_id'=>$_SESSION['user_id'],
             'transaction_id' => $newTransactionId,
         ]);
     
         flash('post_msg', 'Book swap request sent successfully!');
         redirect('books/v_previewbooks');
     }
+    public function accept($book_id, $transaction_id){
+        // Get the transaction details to identify requester and owner
+        $transaction = $this->transactionModel->getTransactionDetails($transaction_id);
+    
+        if ($transaction) {
+            $requester_id = $transaction->requester_id;
+            $owner_id = $transaction->owner_id;
 
-    public function acceptswaprequest($book_id, $transaction_id){
-        //approve selected transaction
-        $approve=$this->bookModel->acceptSwapRequest($book_id, $transaction_id);
-
-        //decline other transaction for same book
-        $decline=$this->bookModel->deleteSwapRequest($book_id, $transaction_id);
-
-        //mark book as unavailable
-        $unavailable=$this->bookModel->updateBookStatusSwapRequest($book_id);
-
-        //notify requester
-
-        //redirect
-
+            echo "<pre>Requester: $requester_id | Owner: $owner_id</pre>";
+    
+            // Deduct 1 token from requester and owner
+            $this->transactionModel->deductToken($requester_id);
+            $this->transactionModel->deductToken($owner_id);
+        }
+    
+        // Approve selected transaction
+        $approve = $this->bookModel->acceptSwapRequest($book_id, $transaction_id);
+    
+        // Decline other transactions for same book
+        $decline = $this->bookModel->deleteSwapRequest($book_id, $transaction_id);
+    
+        // Mark book as unavailable
+        $unavailable = $this->bookModel->updateBookStatusSwapRequest($book_id);
+    
+        // Redirect with message
         $data = [
             'approve' => $approve,
             'decline' => $decline,
             'unavailable' => $unavailable
         ];
     
-        flash('post_msg', 'Swap request accepted and other requests declined.');
-        $this->view('users/notifications', $data);
-       
+        flash('post_msg', 'Swap request accepted. Tokens deducted and other requests declined.');
+        $this->view('books/v_booknotifications', $data);
     }
-
-    public function deleteswaprequest(){
-        
+    public function cancel($transaction_id) {
+    
+        // Get transaction details
+        $transaction = $this->transactionModel->getTransactionDetails($transaction_id);
+    
+        if (!$transaction) {
+            flash('post_msg', 'Transaction not found', 'alert alert-danger');
+            redirect('books/bookhistory');
+        }
+    
+        // Ensure the logged-in user is the requester
+        if ($transaction->requester_id != $_SESSION['user_id']) {
+            flash('post_msg', 'You can only cancel your own requests', 'alert alert-danger');
+            redirect('books/bookhistory');
+        }
+    
+        // Allow cancellation only if status is pending
+        if ($transaction->status !== 'pending') {
+            flash('post_msg', 'Only pending requests can be cancelled', 'alert alert-warning');
+            redirect('books/bookhistory');
+        }
+    
+        // Cancel the request
+        if ($this->transactionModel->cancelRequest($transaction_id)) {
+            flash('post_msg', 'Request cancelled successfully', 'alert alert-success');
+        } else {
+            flash('post_msg', 'Failed to cancel the request', 'alert alert-danger');
+        }
+    
+        redirect('books/bookhistory');
     }
     
 

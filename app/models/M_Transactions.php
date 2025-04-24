@@ -37,6 +37,26 @@ class M_Transactions{
         
         return $this->db->resultSet();
     }
+    public function getTransactionDetails($transaction_id) {
+        $this->db->query("SELECT requester_id, owner_id FROM transaction WHERE transaction_id = :transaction_id");
+        $this->db->bind(':transaction_id', $transaction_id);
+        return $this->db->single(); 
+    }
+    
+    public function deductToken($user_id) {
+        // Decrease token_count by 1, but only if token_count > 0
+        $this->db->query("UPDATE token SET token_count = token_count - 1 WHERE user_id = :user_id AND token_count > 0");
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->execute();
+    }
+    public function cancelRequest($transaction_id) {
+        $this->db->query("DELETE FROM transaction WHERE transaction_id = :transaction_id AND status = 'pending'");
+        $this->db->bind(':transaction_id', $transaction_id);
+    
+        return $this->db->execute();
+    }
+    
+    
       
     
     

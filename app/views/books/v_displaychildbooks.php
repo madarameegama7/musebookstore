@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'])) {
         <div class="books-grid">
             <?php foreach ($data['books'] as $book): ?>
                 <div class="book-card">
-                    <img src="<?php echo URLROOT; ?>/public/img/index-page.jpg" alt="<?php echo $book->book_title; ?>">
+                <img src="<?php echo URLROOT . '/img/bookImgs/' . ($book->book_image ?? 'default.jpg'); ?>" alt="Book Image">
                     <div class="book-card-content">
                         <h3><?php echo $book->book_title; ?></h3>
                         <p><strong>By:</strong> <?php echo $book->book_author; ?></p>

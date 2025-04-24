@@ -22,8 +22,7 @@ class Users extends Controller
     }
 
     public function notifications() {
-        // Assuming the user is logged in and userId is stored in session
-        $userId = $_SESSION['user_id']; // Adjust key if needed
+        $userId = $_SESSION['user_id']; 
     
         $notifications = $this->notificationModel->getNotifications($userId);
     
@@ -339,7 +338,6 @@ class Users extends Controller
     
             $data = [
                 'user_id' => $_SESSION['user_id'], // get current logged-in user ID
-                'email' => trim($_POST['email']),
                 'name' => trim($_POST['name']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
@@ -347,7 +345,7 @@ class Users extends Controller
                 'contactNumber' => trim($_POST['contactNumber']),
     
                 // error messages
-                'email_err' => '',
+
                 'name_err' => '',
                 'password_err' => '',
                 'confirmPassword_err' => '',
@@ -355,13 +353,6 @@ class Users extends Controller
                 'contactNumber_err' => ''
             ];
     
-            // Email validation
-            if (empty($data['email'])) {
-
-                $data['email_err'] = 'Please enter an email';
-            } elseif ($data['email'] !== $_SESSION['user_email'] && $this->userModel->findUserByEmail($data['email'])) {
-                $data['email_err'] = 'This email is already taken';
-            }
     
             // Name validation
             if (empty($data['name'])) {
@@ -397,7 +388,7 @@ class Users extends Controller
     
             // If no errors
             if (
-                empty($data['email_err']) && empty($data['name_err']) &&
+                empty($data['name_err']) &&
                 empty($data['password_err']) && empty($data['confirmPassword_err']) &&
                 empty($data['address_err']) && empty($data['contactNumber_err'])
             ) {
@@ -408,11 +399,11 @@ class Users extends Controller
                 } else {
                     $data['password'] = null; // signal to model that password isn't changing
                 }
+                $newdata=$this->userModel->updateUserProfile($data);
     
                 // Update user
-                if ($this->userModel->updateUserProfile($data)) {
+                if ($newdata) {
                     // Update session data
-                    $_SESSION['user_email'] = $data['email'];
                     $_SESSION['user_name'] = $data['name'];
                     $_SESSION['user_address'] = $data['address'];
                     $_SESSION['user_phone'] = $data['contactNumber'];
@@ -432,20 +423,18 @@ class Users extends Controller
             // Not POST request
             $user = $this->userModel->getUserById($_SESSION['user_id']);
             $data = [
-                'email' => $user->email,
                 'name' => $user->name,
                 'address' => $user->address,
                 'contactNumber' => $user->contact_number,
                 'password' => '',
                 'confirmPassword' => '',
-                'email_err' => '',
                 'name_err' => '',
                 'password_err' => '',
                 'confirmPassword_err' => '',
                 'address_err' => '',
                 'contactNumber_err' => ''
             ];
-    
+            flash('profile_flash', 'Profile updated successfully');
             $this->view('users/v_userprofile', $data);
         }
     }

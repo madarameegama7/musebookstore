@@ -11,10 +11,11 @@ class M_Notifications
     public function createNotification($data)
     {
         $this->db->query("INSERT INTO `notification` 
-            (user_id, message, transaction_id) 
-            VALUES (:user_id, :message, :transaction_id)");
+            (user_id, requester_id, message, transaction_id) 
+            VALUES (:user_id, :requester_id, :message, :transaction_id)");
 
         $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':requester_id', $data['requester_id']);
         $this->db->bind(':message', $data['message']);
         $this->db->bind(':transaction_id', $data['transaction_id']);
 
@@ -23,7 +24,7 @@ class M_Notifications
    public function getNotifications($userId)
 {
     $this->db->query("SELECT n.*, b.*,
-                             t.requester_id, 
+                             t.requester_id, t.status AS status,
                              t.created_at AS requested_date,
                              u.user_name AS sender_name, 
                              u.user_address AS city,
