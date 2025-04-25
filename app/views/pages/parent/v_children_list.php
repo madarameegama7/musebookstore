@@ -51,7 +51,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Created</th>
-                                <th class="text-center" style="width: 200px;">Actions</th>
+                                <th class="text-center" style="width: 50%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
