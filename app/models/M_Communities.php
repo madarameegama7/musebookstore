@@ -299,5 +299,25 @@ public function deletePost($postId) {
 
 
 
+
+
+//user community functions
+
+public function displayCommunity() {
+    $this->db->query('SELECT * FROM community WHERE status = "approved"');
+    return $this->db->resultSet();
+}
+
+
+
+public function joinCommunity($communityId){
+    $this->db->query('INSERT INTO community_member (community_member_name, community_id, user_id) VALUES (:community_member_name, :community_id, :user_id)');
+    $this->db->bind(':community_member_name', $_SESSION['user_name']);
+    $this->db->bind(':community_id', $communityId);
+    $this->db->bind(':user_id', $_SESSION['user_id']);
+
+    return $this->db->execute();
+
+}
 }
 ?>

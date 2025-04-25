@@ -512,7 +512,7 @@ public function deletePost($postId) {
             ];
             $this->view('communities/v_viewWritingGroups', $data);
         } else {
-            redirect('communities/index');
+            redirect('communities/viewWritingGroups');
         }
     }
     
@@ -720,6 +720,59 @@ public function deleteWritingGroupPost($writingGroupId, $postId)
     redirect('communities/viewWritingGroupPosts/' . $writingGroupId);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+//user side community functions
+
+public function displayCommunity() {
+    $communities = $this->communityModel->displayCommunity();
+    $data = ['communities' => $communities];
+    $this->view('pages/parent/v_communities', $data);
+}
+
+public function viewCommunitydetails($id) {
+    $community = $this->communityModel->getCommunityById($id);
+    if (!$community) {
+        $data = ['error' => 'nocommunityid'];
+        $this->view('pages/parent/v_communities', $data);
+        return;
+    }
+    $data = ['community' => $community];
+    $this->view('pages/parent/v_communityDetails', $data);
+}
+
+public function joinCommunity($communityId){
+    if (!isset($_SESSION['user_id'])) {
+        die('User is not logged in.');
+    }
+
+    $userId = $_SESSION['user_id'];
+    $community_member_name = $_SESSION['user_name'];
+
+    $communityMemberId = $this->communityModel->getCommunityMemberId($userId, $communityId);
+
+    if ($communityMemberId) {
+        die('You are already a member of this community.');
+    }
+
+    if ($this->communityModel->joinCommunity($communityId, $userId, $community_member_name)) {
+        flash('join_success', 'You have successfully joined the community!');
+        echo "<script>alert('You have successfully joined the community.');</script>";
+        header("Location: " . URLROOT . "/communities/viewCommunitydetails/" . $communityId);
+        exit;
+    } else {
+        die("Failed to join the community.");
+    }
+}
 
     
 }
