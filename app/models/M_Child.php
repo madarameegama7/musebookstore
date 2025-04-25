@@ -117,7 +117,7 @@ class M_Child{
     
     // Update a child account
     public function updateChild($data){
-        $this->db->query('UPDATE user SET user_name = :name, user_email = :email, updated_at = NOW() WHERE user_id = :id');
+        $this->db->query('UPDATE user SET user_name = :name, user_email = :email WHERE user_id = :id');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':id', $data['id']);
