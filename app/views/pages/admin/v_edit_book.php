@@ -15,15 +15,15 @@
         <form class="edit-book-form" action="<?php echo URLROOT; ?>/admin/updateBook/<?php echo $data['bookid']; ?>" method="post">
 
             <label for="booktitle">Book Title: <sup>*</sup></label>
-            <input type="text" name="booktitle" id="booktitle" value="<?php echo htmlspecialchars($data['booktitle']); ?>" required>
+            <input type="text" name="booktitle" id="booktitle" value="<?php echo htmlspecialchars($data['booktitle'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['book_title_err']; ?></span>
 
             <label for="author">Author: <sup>*</sup></label>
-            <input type="text" name="author" id="author" value="<?php echo htmlspecialchars($data['author']); ?>" required>
+            <input type="text" name="author" id="author" value="<?php echo htmlspecialchars($data['author'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['book_author_err']; ?></span>
 
             <label for="publisher">Publisher: <sup>*</sup></label>
-            <input type="text" name="publisher" id="publisher" value="<?php echo htmlspecialchars($data['publisher']); ?>" required>
+            <input type="text" name="publisher" id="publisher" value="<?php echo htmlspecialchars($data['publisher'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['book_publisher_err']; ?></span>
 
             <label for="year">Year of Publication: <sup>*</sup></label>

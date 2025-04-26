@@ -21,29 +21,30 @@ class Users extends Controller
         $this->view('users/v_forgotpassword', $data);
     }
 
-    public function notifications() {
-        $userId = $_SESSION['user_id']; 
-    
+    public function notifications()
+    {
+        $userId = $_SESSION['user_id'];
+
         $notifications = $this->notificationModel->getNotifications($userId);
-    
+
         $data = [
             'notifications' => $notifications
         ];
-    
+
         // Load the view and pass the data to it
         $this->view('books/v_booknotifications', $data);
     }
-    
-    
+
+
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //Form is submitting
             //validate data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
             $data = [
                 'profile_image' => $_FILES['profile_image'],
-                'profile_image_name' => time().'_'.$_FILES['profile_image']['name'],
+                'profile_image_name' => time() . '_' . $_FILES['profile_image']['name'],
                 'email' => trim($_POST['email']),
                 'name' => trim($_POST['name']),
                 'password' => trim($_POST['password']),
@@ -63,10 +64,9 @@ class Users extends Controller
             //validate each input
 
             //validate profile image and upload
-            if(uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/img/profileImgs/')){
+            if (uploadImage($data['profile_image']['tmp_name'], $data['profile_image_name'], '/img/profileImgs/')) {
                 //done
-            }
-            else{
+            } else {
 
                 $data['profile_image_err'] = 'Profile image uploaded unsuccesfully';
             }
@@ -134,7 +134,7 @@ class Users extends Controller
 
             //Validatation is completed and no error then register user
             if (
-                empty($data['email_err']) && empty($data['profile_image_err'])&& empty($data['name_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])
+                empty($data['email_err']) && empty($data['profile_image_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirmPassword_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])
             ) {
                 // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -181,7 +181,7 @@ class Users extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //form is submitting
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
@@ -243,12 +243,12 @@ class Users extends Controller
     public function createUserSession($user)
     {
         $_SESSION['user_id'] = $user->user_id;
-        $_SESSION['user_photo']=$user->user_photo;
+        $_SESSION['user_photo'] = $user->user_photo;
         $_SESSION['user_email'] = $user->user_email;
         $_SESSION['user_name'] = $user->user_name;
         $_SESSION['user_role'] = $user->user_role;
-        $_SESSION['user_address']=$user->user_address;
-        $_SESSION['user_phone']=$user->user_phone;
+        $_SESSION['user_address'] = $user->user_address;
+        $_SESSION['user_phone'] = $user->user_phone;
 
         if ($_SESSION['user_role'] === 'parent') {
             redirect('Pages/parentView'); // Parent view
@@ -334,8 +334,8 @@ class Users extends Controller
     public function edit_profile()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
+            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
+
             $data = [
                 'user_id' => $_SESSION['user_id'], // get current logged-in user ID
                 'name' => trim($_POST['name']),
@@ -343,7 +343,7 @@ class Users extends Controller
                 'confirmPassword' => trim($_POST['confirmPassword']),
                 'address' => trim($_POST['address']),
                 'contactNumber' => trim($_POST['contactNumber']),
-    
+
                 // error messages
 
                 'name_err' => '',
@@ -352,40 +352,42 @@ class Users extends Controller
                 'address_err' => '',
                 'contactNumber_err' => ''
             ];
-    
-    
+
+
             // Name validation
             if (empty($data['name'])) {
                 $data['name_err'] = 'Please enter a name';
             }
-    
+
             // Address validation
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter your address';
             }
-    
+
             // Contact number validation (Sri Lankan format)
             if (empty($data['contactNumber'])) {
                 $data['contactNumber_err'] = 'Please enter your contact number';
             } elseif (!preg_match('/^07[0-9]{8}$/', $data['contactNumber'])) {
                 $data['contactNumber_err'] = 'Invalid phone number format';
             }
-    
+
             // Password validation (if user entered something)
             if (!empty($data['password']) || !empty($data['confirmPassword'])) {
-                if (strlen($data['password']) < 8 ||
+                if (
+                    strlen($data['password']) < 8 ||
                     !preg_match('/[A-Z]/', $data['password']) ||
                     !preg_match('/[a-z]/', $data['password']) ||
                     !preg_match('/\d/', $data['password']) ||
-                    !preg_match('/[\W]/', $data['password'])) {
+                    !preg_match('/[\W]/', $data['password'])
+                ) {
                     $data['password_err'] = 'Password must be 8+ chars and include uppercase, lowercase, digit, and special char';
                 }
-    
+
                 if ($data['password'] !== $data['confirmPassword']) {
                     $data['confirmPassword_err'] = 'Passwords do not match';
                 }
             }
-    
+
             // If no errors
             if (
                 empty($data['name_err']) &&
@@ -399,15 +401,15 @@ class Users extends Controller
                 } else {
                     $data['password'] = null; // signal to model that password isn't changing
                 }
-                $newdata=$this->userModel->updateUserProfile($data);
-    
+                $newdata = $this->userModel->updateUserProfile($data);
+
                 // Update user
                 if ($newdata) {
                     // Update session data
                     $_SESSION['user_name'] = $data['name'];
                     $_SESSION['user_address'] = $data['address'];
                     $_SESSION['user_phone'] = $data['contactNumber'];
-    
+
                     flash('profile_flash', 'Profile updated successfully');
                     redirect('users/loadProfile'); // or wherever the profile page is
                 } else {
@@ -417,7 +419,6 @@ class Users extends Controller
 
                 // Load the same profile form with errors
                 $this->view('users/v_userprofile', $data);
-
             }
         } else {
             // Not POST request
@@ -438,5 +439,4 @@ class Users extends Controller
             $this->view('users/v_userprofile', $data);
         }
     }
-
 }

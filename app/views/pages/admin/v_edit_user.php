@@ -15,19 +15,19 @@
         <form class="edit-user-form" action="<?php echo URLROOT; ?>/admin/updateUser/<?php echo $data['user_id']; ?>" method="post">
 
             <label for="name">Name: <sup>*</sup></label>
-            <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($data['name']); ?>" required>
+            <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($data['name'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['name_err']; ?></span>
 
             <label for="email">Email: <sup>*</sup></label>
-            <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($data['email']); ?>" required>
+            <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($data['email'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['email_err']; ?></span>
 
             <label for="address">Address: <sup>*</sup></label>
-            <input type="text" name="address" id="address" value="<?php echo htmlspecialchars($data['address']); ?>" required>
+            <input type="text" name="address" id="address" value="<?php echo htmlspecialchars($data['address'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['address_err']; ?></span>
 
             <label for="contactNumber">Contact Number: <sup>*</sup></label>
-            <input type="tel" name="contactNumber" id="contactNumber" value="<?php echo htmlspecialchars($data['contactNumber']); ?>" required pattern="07[0-9]{8}" title="Format: 07XXXXXXXX">
+            <input type="tel" name="contactNumber" id="contactNumber" value="<?php echo htmlspecialchars($data['contactNumber'] ?? ''); ?>" required pattern="07[0-9]{8}" title="Format: 07XXXXXXXX">
             <span class="form-invalid"><?php echo $data['contactNumber_err']; ?></span>
 
             <button type="submit" class="btn btn-update">Save Changes</button>
