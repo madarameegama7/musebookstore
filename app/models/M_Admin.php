@@ -31,6 +31,94 @@ class M_Admin
         return $this->db->resultSet();
     }
 
+    // Get all users with their verification status
+    public function getAllUsersWithVerificationStatus($filter = null)
+    {
+        $sql = 'SELECT * FROM user';
+
+        // Apply filter if provided
+        if ($filter === 'verified') {
+            $sql .= ' WHERE user_is_verified = 1';
+        } elseif ($filter === 'unverified') {
+            $sql .= ' WHERE user_is_verified = 0';
+        }
+
+        $sql .= ' ORDER BY user_id DESC';
+
+        $this->db->query($sql);
+        return $this->db->resultSet();
+    }
+
+    // Search users with verification status filter
+    public function searchUsersWithVerificationStatus($searchTerm, $filter = null)
+    {
+        $sql = 'SELECT * FROM user WHERE 
+                (user_name LIKE :searchTerm OR 
+                user_email LIKE :searchTerm OR 
+                user_id LIKE :searchTerm)';
+
+        // Apply filter if provided
+        if ($filter === 'verified') {
+            $sql .= ' AND user_is_verified = 1';
+        } elseif ($filter === 'unverified') {
+            $sql .= ' AND user_is_verified = 0';
+        }
+
+        $sql .= ' ORDER BY user_id DESC';
+
+        $this->db->query($sql);
+        $this->db->bind(':searchTerm', '%' . $searchTerm . '%');
+        return $this->db->resultSet();
+    }
+
+    // Mark a user as verified
+    public function verifyUser($userId)
+    {
+        $this->db->query('UPDATE user SET user_is_verified = 1, user_otp = NULL, user_otp_expires = NULL WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $userId);
+        return $this->db->execute();
+    }
+
+    // Mark a user as unverified
+    public function unverifyUser($userId)
+    {
+        $this->db->query('UPDATE user SET user_is_verified = 0 WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $userId);
+        return $this->db->execute();
+    }
+
+    // Generate and save a new OTP for a user
+    public function generateNewOTP($userId)
+    {
+        // Get user data first
+        $this->db->query('SELECT * FROM user WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $userId);
+        $user = $this->db->single();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Generate new OTP
+        $otp = sprintf("%06d", mt_rand(100000, 999999));
+        $otp_expires = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+
+        // Save OTP to database
+        $this->db->query('UPDATE user SET user_otp = :otp, user_otp_expires = :otp_expires WHERE user_id = :user_id');
+        $this->db->bind(':otp', $otp);
+        $this->db->bind(':otp_expires', $otp_expires);
+        $this->db->bind(':user_id', $userId);
+
+        if ($this->db->execute()) {
+            return [
+                'otp' => $otp,
+                'user' => $user
+            ];
+        } else {
+            return false;
+        }
+    }
+
     // Get all books with owner details
     public function getAllBooks()
     {

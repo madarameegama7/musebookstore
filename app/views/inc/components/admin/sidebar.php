@@ -9,6 +9,7 @@
             <li><a href="<?php echo URLROOT; ?>/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="<?php echo URLROOT; ?>/admin/analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
             <li><a href="<?php echo URLROOT; ?>/admin/manageUsers"><i class="fas fa-users"></i> Manage Users</a></li>
+            <li><a href="<?php echo URLROOT; ?>/admin/manageVerification"><i class="fas fa-user-check"></i> User Verification</a></li>
             <li><a href="<?php echo URLROOT; ?>/admin/addUser"><i class="fas fa-user-plus"></i> Add User</a></li>
             <li><a href="<?php echo URLROOT; ?>/admin/manageBooks"><i class="fas fa-book"></i> Manage Books</a></li>
             <li><a href="<?php echo URLROOT; ?>/admin/createBook"><i class="fas fa-plus-square"></i> Add Book</a></li>

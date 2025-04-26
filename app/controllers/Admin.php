@@ -1321,4 +1321,127 @@ class Admin extends Controller
         }
         redirect('admin/manageEvents');
     }
+
+    /**
+     * Manage User Verification page
+     * Shows all users with verification status and options to verify/unverify
+     */
+    public function manageVerification()
+    {
+        // Handle search and filter parameters
+        $searchTerm = $_GET['search'] ?? null;
+        $filter = $_GET['filter'] ?? null;
+        $users = [];
+
+        if ($searchTerm) {
+            $searchTerm = trim(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING));
+            // Only search if the trimmed term is not empty
+            if (!empty($searchTerm)) {
+                $users = $this->adminModel->searchUsersWithVerificationStatus($searchTerm, $filter);
+            } else {
+                // If search term is empty after trimming, show filtered users
+                $users = $this->adminModel->getAllUsersWithVerificationStatus($filter);
+                $searchTerm = null; // Reset searchTerm
+            }
+        } else {
+            // No search term, get all users (with optional filter)
+            $users = $this->adminModel->getAllUsersWithVerificationStatus($filter);
+        }
+
+        $data = [
+            'title' => 'Manage User Verification',
+            'users' => $users,
+            'searchTerm' => $searchTerm,
+            'filter' => $filter
+        ];
+
+        $this->view('pages/admin/v_manage_verification', $data);
+    }
+
+    /**
+     * Manually verify a user (admin action)
+     * 
+     * @param int $userId User ID to verify
+     */
+    public function verifyUser($userId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $user = $this->adminModel->getUserById($userId);
+
+            if (!$user) {
+                flash('admin_msg', 'User not found.', 'alert alert-danger');
+                redirect('admin/manageVerification');
+                return;
+            }
+
+            if ($this->adminModel->verifyUser($userId)) {
+                flash('admin_msg', 'User verified successfully.', 'alert alert-success');
+            } else {
+                flash('admin_msg', 'Failed to verify user.', 'alert alert-danger');
+            }
+
+            redirect('admin/manageVerification');
+        } else {
+            redirect('admin/manageVerification');
+        }
+    }
+
+    /**
+     * Mark a user as unverified (admin action)
+     * 
+     * @param int $userId User ID to unverify
+     */
+    public function unverifyUser($userId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $user = $this->adminModel->getUserById($userId);
+
+            if (!$user) {
+                flash('admin_msg', 'User not found.', 'alert alert-danger');
+                redirect('admin/manageVerification');
+                return;
+            }
+
+            if ($this->adminModel->unverifyUser($userId)) {
+                flash('admin_msg', 'User marked as unverified.', 'alert alert-success');
+            } else {
+                flash('admin_msg', 'Failed to update user status.', 'alert alert-danger');
+            }
+
+            redirect('admin/manageVerification');
+        } else {
+            redirect('admin/manageVerification');
+        }
+    }
+
+    /**
+     * Generate and send a new OTP for a user (admin action)
+     * 
+     * @param int $userId User ID to generate OTP for
+     */
+    public function resendOTP($userId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Generate new OTP for the user
+            $result = $this->adminModel->generateNewOTP($userId);
+
+            if ($result) {
+                // Send OTP email
+                require_once APPROOT . '/helpers/Email_Helper.php';
+                $emailSent = Email_Helper::sendOTP($result['user']->user_email, $result['user']->user_name, $result['otp']);
+
+                if ($emailSent) {
+                    flash('admin_msg', 'OTP generated and sent to user.', 'alert alert-success');
+                } else {
+                    flash('admin_msg', 'OTP generated but email sending failed. OTP: ' . $result['otp'], 'alert alert-warning');
+                }
+            } else {
+                flash('admin_msg', 'Failed to generate new OTP.', 'alert alert-danger');
+            }
+
+            redirect('admin/manageVerification');
+        } else {
+            redirect('admin/manageVerification');
+        }
+    }
 }

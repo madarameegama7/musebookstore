@@ -139,14 +139,31 @@ class Users extends Controller
                 // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                //Register user
-                if ($this->userModel->registerUser($data)) {
+                // Generate OTP and set expiry time (15 minutes from now)
+                require_once APPROOT . '/helpers/Email_Helper.php';
+                $data['otp'] = Email_Helper::generateOTP();
+                $data['otp_expires'] = date('Y-m-d H:i:s', strtotime('+15 minutes'));
 
-                    //create a flash message
-                    flash('reg_flash', 'You are suceesfully regsitered!');
-                    redirect('users/login');
+                // Register user
+                if ($this->userModel->registerUser($data)) {
+                    // Send OTP email
+                    $emailSent = Email_Helper::sendOTP($data['email'], $data['name'], $data['otp']);
+
+                    if ($emailSent) {
+                        // Redirect to OTP verification page
+                        $verifyData = [
+                            'email' => $data['email'],
+                            'otp' => '',
+                            'otp_err' => ''
+                        ];
+
+                        $this->view('users/v_verify_otp', $verifyData);
+                    } else {
+                        flash('reg_flash', 'Registration successful but failed to send verification email. Please contact support.', 'alert alert-warning');
+                        redirect('users/login');
+                    }
                 } else {
-                    redirect('users/signup');
+                    die('Something went wrong with registration');
                 }
             } else {
                 //load view
@@ -211,7 +228,18 @@ class Users extends Controller
                 //log the user
                 $loggedUser = $this->userModel->login($data['email'], $data['password']);
 
-                if ($loggedUser) {
+                if ($loggedUser === 'not_verified') {
+                    // User exists but is not verified
+                    flash('login_err', 'Please verify your email before logging in', 'alert alert-warning');
+
+                    // Redirect to OTP verification page
+                    $verifyData = [
+                        'email' => $data['email'],
+                        'otp' => '',
+                        'otp_err' => ''
+                    ];
+                    $this->view('users/v_verify_otp', $verifyData);
+                } elseif ($loggedUser) {
                     //user is authenticated
                     //create user session
                     $this->createUserSession($loggedUser);
@@ -437,6 +465,92 @@ class Users extends Controller
             ];
             flash('profile_flash', 'Profile updated successfully');
             $this->view('users/v_userprofile', $data);
+        }
+    }
+
+    /**
+     * Verify OTP code sent to user's email
+     */
+    public function verify_otp()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Get form data
+            $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
+
+            $data = [
+                'email' => trim($_POST['email']),
+                'otp' => trim($_POST['otp']),
+                'otp_err' => ''
+            ];
+
+            // Validate OTP
+            if (empty($data['otp'])) {
+                $data['otp_err'] = 'Please enter the verification code';
+                $this->view('users/v_verify_otp', $data);
+                return;
+            }
+
+            // Check if OTP is valid
+            if ($this->userModel->verifyOTP($data['email'], $data['otp'])) {
+                // OTP verification successful
+                flash('reg_flash', 'Your account has been verified successfully. You can now log in.', 'alert alert-success');
+                redirect('users/login');
+            } else {
+                // Invalid or expired OTP
+                $data['otp_err'] = 'Invalid or expired verification code';
+                $this->view('users/v_verify_otp', $data);
+            }
+        } else {
+            // If accessed directly without form submission, redirect to login
+            redirect('users/login');
+        }
+    }
+
+    /**
+     * Resend OTP to user's email
+     */
+    public function resend_otp()
+    {
+        // Check if email exists in the query string
+        if (isset($_GET['email'])) {
+            $email = filter_var($_GET['email'], FILTER_SANITIZE_EMAIL);
+
+            // Check if email exists and is unverified
+            $user = $this->userModel->getUnverifiedUserByEmail($email);
+
+            if ($user) {
+                // Generate new OTP and update expiry time
+                require_once APPROOT . '/helpers/Email_Helper.php';
+                $otp = Email_Helper::generateOTP();
+                $otp_expires = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+
+                // Update OTP in database
+                if ($this->userModel->resendOTP($email, $otp, $otp_expires)) {
+                    // Send OTP email
+                    $emailSent = Email_Helper::sendOTP($email, $user->user_name, $otp);
+
+                    if ($emailSent) {
+                        flash('otp_msg', 'A new verification code has been sent to your email address.', 'alert alert-success');
+                    } else {
+                        flash('otp_msg', 'Failed to send verification email. Please try again.', 'alert alert-danger');
+                    }
+                } else {
+                    flash('otp_msg', 'Failed to generate new verification code. Please try again.', 'alert alert-danger');
+                }
+            } else {
+                flash('otp_msg', 'Invalid email address or account already verified.', 'alert alert-danger');
+            }
+
+            // Redirect back to the verification page
+            $data = [
+                'email' => $email,
+                'otp' => '',
+                'otp_err' => ''
+            ];
+            $this->view('users/v_verify_otp', $data);
+        } else {
+            // If no email provided, redirect to login
+            redirect('users/login');
         }
     }
 }
