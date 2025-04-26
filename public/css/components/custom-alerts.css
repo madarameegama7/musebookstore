@@ -1,0 +1,101 @@
+.custom-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999 !important;
+}
+
+.custom-alert-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-alert {
+    background-color: #fff !important; /* Keep important for now if needed */
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    max-width: 400px;
+    width: 100%;
+    padding: 25px;
+    text-align: center;
+    z-index: 100000 !important;
+    border: 3px solid #333;
+    color: #222 !important; /* Keep important for now if needed */
+    position: relative;
+    display: block !important; /* Ensure it's displayed as a block */
+    opacity: 1 !important; /* Re-add forced opacity */
+    visibility: visible !important; /* Re-add forced visibility */
+}
+
+.custom-alert-icon {
+    margin-bottom: 15px;
+    font-size: 60px;
+    line-height: 1;
+}
+
+.custom-alert-icon.success {
+    color: #4CAF50;
+}
+
+.custom-alert-icon.error {
+    color: #F44336;
+}
+
+.custom-alert-icon.warning {
+    color: #FFC107;
+}
+
+.custom-alert-icon.info {
+    color: #2196F3;
+}
+
+.custom-alert-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.custom-alert-message {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.custom-alert-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.custom-alert-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.custom-alert-btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.custom-alert-btn-primary:hover {
+    background-color: #3e8e41;
+}
+
+.custom-alert-btn-cancel {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.custom-alert-btn-cancel:hover {
+    background-color: #ddd;
+}
