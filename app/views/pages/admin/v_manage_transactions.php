@@ -1,11 +1,12 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/admin_style.css">
 <div class="admin-container">
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
     <main class="admin-main-content">
         <h1><?php echo $data['title']; ?></h1>
         <?php flash('admin_msg'); ?>
-        <table>
+        <table class="admin-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -32,14 +33,14 @@
                             <td>
                                 <?php if ($t->status === 'pending'): ?>
                                     <form action="<?php echo URLROOT; ?>/admin/approveTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;">
-                                        <button type="submit" class="btn-update">Approve</button>
+                                        <button type="submit" class="btn btn-update">Approve</button>
                                     </form>
                                     <form action="<?php echo URLROOT; ?>/admin/declineTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;">
-                                        <button type="submit" class="btn-delete">Decline</button>
+                                        <button type="submit" class="btn btn-delete">Decline</button>
                                     </form>
                                 <?php endif; ?>
                                 <form action="<?php echo URLROOT; ?>/admin/deleteTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
-                                    <button type="submit" class="btn-delete">Delete</button>
+                                    <button type="submit" class="btn btn-delete">Delete</button>
                                 </form>
                             </td>
                         </tr>

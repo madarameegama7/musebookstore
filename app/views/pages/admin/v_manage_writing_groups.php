@@ -9,19 +9,15 @@
         <?php flash('admin_msg'); ?>
         <section style="margin-bottom: 30px;">
             <h2>Add Writing Group</h2>
-            <form action="<?php echo URLROOT; ?>/admin/addWritingGroup" method="post" class="admin-form" style="max-width: 600px;">
-                <label>Name:
-                    <input type="text" name="writingGroup_name" maxlength="255" required>
-                </label>
-                <label>Description:
-                    <textarea name="writingGroup_description" rows="4" required></textarea>
-                </label>
-                <label>Community ID:
-                    <input type="number" name="community_id" min="1" required>
-                </label>
-                <label>Image Path (optional):
-                    <input type="text" name="image_path" placeholder="e.g., public/img/community/group.jpg">
-                </label>
+            <form action="<?php echo URLROOT; ?>/admin/addWritingGroup" method="post" class="admin-form">
+                <label for="writingGroup_name">Name:</label>
+                <input type="text" id="writingGroup_name" name="writingGroup_name" maxlength="255" required>
+                <label for="writingGroup_description">Description:</label>
+                <textarea id="writingGroup_description" name="writingGroup_description" rows="4" required></textarea>
+                <label for="community_id">Community ID:</label>
+                <input type="number" id="community_id" name="community_id" min="1" required>
+                <label for="image_path">Image Path (optional):</label>
+                <input type="text" id="image_path" name="image_path" placeholder="e.g., public/img/community/group.jpg">
                 <button type="submit" class="btn btn-update">Add Group</button>
             </form>
         </section>
@@ -61,7 +57,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
-        <a href="<?php echo URLROOT; ?>/admin" class="btn">Back to Dashboard</a>
+        <a href="<?php echo URLROOT; ?>/admin" class="btn btn-back">Back to Dashboard</a>
     </main>
 </div>
 <?php require APPROOT . '/views/inc/footer.php'; ?>

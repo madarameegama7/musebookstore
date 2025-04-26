@@ -1,8 +1,8 @@
 /* Basic Sidebar Styling */
-.sidebar {
+.admin-sidebar { /* Changed from .sidebar to avoid conflicts */
     width: 250px;
-    background-color: #2c3e50; /* Dark blue background */
-    color: #ecf0f1; /* Light text color */
+    background-color: #3a3b45; /* Darker background for contrast */
+    color: #adb5bd; /* Lighter grey text */
     height: 100vh; /* Full height */
     position: fixed; /* Fixed position */
     top: 0;
@@ -10,73 +10,109 @@
     padding-top: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     z-index: 1000; /* Ensure sidebar is above other content */
+    display: flex; /* Use flexbox for vertical alignment */
+    flex-direction: column; /* Stack items vertically */
 }
 
-.sidebar .logo-container {
+.admin-sidebar .logo-container {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Reduced margin */
     padding: 10px;
 }
 
-.sidebar .logo-container img {
-    max-width: 80%;
+.admin-sidebar .logo-container img {
+    max-width: 70%; /* Slightly smaller logo */
     height: auto;
 }
 
-.sidebar nav ul {
+.admin-sidebar nav {
+    flex-grow: 1; /* Allow nav to fill remaining space */
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.admin-sidebar nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.sidebar nav ul li {
-    padding: 12px 20px;
-    border-bottom: 1px solid #34495e; /* Slightly lighter border */
-    transition: background-color 0.3s ease;
+.admin-sidebar nav ul li {
+    /* Removed border-bottom for cleaner look */
+    margin: 0; /* Remove default margin */
 }
 
-.sidebar nav ul li:last-child {
-    border-bottom: none; /* Remove border for the last item */
-}
-
-.sidebar nav ul li a {
-    color: #ecf0f1; /* Light link color */
+.admin-sidebar nav ul li a {
+    color: #adb5bd; /* Lighter grey link color */
     text-decoration: none;
-    display: block; /* Make the entire area clickable */
-    font-size: 16px;
+    display: flex; /* Use flex for icon alignment */
+    align-items: center; /* Center items vertically */
+    padding: 12px 20px; /* Consistent padding */
+    font-size: 0.95rem; /* Slightly adjusted font size */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transition */
+    border-left: 3px solid transparent; /* For active state indicator */
 }
 
-.sidebar nav ul li a i {
-    margin-right: 10px; /* Space between icon and text */
+.admin-sidebar nav ul li a i {
+    margin-right: 12px; /* Space between icon and text */
     width: 20px; /* Fixed width for icons */
     text-align: center;
+    font-size: 1rem; /* Adjust icon size */
+    color: #858796; /* Slightly darker icon color */
+    transition: color 0.2s ease;
 }
 
-.sidebar nav ul li:hover,
-.sidebar nav ul li.active {
-    background-color: #34495e; /* Slightly lighter background on hover/active */
+.admin-sidebar nav ul li:hover a,
+.admin-sidebar nav ul li.active a { /* Assuming an 'active' class is added */
+    background-color: #4e73df; /* Use admin primary color */
+    color: #ffffff; /* White text on hover/active */
+    border-left-color: #ffffff; /* White indicator */
 }
 
-.sidebar nav ul li a:hover {
-    color: #ffffff; /* White text on hover */
+.admin-sidebar nav ul li:hover a i,
+.admin-sidebar nav ul li.active a i {
+    color: #ffffff; /* White icon on hover/active */
 }
+
 
 /* Ensure main content doesn't overlap */
-.main-content {
-    margin-left: 250px; /* Same as sidebar width */
+/* This is handled by .admin-main-content in admin_style.css */
+/* .admin-main-content {
+    margin-left: 250px;
     padding: 20px;
-    width: calc(100% - 250px); /* Adjust width */
-}
+    width: calc(100% - 250px);
+} */
 
-/* Responsive adjustments (optional) */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .sidebar {
+    .admin-sidebar {
         width: 100%;
         height: auto;
-        position: relative;
+        position: relative; /* Change to relative for mobile */
+        box-shadow: none;
+        border-bottom: 1px solid var(--admin-border-color);
     }
-    .main-content {
+    .admin-main-content {
         margin-left: 0;
         width: 100%;
+    }
+    .admin-sidebar .logo-container {
+        display: none; /* Hide logo on small screens */
+    }
+    .admin-sidebar nav ul {
+        display: flex; /* Horizontal layout for mobile */
+        overflow-x: auto; /* Allow horizontal scrolling */
+    }
+    .admin-sidebar nav ul li {
+        flex-shrink: 0; /* Prevent items from shrinking */
+    }
+    .admin-sidebar nav ul li a {
+        padding: 10px 15px;
+        border-left: none; /* Remove left border */
+        border-bottom: 3px solid transparent; /* Use bottom border for active state */
+    }
+    .admin-sidebar nav ul li:hover a,
+    .admin-sidebar nav ul li.active a {
+        border-left-color: transparent; /* Remove left border */
+        border-bottom-color: #ffffff; /* White bottom indicator */
     }
 }

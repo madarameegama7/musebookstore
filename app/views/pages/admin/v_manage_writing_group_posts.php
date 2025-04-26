@@ -1,7 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/admin_style.css">
-<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/components/button.css">
 <div class="admin-container">
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
     <main class="admin-main-content">
@@ -9,19 +8,15 @@
         <?php flash('admin_msg'); ?>
         <section style="margin-bottom: 30px;">
             <h2>Add Writing Group Post</h2>
-            <form action="<?php echo URLROOT; ?>/admin/addWritingGroupPost" method="post" class="admin-form" style="max-width: 600px;">
-                <label>Writing Group ID:
-                    <input type="number" name="writingGroup_id" min="1" required>
-                </label>
-                <label>Community Member ID:
-                    <input type="number" name="community_member_id" min="1" required>
-                </label>
-                <label>Chapter Title:
-                    <input type="text" name="chapter_title" maxlength="255" required>
-                </label>
-                <label>Chapter Content:
-                    <textarea name="chapter_content" rows="6" required></textarea>
-                </label>
+            <form action="<?php echo URLROOT; ?>/admin/addWritingGroupPost" method="post" class="admin-form">
+                <label for="writingGroup_id">Writing Group ID:</label>
+                <input type="number" id="writingGroup_id" name="writingGroup_id" min="1" required>
+                <label for="community_member_id">Community Member ID:</label>
+                <input type="number" id="community_member_id" name="community_member_id" min="1" required>
+                <label for="chapter_title">Chapter Title:</label>
+                <input type="text" id="chapter_title" name="chapter_title" maxlength="255" required>
+                <label for="chapter_content">Chapter Content:</label>
+                <textarea id="chapter_content" name="chapter_content" rows="6" required></textarea>
                 <button type="submit" class="btn btn-update">Add Post</button>
             </form>
         </section>
@@ -63,7 +58,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
-        <a href="<?php echo URLROOT; ?>/admin" class="btn">Back to Dashboard</a>
+        <a href="<?php echo URLROOT; ?>/admin" class="btn btn-back">Back to Dashboard</a>
     </main>
 </div>
 <?php require APPROOT . '/views/inc/footer.php'; ?>

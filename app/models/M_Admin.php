@@ -546,4 +546,111 @@ class M_Admin
         $this->db->bind(':postId', $postId);
         return $this->db->execute();
     }
+
+    // Get user count by role
+    public function getUserCountByRole($role)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM user WHERE user_role = :role');
+        $this->db->bind(':role', $role);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of users registered in a specific month and year
+    public function getUsersRegisteredInMonth($month, $year)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM user WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get books by status (available, swapped, sold)
+    public function getBookCountByStatus($status)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM book WHERE book_status = :status');
+        $this->db->bind(':status', $status);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of books added in a specific month and year
+    public function getBooksAddedInMonth($month, $year)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM book WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of transactions by type (sell, swap)
+    public function getTransactionCountByType($type)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM transaction WHERE type = :type');
+        $this->db->bind(':type', $type);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of transactions by status (pending, approved, declined, completed)
+    public function getTransactionCountByStatus($status)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM transaction WHERE status = :status');
+        $this->db->bind(':status', $status);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get the sum of all payments received
+    public function getTotalPaymentsReceived()
+    {
+        $this->db->query('SELECT SUM(amount) as total FROM payment');
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get the sum of payments received in a specific month and year
+    public function getPaymentsReceivedInMonth($month, $year)
+    {
+        $this->db->query('SELECT SUM(amount) as total FROM payment WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get the sum of all tokens purchased
+    public function getTotalTokensPurchased()
+    {
+        $this->db->query('SELECT SUM(token_count) as total FROM token');
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get the sum of tokens purchased in a specific month and year
+    public function getTokensPurchasedInMonth($month, $year)
+    {
+        $this->db->query('SELECT SUM(token_count) as total FROM token WHERE MONTH(purchase_date) = :month AND YEAR(purchase_date) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get all payments with user details
+    public function getAllPayments()
+    {
+        $this->db->query('SELECT p.*, u.user_name FROM payment p JOIN user u ON p.user_id = u.user_id ORDER BY p.created_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a payment record by ID
+    public function deletePaymentById($paymentId)
+    {
+        $this->db->query('DELETE FROM payment WHERE payment_id = :payment_id');
+        $this->db->bind(':payment_id', $paymentId);
+        return $this->db->execute();
+    }
 }

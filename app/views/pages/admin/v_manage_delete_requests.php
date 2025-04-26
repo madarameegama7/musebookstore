@@ -1,5 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/admin_style.css">
 <div class="admin-container">
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
     <main class="admin-main-content">
@@ -44,7 +45,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
-        <a href="<?php echo URLROOT; ?>/admin" class="btn">Back to Dashboard</a>
+        <a href="<?php echo URLROOT; ?>/admin" class="btn btn-back">Back to Dashboard</a>
     </main>
 </div>
 <?php require APPROOT . '/views/inc/footer.php'; ?>

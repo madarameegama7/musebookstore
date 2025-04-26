@@ -37,17 +37,71 @@ class Admin extends Controller
     // Analytics Dashboard
     public function analytics()
     {
-        // Fetch data needed for analytics (start with basic counts)
+        // Get current month and year for "this month" metrics
+        $currentMonth = date('n'); // 1-12
+        $currentYear = date('Y');
+
+        // Basic counts
         $userCount = $this->adminModel->getUserCount();
         $bookCount = $this->adminModel->getBookCount();
-        // Add more complex data fetching later (e.g., signups per month, listings per category)
+        
+        // User role breakdown
+        $adminCount = $this->adminModel->getUserCountByRole('admin');
+        $parentCount = $this->adminModel->getUserCountByRole('parent');
+        $childCount = $this->adminModel->getUserCountByRole('child');
+        $ambassadorCount = $this->adminModel->getUserCountByRole('ambassador');
+        
+        // New users this month
+        $newUsersThisMonth = $this->adminModel->getUsersRegisteredInMonth($currentMonth, $currentYear);
+        
+        // Book status breakdown - using the book_status from your database
+        $availableBooks = $this->adminModel->getBookCountByStatus('available');
+        $swappedBooks = $this->adminModel->getBookCountByStatus('swapped');
+        $soldBooks = $this->adminModel->getBookCountByStatus('sold');
+        
+        // New books this month
+        $newBooksThisMonth = $this->adminModel->getBooksAddedInMonth($currentMonth, $currentYear);
+        
+        // Transaction data
+        $sellTransactions = $this->adminModel->getTransactionCountByType('sell');
+        $swapTransactions = $this->adminModel->getTransactionCountByType('swap');
+        $pendingTransactions = $this->adminModel->getTransactionCountByStatus('pending');
+        $approvedTransactions = $this->adminModel->getTransactionCountByStatus('approved');
+        $completedTransactions = $this->adminModel->getTransactionCountByStatus('completed');
+        
+        // Payment data
+        $totalPayments = $this->adminModel->getTotalPaymentsReceived();
+        $paymentsThisMonth = $this->adminModel->getPaymentsReceivedInMonth($currentMonth, $currentYear);
+        
+        // Token data
+        $totalTokens = $this->adminModel->getTotalTokensPurchased();
+        $tokensThisMonth = $this->adminModel->getTokensPurchasedInMonth($currentMonth, $currentYear);
 
         $data = [
             'title' => 'Site Analytics',
             'userCount' => $userCount,
             'bookCount' => $bookCount,
-            // Add other analytics data here
+            'adminCount' => $adminCount,
+            'parentCount' => $parentCount,
+            'childCount' => $childCount,
+            'ambassadorCount' => $ambassadorCount,
+            'newUsersThisMonth' => $newUsersThisMonth,
+            'availableBooks' => $availableBooks,
+            'swappedBooks' => $swappedBooks,
+            'soldBooks' => $soldBooks,
+            'newBooksThisMonth' => $newBooksThisMonth,
+            'sellTransactions' => $sellTransactions,
+            'swapTransactions' => $swapTransactions,
+            'pendingTransactions' => $pendingTransactions,
+            'approvedTransactions' => $approvedTransactions,
+            'completedTransactions' => $completedTransactions,
+            'totalPayments' => $totalPayments,
+            'paymentsThisMonth' => $paymentsThisMonth,
+            'totalTokens' => $totalTokens,
+            'tokensThisMonth' => $tokensThisMonth,
+            'currentMonth' => date('F Y') // Month name and year for display
         ];
+        
         $this->view('pages/admin/v_analytics', $data);
     }
 
