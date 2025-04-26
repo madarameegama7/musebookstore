@@ -31,9 +31,6 @@
 
         <div class="community-blog-section">
             <h2 class="community-page-subtitle">Community Articles</h2>
-
-            <a href="<?php echo URLROOT; ?>/communities/createPost/<?php echo $data['community']->communityId; ?>" class="community-btn create-blog-btn">Create New Post</a>
-
             <?php if (!empty($data['posts'])): ?>
                 <div class="community-posts-list">
                     <?php foreach ($data['posts'] as $post): ?>

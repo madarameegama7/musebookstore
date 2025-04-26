@@ -319,5 +319,12 @@ public function joinCommunity($communityId){
     return $this->db->execute();
 
 }
+
+public function getPosts($communityId) {
+    $this->db->query("SELECT * FROM posts WHERE community_id = :community_id ORDER BY created_at DESC");
+    $this->db->bind(':community_id', $communityId);
+    return $this->db->resultSet();
+}
+
 }
 ?>

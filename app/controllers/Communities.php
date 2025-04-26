@@ -774,6 +774,95 @@ public function joinCommunity($communityId){
     }
 }
 
+
+public function viewCommunityPosts($communityId) {
+    $posts = $this->communityModel->getPostsByCommunity($communityId);
+    $community = $this->communityModel->getCommunityById($communityId);
+
+    if (!$community) {
+        $data = ['error' => 'Community not found'];
+    } else {
+        $data = [
+            'community' => $community,
+            'posts' => $posts
+        ];
+    }
+
+    $this->view('pages/parent/v_communityPosts', $data);
     
+}
+
+public function createCommunityPost($communityId) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        if (!isset($_SESSION['user_id'])) {
+            die('User is not logged in.');
+        }
+
+        $userId = $_SESSION['user_id'];
+
+        $memberRecord = $this->communityModel->getCommunityMemberId($userId, $communityId);
+
+        if (!$memberRecord) {
+            die('You are not a member of this community.');
+        }
+
+        $communityMemberId = $memberRecord->community_member_id;
+
+        $data = [
+            'title' => trim($_POST['title']),
+            'content' => trim($_POST['content']),
+            'community_id' => $communityId,
+            'community_member_id' => $communityMemberId,
+            'title_err' => '',
+            'content_err' => ''
+        ];
+
+        if (empty($data['title'])) {
+            $data['title_err'] = 'Please enter a title.';
+        }
+
+        if (empty($data['content'])) {
+            $data['content_err'] = 'Please enter content.';
+        }
+
+        if (empty($data['title_err']) && empty($data['content_err'])) {
+            if ($this->communityModel->createPost($data)) {
+                header("Location: " . URLROOT . "/communities/viewCommunityPosts/" . $communityId);
+                exit;
+            } else {
+                die('Failed to create post.');
+            }
+        } else {
+            $this->view('pages/parent/v_createCommunityPosts', $data);
+        }
+    } else {
+        $data = [
+            'title' => '',
+            'content' => '',
+            'community_id' => $communityId,
+            'community_member_id' => '', 
+            'title_err' => '',
+            'content_err' => ''
+        ];
+        $this->view('pages/parent/v_createCommunityPosts', $data);
+    }
+}
+
+public function viewCommunitySinglePost($postId) {
+    $post = $this->communityModel->getPostById($postId);
+
+    if ($post) {
+        $data = ['post' => $post];
+        $this->view('pages/parent/v_singlePost', $data);
+    } else {
+        $data = ['error' => 'Post not found'];
+        $this->view('pages/parent/v_singlePost', $data);
+    }
+}
+
+
+
 }
 ?>
