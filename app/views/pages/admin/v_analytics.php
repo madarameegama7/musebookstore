@@ -9,70 +9,121 @@
         gap: 20px;
         margin-bottom: 30px;
     }
-    
+
     .stat-section {
         width: 100%;
         margin-bottom: 30px;
     }
-    
+
     .stat-section h2 {
         margin-bottom: 15px;
         padding-bottom: 5px;
         border-bottom: 2px solid #6c5ce7;
         color: #2d3436;
     }
-    
+
     .stats-container {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
     }
-    
+
     .stat-card {
         background-color: white;
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         flex: 1 1 200px;
         min-width: 200px;
         text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
+
     .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
-    
+
     .stat-card h3 {
         font-size: 1rem;
         color: #636e72;
         margin-bottom: 10px;
     }
-    
+
     .stat-card p {
         font-size: 2rem;
         font-weight: bold;
         color: #6c5ce7;
         margin: 0;
     }
-    
-    .stat-card.users { border-top: 4px solid #6c5ce7; }
-    .stat-card.books { border-top: 4px solid #00b894; }
-    .stat-card.transactions { border-top: 4px solid #0984e3; }
-    .stat-card.payments { border-top: 4px solid #fdcb6e; }
-    .stat-card.tokens { border-top: 4px solid #e84393; }
-    
-    .stat-card.users p { color: #6c5ce7; }
-    .stat-card.books p { color: #00b894; }
-    .stat-card.transactions p { color: #0984e3; }
-    .stat-card.payments p { color: #e17055; }
-    .stat-card.tokens p { color: #e84393; }
-    
+
+    .stat-card.users {
+        border-top: 4px solid #6c5ce7;
+    }
+
+    .stat-card.books {
+        border-top: 4px solid #00b894;
+    }
+
+    .stat-card.transactions {
+        border-top: 4px solid #0984e3;
+    }
+
+    .stat-card.payments {
+        border-top: 4px solid #fdcb6e;
+    }
+
+    .stat-card.tokens {
+        border-top: 4px solid #e84393;
+    }
+
+    .stat-card.users p {
+        color: #6c5ce7;
+    }
+
+    .stat-card.books p {
+        color: #00b894;
+    }
+
+    .stat-card.transactions p {
+        color: #0984e3;
+    }
+
+    .stat-card.payments p {
+        color: #e17055;
+    }
+
+    .stat-card.tokens p {
+        color: #e84393;
+    }
+
     .stat-subtitle {
         font-size: 0.85rem;
         color: #b2bec3;
         margin-top: 5px;
+    }
+
+    .chart-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+        height: 350px;
+        position: relative;
+    }
+
+    .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+        .chart-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
@@ -82,6 +133,39 @@
     <main class="admin-main-content">
         <h1><?php echo $data['title']; ?></h1>
         <p>Comprehensive analytics for Muse Bookstore as of <?php echo $data['currentMonth']; ?>.</p>
+
+        <!-- Hidden inputs for chart data -->
+        <input type="hidden" id="adminCount" value="<?php echo $data['adminCount']; ?>">
+        <input type="hidden" id="parentCount" value="<?php echo $data['parentCount']; ?>">
+        <input type="hidden" id="childCount" value="<?php echo $data['childCount']; ?>">
+        <input type="hidden" id="ambassadorCount" value="<?php echo $data['ambassadorCount']; ?>">
+
+        <input type="hidden" id="availableBooks" value="<?php echo $data['availableBooks']; ?>">
+        <input type="hidden" id="swappedBooks" value="<?php echo $data['swappedBooks']; ?>">
+        <input type="hidden" id="soldBooks" value="<?php echo $data['soldBooks']; ?>">
+
+        <input type="hidden" id="swapTransactions" value="<?php echo $data['swapTransactions']; ?>">
+        <input type="hidden" id="sellTransactions" value="<?php echo $data['sellTransactions']; ?>">
+
+        <input type="hidden" id="pendingTransactions" value="<?php echo $data['pendingTransactions']; ?>">
+        <input type="hidden" id="approvedTransactions" value="<?php echo $data['approvedTransactions']; ?>">
+        <input type="hidden" id="completedTransactions" value="<?php echo $data['completedTransactions']; ?>">
+
+        <!-- Chart Grid -->
+        <div class="chart-grid">
+            <div class="chart-container">
+                <canvas id="userRoleChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="bookStatusChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="transactionTypeChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="transactionStatusChart"></canvas>
+            </div>
+        </div>
 
         <!-- Users Section -->
         <div class="stat-section">
@@ -196,5 +280,9 @@
         </div>
     </main>
 </div>
+
+<!-- Chart.js and our custom analytics charts script -->
+<script src="<?php echo URLROOT; ?>/js/vendor/chart.min.js"></script>
+<script src="<?php echo URLROOT; ?>/js/analytics_charts.js"></script>
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>

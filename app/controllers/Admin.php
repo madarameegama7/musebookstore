@@ -44,35 +44,35 @@ class Admin extends Controller
         // Basic counts
         $userCount = $this->adminModel->getUserCount();
         $bookCount = $this->adminModel->getBookCount();
-        
+
         // User role breakdown
         $adminCount = $this->adminModel->getUserCountByRole('admin');
         $parentCount = $this->adminModel->getUserCountByRole('parent');
         $childCount = $this->adminModel->getUserCountByRole('child');
         $ambassadorCount = $this->adminModel->getUserCountByRole('ambassador');
-        
+
         // New users this month
         $newUsersThisMonth = $this->adminModel->getUsersRegisteredInMonth($currentMonth, $currentYear);
-        
+
         // Book status breakdown - using the book_status from your database
         $availableBooks = $this->adminModel->getBookCountByStatus('available');
         $swappedBooks = $this->adminModel->getBookCountByStatus('swapped');
         $soldBooks = $this->adminModel->getBookCountByStatus('sold');
-        
+
         // New books this month
         $newBooksThisMonth = $this->adminModel->getBooksAddedInMonth($currentMonth, $currentYear);
-        
+
         // Transaction data
         $sellTransactions = $this->adminModel->getTransactionCountByType('sell');
         $swapTransactions = $this->adminModel->getTransactionCountByType('swap');
         $pendingTransactions = $this->adminModel->getTransactionCountByStatus('pending');
         $approvedTransactions = $this->adminModel->getTransactionCountByStatus('approved');
         $completedTransactions = $this->adminModel->getTransactionCountByStatus('completed');
-        
+
         // Payment data
         $totalPayments = $this->adminModel->getTotalPaymentsReceived();
         $paymentsThisMonth = $this->adminModel->getPaymentsReceivedInMonth($currentMonth, $currentYear);
-        
+
         // Token data
         $totalTokens = $this->adminModel->getTotalTokensPurchased();
         $tokensThisMonth = $this->adminModel->getTokensPurchasedInMonth($currentMonth, $currentYear);
@@ -101,7 +101,7 @@ class Admin extends Controller
             'tokensThisMonth' => $tokensThisMonth,
             'currentMonth' => date('F Y') // Month name and year for display
         ];
-        
+
         $this->view('pages/admin/v_analytics', $data);
     }
 
