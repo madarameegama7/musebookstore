@@ -22,7 +22,7 @@
                 <input type="password" name="password" placeholder="Password" value="<?php echo $data['password'] ?>" required>
                 <span class="form-invalid"><?php echo $data['password_err'];?></span>
                    <div class="options">
-                   <a href="#" style="display: block; text-align: center;">Forgot Password?</a>
+                   <a href="<?php echo URLROOT?>/users/forgotPassword" style="display: block; text-align: center;">Forgot Password?</a>
                     </div>
                 <button type="submit" name="loginSubmit">Login</button>
             </form>

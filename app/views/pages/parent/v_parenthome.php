@@ -23,6 +23,19 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 
 <a href="<?php echo URLROOT?>/books/show" class="cta-button">Browse Books</a>
 <br><br><br>
+
+<section class="search">
+    <div class="search-container">
+        <form action="<?php echo URLROOT; ?>/books/search" method="get" class="book-search-form">
+            <input type="text" name="q" placeholder="Search your book
+                value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>" />
+            <button class="search-button">Search</button>
+        </form>
+
+
+    </div>
+
+</section>
 <section class="categories">
     <h2>Book Categories</h2>
     <div class="category-container">
@@ -63,12 +76,16 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
         ];
 
         foreach ($categories as $index => $category) {
-            $hiddenClass = $index >= 6 ? 'hidden' : ''; // Hide categories after the 7th
-            echo "<div class='category $hiddenClass'>
-                    <img src='{$category[1]}'><br>
-                    <span>{$category[0]}</span>
-                  </div>";
-        }
+            $hiddenClass = $index >= 6 ? 'hidden' : '';
+            $categoryUrl = URLROOT . "/books/category?name=" . urlencode($category[0]);
+        
+            echo "<a href='$categoryUrl' class='category-link $hiddenClass'>
+                    <div class='category'>
+                        <img src='{$category[1]}' alt='{$category[0]}'><br>
+                        <span>{$category[0]}</span>
+                    </div>
+                  </a>";
+        }        
         ?>
     </div>
     <br>

@@ -1,28 +1,49 @@
-<?php require APPROOT.'/views/inc/header.php';?>
+<?php require APPROOT . '/views/inc/header.php'; ?>
 <!--TOP NAV BAR-->
-<?php require APPROOT.'/views/inc/components/topnavbar.php';?>
+<?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
 
 
 <section class="hero">
 
     <div class="index-content">
-    <h1>Learn faster. Get smarter.</h1>
-    <h2>Welcome to <br>Muse Bookstore</h2>
-    <p>Your go-to platform for swapping, selling, and buying books. <br>
-        Connect with fellow book lovers and expand your library today!</p>
+        <h1>Learn faster. Get smarter.</h1>
+        <h2>Welcome to <br>Muse Bookstore</h2>
+        <p>Your go-to platform for swapping, selling, and buying books. <br>
+            Connect with fellow book lovers and expand your library today!</p>
     </div>
     <div class="index-top-image">
-    <img src="/musebookstore/public/img/index-page.jpg">
+        <img src="/musebookstore/public/img/index-page.jpg">
     </div>
-   
+
 </section>
 
-<a href="<?php echo URLROOT?>/books/show" class="cta-button">Browse Books</a>
+<?php if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child'): ?>
+    <a href="<?php echo URLROOT ?>/books/show" class="cta-button">Browse Books</a>
+<?php else: ?>
+    <a href="<?php echo URLROOT ?>/childbooks/show" class="cta-button">Browse Books</a>
+<?php endif; ?>
+
+
+
 <br><br><br>
+
+<section class="search">
+    <div class="search-container">
+        <form action="<?php echo URLROOT; ?>/books/search" method="get" class="book-search-form">
+            <input type="text" name="q" placeholder="Search your book"
+                value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>" />
+            <button class="search-button">Search</button>
+        </form>
+
+
+    </div>
+
+</section>
+
 <section class="categories">
     <h2>Book Categories</h2>
     <div class="category-container">
-        <?php 
+        <?php
         $categories = [
             ["Arts / Design", "https://www.shortform.com/img/category-arts-design.9db953f8.svg"],
             ["Biography / Memoir", "https://www.shortform.com/img/category-biography-memoir.1cda77e8.svg"],
@@ -59,17 +80,24 @@
         ];
 
         foreach ($categories as $index => $category) {
-            $hiddenClass = $index >= 6 ? 'hidden' : ''; // Hide categories after the 7th
-            echo "<div class='category $hiddenClass'>
-                    <img src='{$category[1]}'><br>
-                    <span>{$category[0]}</span>
-                  </div>";
+            $hiddenClass = $index >= 6 ? 'hidden' : '';
+            $categoryUrl = URLROOT . "/books/category?name=" . urlencode($category[0]);
+
+            echo "<a href='$categoryUrl' class='category-link $hiddenClass'>
+                    <div class='category'>
+                        <img src='{$category[1]}' alt='{$category[0]}'><br>
+                        <span>{$category[0]}</span>
+                    </div>
+                  </a>";
         }
         ?>
     </div>
     <br>
     <a href="#" id="showMoreBtn">Show More Book Categories</a>
+
+
 </section>
+
 
 <script>
     document.getElementById("showMoreBtn").addEventListener("click", function() {
@@ -80,11 +108,12 @@
     });
 </script>
 
-<div class="articles-container">
+<?php if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child'): ?>
+    <div class="articles-container">
         <h2>Articles</h2>
         <div class="articles">
             <div class="articles-card">
-            <img src="/musebookstore/public/img/index-page.jpg">
+                <img src="/musebookstore/public/img/index-page.jpg">
                 <h3>Great Thinkers: How Suffering Can Improve Your Life</h3>
                 <p>By Ann Francis</p>
                 <p class="year">Muse (2024)</p>
@@ -103,29 +132,48 @@
             </div>
         </div>
         <br>
-        <a href="#" id="showMoreBtn">Show More Articles</a>
-</div>
+        <a href="/musebookstore/child/childHome" id="showMoreBtn">Show More Articles</a>
+    </div>
+<?php endif; ?>
 
-<div class="communities-container">
-        <h2>Communities</h2>
-        <div class="communities">
-            <div class="communities-card">
-            <img src="/musebookstore/public/img/index-page.jpg">
-                <h3>Great Thinkers: How Suffering Can Improve Your Life</h3>
-                
-            </div>
-            <div class="communities-card">
-                <img src="/musebookstore/public/img/index-lifestyle.jpg" alt="Lifestyle">
-                <h3>This Year’s Travelers Seek Calm and Connection</h3>
-               
-            </div>
-            <div class="communities-card">
-                <img src="/musebookstore/public/img/index-comm.jpeg" alt="Communication">
-                <h3>Quick Help: 10 Steps to Stay Cool in Political Conversations</h3>
-                
-            </div>
-        </div>
-        <br>
-</div>
+<!-- Browse All Books Section -->
+<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'child') : ?>
+    <div class="books-container">
+        <h2>Featured Books</h2>
+        <p class="subtitle">Browse our latest collection of books</p>
 
-<?php require APPROOT.'/views/inc/footer.php';?>
+        <?php if (empty($data['books'])) : ?>
+            <div class="alert alert-info">No books available at the moment. Please check back later.</div>
+        <?php else : ?>
+            <div class="books-grid">
+                <?php foreach ($data['books'] as $book) : ?>
+                    <div class="book-card">
+                        <!-- Use a placeholder image if no specific book image is available -->
+                        <img src="<?= URLROOT ?>/public/img/index-page.jpg" alt="<?= $book->book_title ?>">
+                        <div class="book-card-content">
+                            <h3><?= $book->book_title ?></h3>
+                            <p><strong>By:</strong> <?= $book->book_author ?></p>
+                            <p><strong>Genre:</strong> <?= $book->book_genre ?></p>
+                            <p><strong>Condition:</strong> <?= $book->book_condition ?></p>
+                            <p><strong>Price:</strong> <?= number_format($book->book_price, 2) ?> LKR</p>
+                            <div class="book-controls">
+
+                                <!-- Child users go to child/viewBook -->
+                                <a href="<?= URLROOT ?>/child/viewBook/<?= $book->book_id ?>" class="book-btn view-btn">View Details</a>
+                                <a href="<?= URLROOT ?>/child/requestBook/<?= $book->book_id ?>" class="book-btn request-btn">Request Book</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="view-all-container">
+                <a href="<?= URLROOT ?>/books/show" class="cta-button">View All Books</a>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    </div>
+
+  
+
+    <?php require APPROOT . '/views/inc/footer.php'; ?>

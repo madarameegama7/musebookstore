@@ -7,24 +7,70 @@ if (!isset($_SESSION['user_role'])) {
     die("Please login");
 }
 ?>
-
 <div class="addbook-container">
     <div class="addbook-photo">
-        <img src="/musebookstore/public/img/books/book-reading.jpg" alt="Muse Bookstore Logo">
+    <h3>Have books you no longer need? Sell them at a price you choose or swap with fellow readers who share your interests!</h3>
+    <br>
+
+    <img src="/musebookstore/public/img/books/new.avif" alt="Book Reading image">  
+
     </div>
 
     <div class="addbook-box">
-        <form action="<?php echo URLROOT; ?>/Books/create" method="post">
+        
+        <form action="<?php echo URLROOT; ?>/Books/create" method="post" enctype="multipart/form-data">
+
+        <div class="form-drag-area">
+                <div class="icon">
+                    <img src="<?php echo URLROOT; ?>/img/books/image-upload.png" alt="placeholder" width="100px" height="100px" id="book_image_placeholder">
+                </div>
+                <div class="right-content">
+                    <div class="description">Drag & Drop to Upload Book Image</div>
+                    <div class="form-upload">
+                        <input type="file" name="book_image" id="book_image" style="display: none;">
+                        Browse File
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="form-validation">
+                <div class="book-image-validation">
+                    <img src="<?php echo URLROOT; ?>/img/components/profilephoto/green-tick.png" alt="green-tick" width="15px" height="15px">
+                    Select a Profile picture
+                </div>
+            </div>
+            <span class="form-invalid"><?php echo $data['book_image_err']; ?></span>
+
+
             <label>Book Title</label><br>
             <input type="text" name="booktitle" id="booktitle" placeholder="Enter Book Title"
                 value="<?php $data['booktitle']; ?>" required>
             <span class="form-invalid"><?php echo $data['book_title_err']; ?></span>
             <br>
 
+            <label>Publisher</label><br>
+            <input type="text" name="publisher" id="publisher" placeholder="Enter Book Publisher" value="<?php $data['publisher']; ?>"
+                required>
+            <span class="form-invalid"><?php echo $data['book_publisher_err']; ?></span>
+            <br>
+
+            <label>Year of Publication</label><br>
+            <input type="number" name="year" id="year" placeholder="Enter Year of Publication" value="<?php $data['year']; ?>"
+                required>
+            <span class="form-invalid"><?php echo $data['book_year_err']; ?></span>
+            <br>
+
             <label>Author</label><br>
             <input type="text" name="author" id="author" placeholder="Enter Author" value="<?php $data['author']; ?>"
                 required>
             <span class="form-invalid"><?php echo $data['book_author_err']; ?></span>
+            <br>
+
+            <label>ISBN</label><br>
+            <input type="text" name="isbn" id="isbn" placeholder="Enter ISBN of book" value="<?php $data['isbn']; ?>"
+                required>
+            <span class="form-invalid"><?php echo $data['book_isbn_err']; ?></span>
             <br>
 
             <label>Genre</label><br>
@@ -78,8 +124,8 @@ if (!isset($_SESSION['user_role'])) {
                 <option value="Philosophy" <?php if ($data['genre'] == 'Philosophy')
                     echo 'selected'; ?>>Philosophy
                 </option>
-                <option value="Parenting" <?php if ($data['genre'] == 'Parenting')
-                    echo 'selected'; ?>>Parenting</option>
+                <option value="Child" <?php if ($data['genre'] == 'Child')
+                    echo 'selected'; ?>>Child</option>
                 <option value="Politics" <?php if ($data['genre'] == 'Politics')
                     echo 'selected'; ?>>Politics</option>
                 <option value="Productivity" <?php if ($data['genre'] == 'Productivity')
@@ -125,7 +171,7 @@ if (!isset($_SESSION['user_role'])) {
 
             <label>Price in Rs.</label><br>
             <input type="number" name="price" id="price" placeholder="Enter price of book"
-                value="<?php $data['price']; ?>" required>
+                value="<?php $data['price']; ?>">
             <span class="form-invalid"><?php echo $data['book_price_err']; ?></span>
             <br>
 
@@ -144,5 +190,5 @@ if (!isset($_SESSION['user_role'])) {
         </form>
     </div>
 </div>
-
+<script src="/musebookstore/public/js/bookUpload.js"></script>
 <?php require APPROOT . '/views/inc/footer.php'; ?>
