@@ -22,7 +22,7 @@
                     <?php foreach ($data['requests'] as $r): ?>
                         <tr>
                             <td><?php echo $r->request_id; ?></td>
-                            <td><?php echo htmlspecialchars($r->communityName); ?></td>
+                            <td><?php echo $r->communityName !== null ? htmlspecialchars($r->communityName) : 'N/A'; ?></td>
                             <td><?php echo htmlspecialchars($r->reason); ?></td>
                             <td><?php echo ucfirst($r->request_status); ?></td>
                             <td><?php echo $r->created_at; ?></td>

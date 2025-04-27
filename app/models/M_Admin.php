@@ -505,7 +505,7 @@ class M_Admin
     // Get all delete requests with community info
     public function getAllDeleteRequests()
     {
-        $this->db->query('SELECT dr.*, c.communityName FROM delete_requests dr JOIN community c ON dr.community_id = c.communityId ORDER BY dr.created_at DESC');
+        $this->db->query('SELECT dr.*, c.communityName FROM delete_requests dr LEFT JOIN community c ON dr.community_id = c.communityId ORDER BY dr.created_at DESC');
         return $this->db->resultSet();
     }
 
