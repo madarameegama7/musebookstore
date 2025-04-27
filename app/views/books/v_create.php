@@ -124,8 +124,8 @@ if (!isset($_SESSION['user_role'])) {
                 <option value="Philosophy" <?php if ($data['genre'] == 'Philosophy')
                     echo 'selected'; ?>>Philosophy
                 </option>
-                <option value="Parenting" <?php if ($data['genre'] == 'Parenting')
-                    echo 'selected'; ?>>Parenting</option>
+                <option value="Child" <?php if ($data['genre'] == 'Child')
+                    echo 'selected'; ?>>Child</option>
                 <option value="Politics" <?php if ($data['genre'] == 'Politics')
                     echo 'selected'; ?>>Politics</option>
                 <option value="Productivity" <?php if ($data['genre'] == 'Productivity')

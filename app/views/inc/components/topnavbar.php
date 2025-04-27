@@ -50,7 +50,7 @@
                         $profileLink = URLROOT . '/pages/adminProfileView';
                         break;
                     case 'parent':
-                        $profileLink = URLROOT . '/pages/parentProfileView';
+                        $profileLink = URLROOT . '/users/loadProfile';
                         break;
                     case 'child':
                         $profileLink = URLROOT . '/child/profile';
