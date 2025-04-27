@@ -31,6 +31,94 @@ class M_Admin
         return $this->db->resultSet();
     }
 
+    // Get all users with their verification status
+    public function getAllUsersWithVerificationStatus($filter = null)
+    {
+        $sql = 'SELECT * FROM user';
+
+        // Apply filter if provided
+        if ($filter === 'verified') {
+            $sql .= ' WHERE user_is_verified = 1';
+        } elseif ($filter === 'unverified') {
+            $sql .= ' WHERE user_is_verified = 0';
+        }
+
+        $sql .= ' ORDER BY user_id DESC';
+
+        $this->db->query($sql);
+        return $this->db->resultSet();
+    }
+
+    // Search users with verification status filter
+    public function searchUsersWithVerificationStatus($searchTerm, $filter = null)
+    {
+        $sql = 'SELECT * FROM user WHERE 
+                (user_name LIKE :searchTerm OR 
+                user_email LIKE :searchTerm OR 
+                user_id LIKE :searchTerm)';
+
+        // Apply filter if provided
+        if ($filter === 'verified') {
+            $sql .= ' AND user_is_verified = 1';
+        } elseif ($filter === 'unverified') {
+            $sql .= ' AND user_is_verified = 0';
+        }
+
+        $sql .= ' ORDER BY user_id DESC';
+
+        $this->db->query($sql);
+        $this->db->bind(':searchTerm', '%' . $searchTerm . '%');
+        return $this->db->resultSet();
+    }
+
+    // Mark a user as verified
+    public function verifyUser($userId)
+    {
+        $this->db->query('UPDATE user SET user_is_verified = 1, user_otp = NULL, user_otp_expires = NULL WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $userId);
+        return $this->db->execute();
+    }
+
+    // Mark a user as unverified
+    public function unverifyUser($userId)
+    {
+        $this->db->query('UPDATE user SET user_is_verified = 0 WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $userId);
+        return $this->db->execute();
+    }
+
+    // Generate and save a new OTP for a user
+    public function generateNewOTP($userId)
+    {
+        // Get user data first
+        $this->db->query('SELECT * FROM user WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $userId);
+        $user = $this->db->single();
+
+        if (!$user) {
+            return false;
+        }
+
+        // Generate new OTP
+        $otp = sprintf("%06d", mt_rand(100000, 999999));
+        $otp_expires = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+
+        // Save OTP to database
+        $this->db->query('UPDATE user SET user_otp = :otp, user_otp_expires = :otp_expires WHERE user_id = :user_id');
+        $this->db->bind(':otp', $otp);
+        $this->db->bind(':otp_expires', $otp_expires);
+        $this->db->bind(':user_id', $userId);
+
+        if ($this->db->execute()) {
+            return [
+                'otp' => $otp,
+                'user' => $user
+            ];
+        } else {
+            return false;
+        }
+    }
+
     // Get all books with owner details
     public function getAllBooks()
     {
@@ -38,6 +126,13 @@ class M_Admin
                           FROM book b 
                           JOIN user u ON b.owner_id = u.user_id 
                           ORDER BY b.created_at DESC'); // Corrected JOIN condition and used created_at for sorting
+        return $this->db->resultSet();
+    }
+
+    // Get all communities with details
+    public function getAllCommunities()
+    {
+        $this->db->query('SELECT * FROM community ORDER BY created_at DESC');
         return $this->db->resultSet();
     }
 
@@ -242,5 +337,408 @@ class M_Admin
         $this->db->bind(':term', $likeTerm);
         $this->db->bind(':owner_id_term', $searchTerm); // Exact match for Owner ID
         return $this->db->resultSet();
+    }
+
+    // Update community status (approve/reject)
+    public function updateCommunityStatus($communityId, $status)
+    {
+        $this->db->query('UPDATE community SET status = :status WHERE communityId = :communityId');
+        $this->db->bind(':status', $status);
+        $this->db->bind(':communityId', $communityId);
+        return $this->db->execute();
+    }
+
+    // Delete a community by ID
+    public function deleteCommunityById($communityId)
+    {
+        $this->db->query('DELETE FROM community WHERE communityId = :communityId');
+        $this->db->bind(':communityId', $communityId);
+        return $this->db->execute();
+    }
+
+    // Get all transactions with book and user details
+    public function getAllTransactions()
+    {
+        $this->db->query('SELECT t.*, b.book_title, b.book_author, u1.user_name AS requester_name, u2.user_name AS owner_name
+                          FROM transaction t
+                          JOIN book b ON t.book_id = b.book_id
+                          JOIN user u1 ON t.requester_id = u1.user_id
+                          JOIN user u2 ON t.owner_id = u2.user_id
+                          ORDER BY t.created_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Update transaction status (approve/decline/complete)
+    public function updateTransactionStatus($transactionId, $status)
+    {
+        $this->db->query('UPDATE transaction SET status = :status WHERE transaction_id = :transaction_id');
+        $this->db->bind(':status', $status);
+        $this->db->bind(':transaction_id', $transactionId);
+        return $this->db->execute();
+    }
+
+    // Delete a transaction
+    public function deleteTransactionById($transactionId)
+    {
+        $this->db->query('DELETE FROM transaction WHERE transaction_id = :transaction_id');
+        $this->db->bind(':transaction_id', $transactionId);
+        return $this->db->execute();
+    }
+
+    // Get all writing groups with community info (show even if community is missing)
+    public function getAllWritingGroups()
+    {
+        $this->db->query('SELECT wg.*, c.communityName FROM writinggroup wg LEFT JOIN community c ON wg.community_id = c.communityId ORDER BY wg.writingGroup_id DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a writing group by ID
+    public function deleteWritingGroupById($writingGroupId)
+    {
+        $this->db->query('DELETE FROM writinggroup WHERE writingGroup_id = :writingGroup_id');
+        $this->db->bind(':writingGroup_id', $writingGroupId);
+        return $this->db->execute();
+    }
+
+    // Get all posts for all writing groups (with group and member info)
+    public function getAllWritingGroupPosts()
+    {
+        $this->db->query('SELECT p.*, wg.writingGroup_name, cm.community_member_name FROM writing_group_posts p JOIN writinggroup wg ON p.writingGroup_id = wg.writingGroup_id LEFT JOIN community_member cm ON p.community_member_id = cm.community_member_id ORDER BY p.created_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a writing group post by ID
+    public function deleteWritingGroupPostById($postId)
+    {
+        $this->db->query('DELETE FROM writing_group_posts WHERE writingGroup_post_id = :postId');
+        $this->db->bind(':postId', $postId);
+        return $this->db->execute();
+    }
+
+    // Get all tokens with user info
+    public function getAllTokens()
+    {
+        $this->db->query('SELECT t.*, u.user_name FROM token t JOIN user u ON t.user_id = u.user_id ORDER BY t.updated_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a token record by ID
+    public function deleteTokenById($tokenId)
+    {
+        $this->db->query('DELETE FROM token WHERE token_id = :token_id');
+        $this->db->bind(':token_id', $tokenId);
+        return $this->db->execute();
+    }
+
+    // Add a token
+    public function addToken($data)
+    {
+        $this->db->query('INSERT INTO token (user_id, token_count, amount_paid, purchase_date) VALUES (:user_id, :token_count, :amount_paid, :purchase_date)');
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':token_count', $data['token_count']);
+        $this->db->bind(':amount_paid', $data['amount_paid']);
+        $this->db->bind(':purchase_date', $data['purchase_date']);
+        return $this->db->execute();
+    }
+
+    // Edit a token
+    public function updateToken($tokenId, $data)
+    {
+        $this->db->query('UPDATE token SET user_id = :user_id, token_count = :token_count, amount_paid = :amount_paid, purchase_date = :purchase_date WHERE token_id = :token_id');
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':token_count', $data['token_count']);
+        $this->db->bind(':amount_paid', $data['amount_paid']);
+        $this->db->bind(':purchase_date', $data['purchase_date']);
+        $this->db->bind(':token_id', $tokenId);
+        return $this->db->execute();
+    }
+
+    // Get all community posts with community info
+    public function getAllCommunityPosts()
+    {
+        $this->db->query('SELECT p.*, c.communityName FROM posts p JOIN community c ON p.community_id = c.communityId ORDER BY p.created_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a community post by ID
+    public function deleteCommunityPostById($postId)
+    {
+        $this->db->query('DELETE FROM posts WHERE id = :postId');
+        $this->db->bind(':postId', $postId);
+        return $this->db->execute();
+    }
+
+    // Add a community post
+    public function addCommunityPost($data)
+    {
+        $this->db->query('INSERT INTO posts (community_id, community_member_id, title, content, created_at) VALUES (:community_id, :community_member_id, :title, :content, NOW())');
+        $this->db->bind(':community_id', $data['community_id']);
+        $this->db->bind(':community_member_id', $data['community_member_id']);
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':content', $data['content']);
+        return $this->db->execute();
+    }
+
+    // Edit a community post
+    public function updateCommunityPost($postId, $data)
+    {
+        $this->db->query('UPDATE posts SET title = :title, content = :content WHERE id = :id');
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':content', $data['content']);
+        $this->db->bind(':id', $postId);
+        return $this->db->execute();
+    }
+
+    // Get all delete requests with community info
+    public function getAllDeleteRequests()
+    {
+        $this->db->query('SELECT dr.*, c.communityName FROM delete_requests dr JOIN community c ON dr.community_id = c.communityId ORDER BY dr.created_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a delete request
+    public function deleteDeleteRequest($requestId)
+    {
+        $this->db->query('DELETE FROM delete_requests WHERE request_id = :request_id');
+        $this->db->bind(':request_id', $requestId);
+        return $this->db->execute();
+    }
+
+    // Update delete request status and community delete_status
+    public function updateDeleteRequestStatus($requestId, $status)
+    {
+        // Get community_id for this request
+        $this->db->query('SELECT community_id FROM delete_requests WHERE request_id = :request_id');
+        $this->db->bind(':request_id', $requestId);
+        $row = $this->db->single();
+        if (!$row) return false;
+        $communityId = $row->community_id;
+        // Update delete_requests
+        $this->db->query('UPDATE delete_requests SET request_status = :status WHERE request_id = :request_id');
+        $this->db->bind(':status', $status);
+        $this->db->bind(':request_id', $requestId);
+        $this->db->execute();
+        // Update community.delete_status
+        $this->db->query('UPDATE community SET delete_status = :status WHERE communityId = :communityId');
+        $this->db->bind(':status', $status);
+        $this->db->bind(':communityId', $communityId);
+        return $this->db->execute();
+    }
+
+    // Get all events with community info (show even if community is missing)
+    public function getAllEvents()
+    {
+        $this->db->query('SELECT e.*, c.communityName FROM event e LEFT JOIN community c ON e.community_id = c.communityId ORDER BY e.event_date DESC');
+        return $this->db->resultSet();
+    }
+
+    // Get single event
+    public function getEventById($eventId)
+    {
+        $this->db->query('SELECT e.*, c.communityName FROM event e JOIN community c ON e.community_id = c.communityId WHERE e.event_id = :event_id');
+        $this->db->bind(':event_id', $eventId);
+        return $this->db->single();
+    }
+
+    // Add event
+    public function addEvent($data)
+    {
+        $this->db->query('INSERT INTO event (event_name, event_description, event_place, event_date, event_time, community_id) VALUES (:name, :description, :place, :date, :time, :community_id)');
+        $this->db->bind(':name', $data['event_name']);
+        $this->db->bind(':description', $data['event_description']);
+        $this->db->bind(':place', $data['event_place']);
+        $this->db->bind(':date', $data['event_date']);
+        $this->db->bind(':time', $data['event_time']);
+        $this->db->bind(':community_id', $data['community_id']);
+        return $this->db->execute();
+    }
+
+    // Update event
+    public function updateEvent($eventId, $data)
+    {
+        $this->db->query('UPDATE event SET event_name = :name, event_description = :description, event_place = :place, event_date = :date, event_time = :time, community_id = :community_id WHERE event_id = :event_id');
+        $this->db->bind(':name', $data['event_name']);
+        $this->db->bind(':description', $data['event_description']);
+        $this->db->bind(':place', $data['event_place']);
+        $this->db->bind(':date', $data['event_date']);
+        $this->db->bind(':time', $data['event_time']);
+        $this->db->bind(':community_id', $data['community_id']);
+        $this->db->bind(':event_id', $eventId);
+        return $this->db->execute();
+    }
+
+    // Delete event
+    public function deleteEvent($eventId)
+    {
+        $this->db->query('DELETE FROM event WHERE event_id = :event_id');
+        $this->db->bind(':event_id', $eventId);
+        return $this->db->execute();
+    }
+
+    // Get members for a given event
+    public function getEventMembers($eventId)
+    {
+        $this->db->query('SELECT cm.*, u.user_name FROM community_member cm JOIN user u ON cm.user_id = u.user_id WHERE cm.event_id = :event_id');
+        $this->db->bind(':event_id', $eventId);
+        return $this->db->resultSet();
+    }
+
+    // Get members for a given writing group
+    public function getWritingGroupMembers($writingGroupId)
+    {
+        $this->db->query('SELECT cm.*, u.user_name FROM community_member cm JOIN user u ON cm.user_id = u.user_id WHERE cm.writingGroup_id = :wg_id');
+        $this->db->bind(':wg_id', $writingGroupId);
+        return $this->db->resultSet();
+    }
+
+    // Add a writing group
+    public function addWritingGroup($data)
+    {
+        $this->db->query('INSERT INTO writinggroup (writingGroup_name, writingGroup_description, community_id, image_path) VALUES (:name, :description, :community_id, :image_path)');
+        $this->db->bind(':name', $data['writingGroup_name']);
+        $this->db->bind(':description', $data['writingGroup_description']);
+        $this->db->bind(':community_id', $data['community_id']);
+        $this->db->bind(':image_path', $data['image_path']);
+        return $this->db->execute();
+    }
+
+    // Edit a writing group
+    public function updateWritingGroup($wgId, $data)
+    {
+        $this->db->query('UPDATE writinggroup SET writingGroup_name = :name, writingGroup_description = :description, community_id = :community_id, image_path = :image_path WHERE writingGroup_id = :wg_id');
+        $this->db->bind(':name', $data['writingGroup_name']);
+        $this->db->bind(':description', $data['writingGroup_description']);
+        $this->db->bind(':community_id', $data['community_id']);
+        $this->db->bind(':image_path', $data['image_path']);
+        $this->db->bind(':wg_id', $wgId);
+        return $this->db->execute();
+    }
+
+    // Add a writing group post
+    public function addWritingGroupPost($data)
+    {
+        $this->db->query('INSERT INTO writing_group_posts (writingGroup_id, community_member_id, chapter_title, chapter_content) VALUES (:writingGroup_id, :community_member_id, :chapter_title, :chapter_content)');
+        $this->db->bind(':writingGroup_id', $data['writingGroup_id']);
+        $this->db->bind(':community_member_id', $data['community_member_id']);
+        $this->db->bind(':chapter_title', $data['chapter_title']);
+        $this->db->bind(':chapter_content', $data['chapter_content']);
+        return $this->db->execute();
+    }
+
+    // Edit a writing group post
+    public function updateWritingGroupPost($postId, $data)
+    {
+        $this->db->query('UPDATE writing_group_posts SET chapter_title = :chapter_title, chapter_content = :chapter_content WHERE writingGroup_post_id = :postId');
+        $this->db->bind(':chapter_title', $data['chapter_title']);
+        $this->db->bind(':chapter_content', $data['chapter_content']);
+        $this->db->bind(':postId', $postId);
+        return $this->db->execute();
+    }
+
+    // Get user count by role
+    public function getUserCountByRole($role)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM user WHERE user_role = :role');
+        $this->db->bind(':role', $role);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of users registered in a specific month and year
+    public function getUsersRegisteredInMonth($month, $year)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM user WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get books by status (available, swapped, sold)
+    public function getBookCountByStatus($status)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM book WHERE book_status = :status');
+        $this->db->bind(':status', $status);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of books added in a specific month and year
+    public function getBooksAddedInMonth($month, $year)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM book WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of transactions by type (sell, swap)
+    public function getTransactionCountByType($type)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM transaction WHERE type = :type');
+        $this->db->bind(':type', $type);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get count of transactions by status (pending, approved, declined, completed)
+    public function getTransactionCountByStatus($status)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM transaction WHERE status = :status');
+        $this->db->bind(':status', $status);
+        $row = $this->db->single();
+        return $row->count ?? 0;
+    }
+
+    // Get the sum of all payments received
+    public function getTotalPaymentsReceived()
+    {
+        $this->db->query('SELECT SUM(amount) as total FROM payment');
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get the sum of payments received in a specific month and year
+    public function getPaymentsReceivedInMonth($month, $year)
+    {
+        $this->db->query('SELECT SUM(amount) as total FROM payment WHERE MONTH(created_at) = :month AND YEAR(created_at) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get the sum of all tokens purchased
+    public function getTotalTokensPurchased()
+    {
+        $this->db->query('SELECT SUM(token_count) as total FROM token');
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get the sum of tokens purchased in a specific month and year
+    public function getTokensPurchasedInMonth($month, $year)
+    {
+        $this->db->query('SELECT SUM(token_count) as total FROM token WHERE MONTH(purchase_date) = :month AND YEAR(purchase_date) = :year');
+        $this->db->bind(':month', $month);
+        $this->db->bind(':year', $year);
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    // Get all payments with user details
+    public function getAllPayments()
+    {
+        $this->db->query('SELECT p.*, u.user_name FROM payment p JOIN user u ON p.user_id = u.user_id ORDER BY p.created_at DESC');
+        return $this->db->resultSet();
+    }
+
+    // Delete a payment record by ID
+    public function deletePaymentById($paymentId)
+    {
+        $this->db->query('DELETE FROM payment WHERE payment_id = :payment_id');
+        $this->db->bind(':payment_id', $paymentId);
+        return $this->db->execute();
     }
 }

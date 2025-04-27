@@ -21,15 +21,21 @@ class M_Users
         }
     }
 
-    public function registerUser($data){
-        $this->db->query('INSERT INTO user(user_name,user_photo,user_email,user_password, user_phone, user_address,user_role) VALUES (:user_name, :user_photo, :user_email, :user_password, :user_phone, :user_address, :user_role) ');
-        $this->db->bind(':user_photo',$data['profile_image_name']);
-        $this->db->bind(':user_name',$data['name']);
-        $this->db->bind(':user_email',$data['email']);
-        $this->db->bind(':user_password',$data['password']);
-        $this->db->bind(':user_phone',$data['contactNumber']);
-        $this->db->bind(':user_address',$data['address']);
-        $this->db->bind(':user_role', 'parent'); 
+    public function registerUser($data)
+    {
+        // First pass - just insert user with OTP info but without verification
+        $this->db->query('INSERT INTO user(user_name, user_photo, user_email, user_password, user_phone, user_address, user_role, user_otp, user_otp_expires, user_is_verified) 
+            VALUES (:user_name, :user_photo, :user_email, :user_password, :user_phone, :user_address, :user_role, :user_otp, :user_otp_expires, 0)');
+
+        $this->db->bind(':user_photo', $data['profile_image_name']);
+        $this->db->bind(':user_name', $data['name']);
+        $this->db->bind(':user_email', $data['email']);
+        $this->db->bind(':user_password', $data['password']);
+        $this->db->bind(':user_phone', $data['contactNumber']);
+        $this->db->bind(':user_address', $data['address']);
+        $this->db->bind(':user_role', 'parent');
+        $this->db->bind(':user_otp', $data['otp']);
+        $this->db->bind(':user_otp_expires', $data['otp_expires']);
 
         if ($this->db->execute()) {
             return true;
@@ -49,7 +55,12 @@ class M_Users
             $hashed_password = $row->user_password; // Use 'user_password' as per your DB
 
             if (password_verify($password, $hashed_password)) {
-                return $row; // Login successful
+                // Check if user is verified
+                if ($row->user_is_verified == 1) {
+                    return $row; // Login successful for verified user
+                } else {
+                    return 'not_verified'; // User exists but not verified
+                }
             }
         }
 
@@ -91,7 +102,8 @@ class M_Users
     }
 
 
-    public function updateUserProfile($data) {
+    public function updateUserProfile($data)
+    {
         if ($data['password']) {
             $sql = "UPDATE user SET user_name = :name, user_password = :password, user_phone = :phone, user_address = :address WHERE user_id = :id";
             $this->db->query($sql);
@@ -100,15 +112,15 @@ class M_Users
             $sql = "UPDATE user SET user_name = :name, user_phone = :phone, user_address = :address WHERE user_id = :id";
             $this->db->query($sql);
         }
-    
+
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':phone', $data['contactNumber']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':id', $data['user_id']);
-    
+
         return $this->db->execute();
     }
-    
+
     public function getUserByEmail($email)
     {
         $this->db->query('SELECT * FROM user WHERE user_email= :email');
@@ -122,29 +134,104 @@ class M_Users
         }
     }
     //user dashboard analytics
-    public function getTokenCount($user_id){
+    public function getTokenCount($user_id)
+    {
         $this->db->query('SELECT token_count FROM token WHERE user_id= :user_id');
-        $this->db->bind(':user_id',$user_id);
+        $this->db->bind(':user_id', $user_id);
         return $this->db->single();
-
     }
-    public function getChildCount($user_id){
-        $this->db->query('SELECT COUNT(*) AS total FROM user WHERE parent_id = :user_id');
+
+    public function getChildCount($user_id)
+    {
+        $this->db->query('SELECT COUNT(user_id) AS total FROM user WHERE parent_id = :user_id');
         $this->db->bind(':user_id', $user_id);
         $row = $this->db->single();
         return $row->total ?? 0;
     }
-    
-    
-    public function getBookCount($user_id){
+
+
+    public function getBookCount($user_id)
+    {
         $this->db->query('SELECT COUNT(book_id) FROM book WHERE owner_id= :user_id');
-        $this->db->bind(':owner_id',$user_id);
+        $this->db->bind(':owner_id', $user_id);
         $results = $this->db->resultSet();
         return $this->db->single();
     }
+
     public function getUserCount()
     {
         $this->db->query('SELECT COUNT(*) as count FROM user');
         $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    /**
+     * Verify a user's OTP
+     * 
+     * @param string $email User's email
+     * @param string $otp OTP to verify
+     * @return bool Whether the OTP was valid
+     */
+    public function verifyOTP($email, $otp)
+    {
+        // Get the user's record to check OTP manually
+        $this->db->query('SELECT * FROM user WHERE user_email = :email');
+        $this->db->bind(':email', $email);
+        $user = $this->db->single();
+
+        if (!$user) {
+            return false; // User not found
+        }
+
+        $currentTime = date('Y-m-d H:i:s');
+
+        // Check if OTP matches and is not expired
+        if ($user->user_otp == $otp && strtotime($user->user_otp_expires) > strtotime($currentTime)) {
+            // Valid OTP - mark user as verified
+            $this->db->query('UPDATE user SET user_is_verified = 1, user_otp = NULL, user_otp_expires = NULL WHERE user_email = :email');
+            $this->db->bind(':email', $email);
+            $this->db->execute();
+            return true;
+        }
+
+        return false; // Invalid or expired OTP
+    }
+
+    /**
+     * Resend OTP to a user
+     * 
+     * @param string $email User's email
+     * @param string $otp New OTP
+     * @param string $otp_expires Expiry timestamp
+     * @return bool Whether the OTP was updated successfully
+     */
+    public function resendOTP($email, $otp, $otp_expires)
+    {
+        $this->db->query('UPDATE user SET user_otp = :otp, user_otp_expires = :otp_expires WHERE user_email = :email AND user_is_verified = 0');
+        $this->db->bind(':otp', $otp);
+        $this->db->bind(':otp_expires', $otp_expires);
+        $this->db->bind(':email', $email);
+
+        return $this->db->execute();
+    }
+
+    /**
+     * Get unverified user by email
+     * 
+     * @param string $email User's email
+     * @return object|false User object or false if not found
+     */
+    public function getUnverifiedUserByEmail($email)
+    {
+        $this->db->query('SELECT * FROM user WHERE user_email = :email AND user_is_verified = 0');
+        $this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+
+        if ($this->db->rowCount() > 0) {
+            return $row;
+        } else {
+            return false;
+        }
     }
 }

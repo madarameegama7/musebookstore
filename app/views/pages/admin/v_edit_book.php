@@ -1,5 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/admin_style.css">
 
 <div class="admin-container">
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
@@ -15,15 +16,15 @@
         <form class="edit-book-form" action="<?php echo URLROOT; ?>/admin/updateBook/<?php echo $data['bookid']; ?>" method="post">
 
             <label for="booktitle">Book Title: <sup>*</sup></label>
-            <input type="text" name="booktitle" id="booktitle" value="<?php echo htmlspecialchars($data['booktitle']); ?>" required>
+            <input type="text" name="booktitle" id="booktitle" value="<?php echo htmlspecialchars($data['booktitle'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['book_title_err']; ?></span>
 
             <label for="author">Author: <sup>*</sup></label>
-            <input type="text" name="author" id="author" value="<?php echo htmlspecialchars($data['author']); ?>" required>
+            <input type="text" name="author" id="author" value="<?php echo htmlspecialchars($data['author'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['book_author_err']; ?></span>
 
             <label for="publisher">Publisher: <sup>*</sup></label>
-            <input type="text" name="publisher" id="publisher" value="<?php echo htmlspecialchars($data['publisher']); ?>" required>
+            <input type="text" name="publisher" id="publisher" value="<?php echo htmlspecialchars($data['publisher'] ?? ''); ?>" required>
             <span class="form-invalid"><?php echo $data['book_publisher_err']; ?></span>
 
             <label for="year">Year of Publication: <sup>*</sup></label>
@@ -77,8 +78,8 @@
             <label for="bookcondition">Condition: <sup>*</sup></label>
             <select class="bookcondition" name="bookcondition" id="bookcondition" required>
                 <option value="" disabled <?php echo empty($data['bookcondition']) ? 'selected' : ''; ?>>Select Condition</option>
-                <option value="new" <?php if ($data['bookcondition'] == 'new') echo 'selected'; ?>>New</option>
-                <option value="used" <?php if ($data['bookcondition'] == 'used') echo 'selected'; ?>>Used</option>
+                <option value="new" <?php echo ($data['bookcondition'] == 'new') ? 'selected' : ''; ?>>New</option>
+                <option value="used" <?php echo ($data['bookcondition'] == 'used') ? 'selected' : ''; ?>>Used</option>
                 <!-- Add other conditions if applicable -->
             </select>
             <span class="form-invalid"><?php echo $data['book_condition_err']; ?></span>
@@ -90,8 +91,8 @@
             <label for="bookoption">Listing Type: <sup>*</sup></label>
             <select class="bookoption" name="bookoption" id="bookoption" required>
                 <option value="" disabled <?php echo empty($data['bookoption']) ? 'selected' : ''; ?>>Select Option</option>
-                <option value="sell" <?php if ($data['bookoption'] == 'sell') echo 'selected'; ?>>Sell</option>
-                <option value="swap" <?php if ($data['bookoption'] == 'swap') echo 'selected'; ?>>Swap</option>
+                <option value="sell" <?php echo ($data['bookoption'] == 'sell') ? 'selected' : ''; ?>>Sell</option>
+                <option value="swap" <?php echo ($data['bookoption'] == 'swap') ? 'selected' : ''; ?>>Swap</option>
                 <!-- Add other options if applicable -->
             </select>
             <span class="form-invalid"><?php echo $data['book_option_err']; ?></span>

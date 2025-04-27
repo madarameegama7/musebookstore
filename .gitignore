@@ -3,3 +3,6 @@ config.php
 ./composer.json
 ./composer.lock
 ./composer.phar
+dev/aU.sql
+app/helpers/imageUpload_Helper.php
+app/controllers/Users.php
