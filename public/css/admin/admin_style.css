@@ -6,51 +6,173 @@
 
 .admin-sidebar {
     width: 250px;
-    background-color: #f8f9fa; /* Light grey background */
-    padding: 20px;
-    border-right: 1px solid #dee2e6; /* Light border */
+    background-color: var(--admin-sidebar-bg);
+    color: #fff;
+    height: 100vh; /* Full height */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    border-right: 1px solid var(--admin-border-color);
+    box-shadow: 2px 0 10px rgba(91,110,225,0.05);
+    z-index: 1000; /* Ensure sidebar is above other content */
+    display: flex; /* Use flexbox for vertical alignment */
+    flex-direction: column; /* Stack items vertically */
 }
 
-.admin-sidebar h2 {
-    color: var(--primary-color); /* Use theme primary color */
-    margin-bottom: 20px;
-    font-size: 1.4em;
+.admin-sidebar .logo-container {
+    text-align: center;
+    margin-bottom: 20px; /* Reduced margin */
+    padding: 10px;
 }
 
-.admin-sidebar ul {
+.admin-sidebar .logo-container img {
+    max-width: 70%; /* Slightly smaller logo */
+    height: auto;
+}
+
+.admin-sidebar nav {
+    flex-grow: 1; /* Allow nav to fill remaining space */
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.admin-sidebar nav ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.admin-sidebar ul li {
-    margin-bottom: 10px;
+.admin-sidebar nav ul li {
+    margin: 0; /* Remove default margin */
 }
 
-.admin-sidebar ul li a {
+.admin-sidebar nav ul li a {
+    color: #bfc8e6;
     text-decoration: none;
-    color: #333;
-    display: block;
-    padding: 8px 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    display: flex; /* Use flex for icon alignment */
+    align-items: center; /* Center items vertically */
+    padding: 12px 20px; /* Consistent padding */
+    font-size: 0.95rem; /* Slightly adjusted font size */
+    transition: background 0.2s, color 0.2s, border-left 0.2s; /* Smooth transition */
+    border-left: 4px solid transparent; /* For active state indicator */
+    border-radius: var(--admin-radius) 0 0 var(--admin-radius);
 }
 
-.admin-sidebar ul li a:hover,
-.admin-sidebar ul li a.active { /* Add 'active' class logic later if needed */
-    background-color: var(--primary-color-light);
+.admin-sidebar nav ul li a i {
+    margin-right: 12px; /* Space between icon and text */
+    width: 20px; /* Fixed width for icons */
+    text-align: center;
+    font-size: 1rem; /* Adjust icon size */
+    color: #faba26;
+    transition: color 0.2s;
+}
+
+.admin-sidebar nav ul li:hover a,
+.admin-sidebar nav ul li.active a { /* Assuming an 'active' class is added */
+    background: var(--admin-sidebar-active);
+    color: #fff;
+    border-left: 4px solid var(--admin-accent-color);
+    font-weight: 600;
+}
+
+.admin-sidebar nav ul li:hover a i,
+.admin-sidebar nav ul li.active a i {
     color: #fff;
 }
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative; /* Change to relative for mobile */
+        box-shadow: none;
+        border-bottom: 1px solid var(--admin-border-color);
+    }
+    .admin-main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    .admin-sidebar .logo-container {
+        display: none; /* Hide logo on small screens */
+    }
+    .admin-sidebar nav ul {
+        display: flex; /* Horizontal layout for mobile */
+        overflow-x: auto; /* Allow horizontal scrolling */
+    }
+    .admin-sidebar nav ul li {
+        flex-shrink: 0; /* Prevent items from shrinking */
+    }
+    .admin-sidebar nav ul li a {
+        padding: 10px 15px;
+        border-left: none; /* Remove left border */
+        border-bottom: 3px solid transparent; /* Use bottom border for active state */
+    }
+    .admin-sidebar nav ul li:hover a,
+    .admin-sidebar nav ul li.active a {
+        border-left-color: transparent; /* Remove left border */
+        border-bottom-color: #ffffff; /* White bottom indicator */
+    }
+}
+
+/* General Admin Styles */
+
+:root {
+    --admin-primary-color: #5b6ee1; /* More vibrant blue */
+    --admin-primary-color-light: #b3c2fa;
+    --admin-primary-color-dark: #2d3a8c;
+    --admin-accent-color: #faba26; /* Gold accent */
+    --admin-danger: #e74c3c;
+    --admin-success: #28a745;
+    --admin-info: #17a2b8;
+    --admin-bg-color: #f6f8fb;
+    --admin-sidebar-bg: #23243a;
+    --admin-sidebar-active: #5b6ee1;
+    --admin-sidebar-hover: #35365c;
+    --admin-border-color: #e0e4ea;
+    --admin-card-shadow: 0 4px 24px rgba(91,110,225,0.08);
+    --admin-radius: 10px;
+    --admin-text-color: #222;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: var(--admin-bg-color);
+    color: var(--admin-text-color);
+}
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Main Content Area */
 .admin-main-content {
     flex-grow: 1;
-    padding: 30px;
-    background-color: #fff;
+    padding: 40px 32px;
+    background: #fff;
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-card-shadow);
+    margin: 30px 30px 30px 280px;
+    min-height: 80vh;
+}
+
+@media (max-width: 900px) {
+    .admin-main-content {
+        margin: 20px 10px 20px 10px;
+        padding: 20px 8px;
+    }
+    .admin-sidebar {
+        width: 100%;
+        position: static;
+        border-radius: 0;
+    }
 }
 
 .admin-main-content h1 {
-    color: var(--primary-color);
+    color: var(--admin-primary-color);
     margin-bottom: 20px;
-    border-bottom: 2px solid var(--primary-color-light);
+    border-bottom: 2px solid var(--admin-primary-color-light);
     padding-bottom: 10px;
 }
 
@@ -60,14 +182,16 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     margin-top: 30px;
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-card-shadow);
 }
 
 .stat-card {
     background-color: #f8f9fa;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: var(--admin-radius);
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--admin-card-shadow);
 }
 
 .stat-card h2 {
@@ -80,7 +204,7 @@
 .stat-card p {
     font-size: 2em;
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--admin-primary-color);
     margin: 0;
 }
 
@@ -89,20 +213,21 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-card-shadow);
 }
 
 .admin-main-content th,
 .admin-main-content td {
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--admin-border-color);
     padding: 12px 15px;
     text-align: left;
 }
 
 .admin-main-content th {
-    background-color: var(--primary-color-light);
+    background: var(--admin-primary-color);
     color: #fff;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .admin-main-content tr:nth-child(even) {
@@ -110,7 +235,7 @@
 }
 
 .admin-main-content tr:hover {
-    background-color: #e9ecef;
+    background: var(--admin-primary-color-light);
 }
 
 .admin-main-content td button {
@@ -118,40 +243,36 @@
     margin-right: 5px;
     cursor: pointer;
     border: none;
-    border-radius: 4px;
-    background-color: var(--primary-color);
+    border-radius: 6px;
+    background-color: var(--admin-primary-color);
     color: white;
     font-size: 0.9em;
+    box-shadow: 0 2px 8px rgba(91,110,225,0.07);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .admin-main-content td button:hover {
-    background-color: var(--primary-color-dark);
+    filter: brightness(0.92);
+    box-shadow: 0 4px 16px rgba(91,110,225,0.13);
 }
 
 /* Add specific button colors if needed */
 .admin-main-content td button.delete-btn {
-    background-color: #dc3545; /* Red for delete */
+    background-color: var(--admin-danger);
 }
 
 .admin-main-content td button.delete-btn:hover {
-    background-color: #c82333;
+    filter: brightness(0.92);
+    box-shadow: 0 4px 16px rgba(91,110,225,0.13);
 }
 
 /* Button hover styles */
-.btn-view:hover {
-    background-color: #138496; /* Darker info blue */
-}
-
-.btn-update:hover {
-    background-color: #218838; /* Darker success green */
-}
-
-.btn-delete:hover {
-    background-color: #c82333; /* Darker danger red */
-}
-
+.btn-view:hover,
+.btn-update:hover,
+.btn-delete:hover,
 .btn-back:hover {
-    background-color: #5a6268; /* Darker secondary grey */
+    filter: brightness(0.92);
+    box-shadow: 0 4px 16px rgba(91,110,225,0.13);
 }
 
 /* Buttons in Tables and Forms */
@@ -160,55 +281,31 @@
     margin: 2px 4px 2px 0; /* Added slight right margin */
     cursor: pointer;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     color: white !important; /* Ensure text is white */
     font-size: 0.9em;
     text-decoration: none !important; /* Ensure no underline for links */
     display: inline-block;
     text-align: center;
-    transition: background-color 0.2s ease-in-out; /* Smooth transition */
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(91,110,225,0.07);
 }
 
 .btn-view {
-    background-color: #17a2b8; /* Info blue */
+    background: var(--admin-info);
 }
-.btn-view:hover {
-    background-color: #138496;
-    color: white !important;
-}
-
 .btn-edit {
-    background-color: #ffc107; /* Warning yellow */
-    color: #212529 !important; /* Dark text for yellow background */
+    background: var(--admin-accent-color);
+    color: #222 !important;
 }
-.btn-edit:hover {
-    background-color: #e0a800;
-    color: #212529 !important;
-}
-
 .btn-update {
-    background-color: #28a745; /* Success green */
+    background: var(--admin-success);
 }
-.btn-update:hover {
-    background-color: #218838;
-    color: white !important;
-}
-
 .btn-delete {
-    background-color: #dc3545; /* Danger red */
+    background: var(--admin-danger);
 }
-.btn-delete:hover {
-    background-color: #c82333;
-    color: white !important;
-}
-
 .btn-back {
-     background-color: #6c757d; /* Secondary grey */
-     margin-bottom: 15px;
-}
-.btn-back:hover {
-     background-color: #5a6268;
-     color: white !important;
+    background: #6c757d;
 }
 
 /* Style form buttons consistently */
@@ -220,11 +317,12 @@
     margin-top: 10px;
     cursor: pointer;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     color: white !important;
     font-size: 1em;
     text-decoration: none !important;
-    transition: background-color 0.2s ease-in-out;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(91,110,225,0.07);
 }
 
 /* Ensure form selects and inputs are styled nicely */
@@ -240,10 +338,12 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid var(--admin-border-color);
+    border-radius: 6px;
     box-sizing: border-box; /* Include padding and border */
     font-size: 0.95em;
+    font-family: 'Poppins', Arial, sans-serif;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .edit-user-form label,
@@ -259,17 +359,522 @@
 .edit-book-form {
      background-color: #f8f9fa;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: var(--admin-radius);
     margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border: 1px solid #dee2e6;
+    box-shadow: var(--admin-card-shadow);
+    border: 1px solid var(--admin-border-color);
 }
 
 .edit-user-form h2,
 .edit-book-form h2 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: var(--primary-color);
+    color: var(--admin-primary-color);
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+}
+
+/* Styles for the admin profile container */
+.profile-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-card-shadow);
+    max-width: 800px; /* Limit width */
+    margin: 20px auto; /* Center the container */
+}
+
+.profile-container h2 {
+    color: #2c3e50; /* Dark blue heading */
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.profile-form .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--admin-border-color);
+    border-radius: 6px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-size: 16px;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.profile-form input:disabled {
+    background-color: #f8f8f8; /* Lighter background for disabled fields */
+    cursor: not-allowed;
+}
+
+.profile-form .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-form .edit-btn {
+    background-color: #3498db; /* Blue */
+    color: white;
+    border: none;
+    margin-right: 10px;
+}
+
+.profile-form .edit-btn:hover {
+    background-color: #2980b9;
+}
+
+.profile-form .save-btn {
+    background-color: #2ecc71; /* Green */
+    color: white;
+    border: none;
+    display: none; /* Initially hidden */
+
+}
+
+.profile-form .save-btn:hover {
+    background-color: #27ae60;
+}
+
+button#saveBtn {
+    margin-left: 320px;
+}
+
+/* Styles for the stats section within the profile page */
+.admin-stats-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+/* Styles specific to the admin dashboard content area */
+.admin-dashboard-content {
+    padding: 20px;
+    background-color: #f4f6f9; /* Light background for content area */
+}
+
+.admin-dashboard-content h1,
+.admin-dashboard-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Example card styling */
+.dashboard-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-card-shadow);
+    margin-bottom: 20px;
+}
+
+.dashboard-card h3 {
+    margin-top: 0;
+    color: #555;
+}
+
+/* ==========================================================================
+   Admin Forms General Styling
+   ========================================================================== */
+
+.admin-form,
+.edit-user-form,
+.edit-book-form,
+.update-role-form, /* Added for consistency */
+.admin-actions form /* Added for consistency */
+{
+    background-color: #f8f9fa;
+    padding: 25px; /* Increased padding */
+    border-radius: var(--admin-radius);
+    margin-top: 20px;
+    box-shadow: var(--admin-card-shadow); /* Slightly softer shadow */
+    border: 1px solid var(--admin-border-color);
+    max-width: 700px; /* Optional: Limit form width */
+    margin-left: auto; /* Optional: Center form */
+    margin-right: auto; /* Optional: Center form */
+}
+
+.admin-form h2,
+.edit-user-form h2,
+.edit-book-form h2,
+.update-role-form h2 {
+    margin-top: 0;
+    margin-bottom: 25px; /* Increased margin */
+    color: var(--admin-primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px; /* Increased padding */
+    font-size: 1.4em; /* Slightly larger */
+}
+
+/* ==========================================================================
+   Form Elements (Labels, Inputs, Selects, Textareas)
+   ========================================================================== */
+
+.admin-form label,
+.edit-user-form label,
+.edit-book-form label,
+.update-role-form label {
+    display: block;
+    margin-bottom: 8px; /* Increased margin */
+    font-weight: 600;
+    color: #495057; /* Darker grey for better contrast */
+    font-size: 0.95em;
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="email"],
+.admin-form input[type="password"],
+.admin-form input[type="number"],
+.admin-form input[type="tel"],
+.admin-form select,
+.admin-form textarea,
+.edit-user-form input[type="text"],
+.edit-user-form input[type="email"],
+.edit-user-form input[type="tel"], /* Added tel */
+.edit-user-form select,
+.edit-user-form textarea,
+.edit-book-form input[type="text"],
+.edit-book-form input[type="number"],
+.edit-book-form select,
+.edit-book-form textarea,
+.update-role-form select {
+    width: 100%;
+    padding: 12px 15px; /* Adjusted padding */
+    margin-bottom: 18px; /* Increased margin */
+    border: 1px solid var(--admin-border-color);
+    border-radius: 6px; /* Slightly more rounded */
+    box-sizing: border-box;
+    font-size: 0.95em;
+    font-family: 'Poppins', Arial, sans-serif;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added transition */
+}
+
+/* Focus State */
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus,
+.edit-user-form input:focus,
+.edit-user-form select:focus,
+.edit-user-form textarea:focus,
+.edit-book-form input:focus,
+.edit-book-form select:focus,
+.edit-book-form textarea:focus,
+.update-role-form select:focus {
+    outline: none;
+    border-color: var(--admin-primary-color); /* Use primary color for focus */
+    box-shadow: 0 0 0 2px #b3c2fa33; /* Subtle glow effect */
+}
+
+/* Select Specific Styling */
+.admin-form select,
+.edit-user-form select,
+.edit-book-form select,
+.update-role-form select {
+    appearance: none; /* Remove default arrow */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem; /* Space for custom arrow */
+}
+
+
+/* ==========================================================================
+   Validation Errors
+   ========================================================================== */
+
+.form-invalid {
+    color: #dc3545; /* Standard danger color */
+    font-size: 0.85em; /* Slightly smaller */
+    font-weight: 600; /* Make it stand out */
+    display: block; /* Ensure it takes its own line */
+    margin-top: -10px; /* Pull up slightly below the input */
+    margin-bottom: 15px; /* Add space below the error */
+    padding-left: 5px; /* Optional: indent slightly */
+}
+
+
+/* ==========================================================================
+   Buttons (Review/Refine existing styles)
+   ========================================================================== */
+
+/* Ensure consistent vertical alignment for buttons in forms/tables */
+.admin-main-content td button,
+.admin-form button,
+.edit-user-form button,
+.edit-book-form button,
+.update-role-form button,
+.admin-actions button {
+    vertical-align: middle;
+}
+
+/* Add margin between buttons if they appear next to each other */
+.admin-form button + button,
+.edit-user-form button + button,
+.edit-book-form button + button,
+.update-role-form button + button,
+.admin-actions button + button,
+.admin-main-content td button + button {
+    margin-left: 8px;
+}
+
+/* Specific form button adjustments */
+.update-role-form button,
+.edit-user-form button,
+.edit-book-form button,
+.admin-form button {
+    padding: 10px 20px; /* Slightly larger padding for form submit buttons */
+    font-size: 1em;
+    margin-top: 10px; /* Ensure space above buttons */
+    width: auto; /* Allow button to size to content */
+    min-width: 120px; /* Minimum width */
+}
+
+/* Center form buttons if needed */
+/* Example: Add a wrapper div with text-align: center around form buttons if desired */
+
+/* ==========================================================================
+   Admin Tables (Refined)
+   ========================================================================== */
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Added margin bottom */
+    box-shadow: var(--admin-card-shadow); /* Consistent shadow */
+    background-color: #fff;
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-radius); /* Added border radius */
+    overflow: hidden; /* Ensures radius applies to content */
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid var(--admin-border-color);
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle; /* Ensure vertical alignment */
+}
+
+.admin-table th {
+    background: var(--admin-primary-color);
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 2px solid var(--admin-border-color);
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #fdfdfd; /* Very subtle striping */
+}
+
+.admin-table tr:hover {
+    background: var(--admin-primary-color-light); /* Slightly darker hover */
+}
+
+.admin-table td button,
+.admin-table td a.btn-view,
+.admin-table td a.btn-edit {
+    margin-right: 5px;
+    margin-bottom: 5px; /* Add space if buttons wrap */
+}
+
+/* Ensure forms inside tables don't break layout */
+.admin-table td form {
+    display: inline-block; /* Keep forms inline */
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================================================================
+   Detail Cards (User/Book View)
+   ========================================================================== */
+
+.user-details-card,
+.book-details-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--admin-radius);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--admin-card-shadow);
+    border: 1px solid var(--admin-border-color);
+}
+
+.user-details-card h2,
+.book-details-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--admin-primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.user-details-card p,
+.book-details-card p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #495057;
+}
+
+.user-details-card p strong,
+.book-details-card p strong {
+    color: #343a40;
+    min-width: 120px; /* Align labels */
+    display: inline-block;
+}
+
+/* ==========================================================================
+   Search Forms (Manage Users/Books)
+   ========================================================================== */
+
+.search-form-admin {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa; /* Add background */
+    padding: 15px;
+    border-radius: var(--admin-radius);
+    border: 1px solid var(--admin-border-color);
+}
+
+.search-form-admin input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px; /* Match form inputs */
+    border: 1px solid var(--admin-border-color);
+    border-radius: 6px;
+    font-size: 0.95em;
+    margin-bottom: 0; /* Override default margin */
+}
+
+.search-form-admin input[type="text"]:focus {
+    outline: none;
+    border-color: var(--admin-primary-color);
+    box-shadow: 0 0 0 2px #b3c2fa33;
+}
+
+.btn-search {
+    padding: 10px 18px; /* Match form buttons */
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: var(--admin-primary-color);
+    color: white !important;
+    border: none;
+    font-size: 0.95em;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(91,110,225,0.07);
+}
+
+.btn-search:hover {
+    filter: brightness(0.92);
+    box-shadow: 0 4px 16px rgba(91,110,225,0.13);
+}
+
+.btn-grey {
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #6c757d; /* Secondary grey */
+    color: white !important;
+    border: none;
+    font-size: 0.95em;
+    text-decoration: none !important;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    display: inline-block; /* Ensure proper rendering */
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(91,110,225,0.07);
+}
+
+.btn-grey:hover {
+    filter: brightness(0.92);
+    box-shadow: 0 4px 16px rgba(91,110,225,0.13);
+}
+
+/* ==========================================================================
+   Analytics Dashboard Specific
+   ========================================================================== */
+
+.search-forms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.search-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--admin-radius);
+    border: 1px solid var(--admin-border-color);
+    box-shadow: var(--admin-card-shadow);
+}
+
+.search-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    color: var(--admin-primary-color);
+}
+
+.search-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95em;
+}
+
+.search-card input[type="text"] {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border: 1px solid var(--admin-border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 0.95em;
+}
+
+.search-card input[type="text"]:focus {
+     outline: none;
+    border-color: var(--admin-primary-color);
+    box-shadow: 0 0 0 2px #b3c2fa33;
+}
+
+.search-card button {
+    margin-top: 5px; /* Add some space above button */
+}
+
+/* ==========================================================================
+   Stat Card Links (Dashboard)
+   ========================================================================== */
+
+.stat-link {
+    display: block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: var(--admin-primary-color);
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: color 0.2s ease;
+}
+
+.stat-link:hover {
+    color: var(--admin-primary-color-dark);
+    text-decoration: underline;
 }

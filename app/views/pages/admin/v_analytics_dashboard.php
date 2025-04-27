@@ -1,5 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/admin_style.css">
 
 <div class="admin-container">
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
@@ -16,7 +17,7 @@
                 <form action="<?php echo URLROOT; ?>/admin/analyticsDashboard" method="post">
                     <input type="hidden" name="search_type" value="users">
                     <label for="user_search_term">Search by ID, Name, or Email:</label>
-                    <input type="text" name="search_term" id="user_search_term" value="<?php echo ($data['search_type'] == 'users') ? htmlspecialchars($data['search_term']) : ''; ?>" placeholder="Enter search term...">
+                    <input type="text" name="search_term" id="user_search_term" value="<?php echo ($data['search_type'] == 'users') ? htmlspecialchars($data['search_term'] ?? '') : ''; ?>" placeholder="Enter search term...">
                     <button type="submit" class="btn-search">Search Users</button>
                 </form>
             </div>
@@ -27,7 +28,7 @@
                 <form action="<?php echo URLROOT; ?>/admin/analyticsDashboard" method="post">
                     <input type="hidden" name="search_type" value="books">
                     <label for="book_search_term">Search by ID, Title, Author, ISBN, Owner ID/Name:</label>
-                    <input type="text" name="search_term" id="book_search_term" value="<?php echo ($data['search_type'] == 'books') ? htmlspecialchars($data['search_term']) : ''; ?>" placeholder="Enter search term...">
+                    <input type="text" name="search_term" id="book_search_term" value="<?php echo ($data['search_type'] == 'books') ? htmlspecialchars($data['search_term'] ?? '') : ''; ?>" placeholder="Enter search term...">
                     <button type="submit" class="btn-search">Search Books</button>
                 </form>
             </div>
@@ -37,7 +38,7 @@
 
         <!-- Display User Search Results -->
         <?php if ($data['search_type'] == 'users' && !empty($data['search_term'])) : ?>
-            <h2>User Search Results for "<?php echo htmlspecialchars($data['search_term']); ?>"</h2>
+            <h2>User Search Results for "<?php echo htmlspecialchars($data['search_term'] ?? ''); ?>"</h2>
             <?php if (!empty($data['user_results'])) : ?>
                 <table>
                     <thead>
@@ -53,9 +54,9 @@
                         <?php foreach ($data['user_results'] as $user) : ?>
                             <tr>
                                 <td><?php echo $user->user_id; ?></td>
-                                <td><?php echo htmlspecialchars($user->user_name); ?></td>
-                                <td><?php echo htmlspecialchars($user->user_email); ?></td>
-                                <td><?php echo htmlspecialchars($user->user_role); ?></td>
+                                <td><?php echo htmlspecialchars($user->user_name ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($user->user_email ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($user->user_role ?? ''); ?></td>
                                 <td>
                                     <a href="<?php echo URLROOT; ?>/admin/viewUser/<?php echo $user->user_id; ?>" class="btn-view">View</a>
                                     <?php if ($user->user_id != $_SESSION['user_id']) : ?>
@@ -73,7 +74,7 @@
 
         <!-- Display Book Search Results -->
         <?php if ($data['search_type'] == 'books' && !empty($data['search_term'])) : ?>
-            <h2>Book Search Results for "<?php echo htmlspecialchars($data['search_term']); ?>"</h2>
+            <h2>Book Search Results for "<?php echo htmlspecialchars($data['search_term'] ?? ''); ?>"</h2>
             <?php if (!empty($data['book_results'])) : ?>
                 <table>
                     <thead>
