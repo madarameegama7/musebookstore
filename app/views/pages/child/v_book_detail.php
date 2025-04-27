@@ -387,7 +387,7 @@
     <div class="book-detail-content">
         <div class="book-image-container">
             <!-- Using a placeholder image - replace with actual book image when available -->
-            <img src="<?= URLROOT ?>/public/img/index-page.jpg" alt="<?= $data['book']->book_title ?>" class="book-image">
+            <img src="<?= URLROOT ?>/public/img/book.jpg" alt="<?= $data['book']->book_title ?>" class="book-image">
             <div class="book-price-badge"><?= number_format($data['book']->book_price, 2) ?> LKR</div>
         </div>
         
