@@ -174,28 +174,6 @@
     <?php endif; ?>
     </div>
 
-    <?php if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child'): ?>
-        <div class="communities-container">
-            <h2>Communities</h2>
-            <div class="communities">
-                <div class="communities-card">
-                    <img src="/musebookstore/public/img/index-page.jpg">
-                    <h3>Great Thinkers: How Suffering Can Improve Your Life</h3>
-
-                </div>
-                <div class="communities-card">
-                    <img src="/musebookstore/public/img/index-lifestyle.jpg" alt="Lifestyle">
-                    <h3>This Year’s Travelers Seek Calm and Connection</h3>
-
-                </div>
-                <div class="communities-card">
-                    <img src="/musebookstore/public/img/index-comm.jpeg" alt="Communication">
-                    <h3>Quick Help: 10 Steps to Stay Cool in Political Conversations</h3>
-
-                </div>
-            </div>
-            <br>
-        </div>
-    <?php endif; ?>
+  
 
     <?php require APPROOT . '/views/inc/footer.php'; ?>

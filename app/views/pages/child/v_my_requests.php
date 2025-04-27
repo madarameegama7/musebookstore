@@ -276,7 +276,7 @@
         
         <div class="action-button">
             <a href="<?= URLROOT ?>/pages/index" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Books
+                <i class="fas fa-arrow-left"></i> Back to Home
             </a>
         </div>
     </div>

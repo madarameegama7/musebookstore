@@ -117,7 +117,7 @@ class M_Child{
     
     // Update a child account
     public function updateChild($data){
-        $this->db->query('UPDATE user SET user_name = :name, user_email = :email, updated_at = NOW() WHERE user_id = :id');
+        $this->db->query('UPDATE user SET user_name = :name, user_email = :email WHERE user_id = :id');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':id', $data['id']);
@@ -126,23 +126,31 @@ class M_Child{
     }
     
     // Delete a child account and all associated requests
-    public function deleteChild($childId){
-        // Delete book requests first
-        $this->db->query('DELETE FROM book_request WHERE child_id = :child_id');
-        $this->db->bind(':child_id', $childId);
-        $this->db->execute();
-        
-        // Delete notifications if table exists
-        $this->db->query('DELETE FROM notification WHERE user_id = :user_id');
-        $this->db->bind(':user_id', $childId);
-        $this->db->execute();
-        
-        // Delete child user
-        $this->db->query('DELETE FROM user WHERE user_id = :user_id AND user_role = "child"');
-        $this->db->bind(':user_id', $childId);
-        
-        return $this->db->execute();
-    }
+  // Delete a child account and all associated requests
+public function deleteChild($childId){
+    // Delete book requests first
+    $this->db->query('DELETE FROM book_request WHERE child_id = :child_id');
+    $this->db->bind(':child_id', $childId);
+    $this->db->execute();
+    
+    // Delete notifications
+    $this->db->query('DELETE FROM notification WHERE user_id = :user_id');
+    $this->db->bind(':user_id', $childId);
+    $this->db->execute();
+    
+    // 🔥 Delete transactions where the child is the requester
+    $this->db->query('DELETE FROM transaction WHERE requester_id = :user_id');
+    $this->db->bind(':user_id', $childId);
+    $this->db->execute();
+    
+    // Finally, delete the child user
+    $this->db->query('DELETE FROM user WHERE user_id = :user_id AND user_role = "child"');
+    $this->db->bind(':user_id', $childId);
+    
+    return $this->db->execute();
+}
+
+   
     
     // Check if a book has been requested by a child and its status
     public function getBookRequestStatus($childId, $bookId){
