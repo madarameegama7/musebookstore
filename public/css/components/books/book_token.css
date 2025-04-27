@@ -1,0 +1,82 @@
+
+.booktoken-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.booktoken-container .main-title {
+    margin: 40px 0 20px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+.booktoken-container .subtitle {
+    margin-bottom: 40px;
+    color: #666;
+}
+.booktoken-container .pricing-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.booktoken-container .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+}
+.booktoken-container .card.highlight {
+    background: linear-gradient(135deg, #6c63ff, #9d4edd);
+    color: #fff;
+}
+.booktoken-container .card h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+}
+.booktoken-container .card .price {
+    font-size: 2em;
+    margin: 20px 0;
+}
+.booktoken-container .card ul {
+    list-style: none;
+    padding: 0;
+}
+.booktoken-container .card ul li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+.booktoken-container .card ul li i {
+    margin-right: 10px;
+}
+.booktoken-container .card .cta {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+.booktoken-container .card .cta.highlight {
+    background-color: #fff;
+    color: #6c63ff;
+}
+.booktoken-container .card .cta.default {
+    background-color: #6c63ff;
+    color: #fff;
+}
+.booktoken-container .card .extra-info {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+}
+@media (max-width: 768px) {
+    .booktoken-container .pricing-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}
