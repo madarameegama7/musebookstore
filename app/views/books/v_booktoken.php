@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 ?>
 <div class="booktoken-container">
     <main>
+    <p>Tokens <strong><?php echo $data['token']->token_count; ?></strong></p>
         <h2 class="main-title">
             <center>Buy tokens for unlimited book swappings</center>
         </h2>

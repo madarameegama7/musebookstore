@@ -4,12 +4,14 @@ class Books extends Controller
     private $bookModel;
     private $transactionModel;
     private $notificationModel;
+    private $userModel;
 
     public function __construct()
     {
         $this->bookModel = $this->model('M_Books');
         $this->transactionModel =  $this->model('M_Transactions');
         $this->notificationModel =  $this->model('M_Notifications');
+        $this->userModel=$this->model('M_Users');
 
     }
    
@@ -43,10 +45,17 @@ class Books extends Controller
     }
 
     public function booktoken(){
-        $data = [];
+        $userid = $_SESSION['user_id'];
+        $token=null;
+        $token = $this->userModel->getTokenCount($userid);
+    
+        $data = [
+            'token' => $token
+        ];
         $this->view('books/v_booktoken', $data);
 
     }
+    
     public function tokenpayment(){
         $data = [];
         $this->view('books/v_booktokenpay', $data);

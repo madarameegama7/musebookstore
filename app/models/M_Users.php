@@ -136,25 +136,40 @@ class M_Users
     //user dashboard analytics
     public function getTokenCount($user_id)
     {
-        $this->db->query('SELECT token_count FROM token WHERE user_id= :user_id');
+        $this->db->query('SELECT * FROM token WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->single();
+    }
+    public function getTransactionCount($user_id)
+    {
+        $this->db->query('SELECT COUNT(transaction_id) AS transaction_count FROM transaction WHERE requester_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->single();
+    }
+    
+    
+
+    public function getChildCount($user_id)
+    {
+        $this->db->query('SELECT COUNT(user_id) as user_count FROM user WHERE parent_id = :user_id');
         $this->db->bind(':user_id', $user_id);
         return $this->db->single();
     }
 
-    public function getChildCount($user_id)
-    {
-        $this->db->query('SELECT COUNT(user_id) AS total FROM user WHERE parent_id = :user_id');
-        $this->db->bind(':user_id', $user_id);
-        $row = $this->db->single();
-        return $row->total ?? 0;
-    }
+      public function getTransactionByBookAndUser($bookId, $userId) {
+        $this->db->query("SELECT * FROM transaction WHERE book_id = :book_id AND requester_id = :user_id LIMIT 1");
+        $this->db->bind(':book_id', $bookId);
+        $this->db->bind(':user_id', $userId);
+    
+        return $this->db->single();
+    } 
+
 
 
     public function getBookCount($user_id)
     {
-        $this->db->query('SELECT COUNT(book_id) FROM book WHERE owner_id= :user_id');
-        $this->db->bind(':owner_id', $user_id);
-        $results = $this->db->resultSet();
+        $this->db->query('SELECT COUNT(book_id) as book_count FROM book WHERE owner_id= :user_id');
+        $this->db->bind(':user_id', $user_id);
         return $this->db->single();
     }
 
