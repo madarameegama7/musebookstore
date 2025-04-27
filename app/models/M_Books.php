@@ -28,11 +28,6 @@ class M_Books{
             return false;
         }
     }
-    /**
-     * Get books from the database
-     * @param int $limit Optional limit for number of books to return
-     * @return array Books from the database
-     */
     public function getBooks($limit = null){
         // Query from the book table directly instead of the v_books view
         if ($limit) {

@@ -29,7 +29,7 @@ class M_Transactions{
     } 
 
     public function getTransaction($userId) {
-        $this->db->query("SELECT b.book_title, t.type, t.status
+        $this->db->query("SELECT b.book_title, t.type, t.status,t.transaction_id
                           FROM book b
                           INNER JOIN transaction t ON b.book_id = t.book_id
                           WHERE t.requester_id = :user_id");
@@ -49,8 +49,16 @@ class M_Transactions{
         $this->db->bind(':user_id', $user_id);
         return $this->db->execute();
     }
-    public function cancelRequest($transaction_id) {
-        $this->db->query("DELETE FROM transaction WHERE transaction_id = :transaction_id AND status = 'pending'");
+    public function cancelRequest($transaction_id)
+    {
+        $this->db->query("UPDATE transaction SET status = 'declined' WHERE transaction_id = :transaction_id AND status = 'pending'");
+        $this->db->bind(':transaction_id', $transaction_id);
+    
+        return $this->db->execute();
+    }
+    public function withdrawRequest($transaction_id)
+    {
+        $this->db->query("UPDATE transaction SET status = 'cancelled' WHERE transaction_id = :transaction_id AND status = 'pending'");
         $this->db->bind(':transaction_id', $transaction_id);
     
         return $this->db->execute();
