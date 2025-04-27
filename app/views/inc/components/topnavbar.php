@@ -57,7 +57,7 @@
                         break;
                     case 'ambassador':
                         // Add ambassador profile link if it exists
-                        // $profileLink = URLROOT . '/pages/ambassadorProfileView';
+                        $profileLink = URLROOT . '/pages/ambassadorProfileView';
                         break;
                         // Add other roles as needed
                 }
