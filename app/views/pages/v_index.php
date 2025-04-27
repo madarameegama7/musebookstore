@@ -98,6 +98,7 @@
 
 </section>
 
+
 <script>
     document.getElementById("showMoreBtn").addEventListener("click", function() {
         document.querySelectorAll(".hidden").forEach(category => {

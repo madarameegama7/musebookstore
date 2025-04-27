@@ -173,13 +173,17 @@ class Parent_User extends Controller {
     }
 
     //user dashboard analytics
-    public function getchildren(){
-        $userid=$_SESSION['user_id'];
-        $childcount=$this->userModel->getChildCount($userid);
-        $data=[
-            'child_count'=>$childcount
+    public function getchildren() {
+        $userid = $_SESSION['user_id'];
+        $childcount = $this->userModel->getChildCount($userid);
+    
+        $data = [
+            'childcount' => $childcount
         ];
-        $this->view('users/v_userprofile', $data);
-    }
+    
+        $this->view('pages/parent/v_userprofile', $data); // <- load view with data
+    }    
+    
+
 }
 ?>

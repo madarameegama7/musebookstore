@@ -33,6 +33,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 
         <div class="profile-container">
             <h2>User Profile</h2>
+            <p><?php echo $data['child_count']; ?></p>
             
             <form action="<?php echo URLROOT; ?>/users/edit_profile" method="POST" class="profile-form">
                 <!-- Left Column -->

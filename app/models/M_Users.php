@@ -129,10 +129,10 @@ class M_Users
 
     }
     public function getChildCount($user_id){
-        $this->db->query('SELECT COUNT(user_id) AS total FROM user WHERE parent_id = :user_id');
+        $this->db->query('SELECT COUNT(*) AS total FROM user WHERE parent_id = :user_id');
         $this->db->bind(':user_id', $user_id);
-        $result = $this->db->single();
-        return $result ? $result->total : 0;
+        $row = $this->db->single();
+        return $row->total ?? 0;
     }
     
     
@@ -141,5 +141,10 @@ class M_Users
         $this->db->bind(':owner_id',$user_id);
         $results = $this->db->resultSet();
         return $this->db->single();
+    }
+    public function getUserCount()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM user');
+        $row = $this->db->single();
     }
 }

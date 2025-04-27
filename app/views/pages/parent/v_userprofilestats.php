@@ -9,7 +9,7 @@
                     <img src="/musebookstore/public/img/parent_dashboard/children.png" alt="Child Logo">
                 </div>
                 <h3>
-                    Child Accounts
+                <p><?php echo $data['childcount']; ?></p>
                 </h3>
                 <p>
                 <p>
