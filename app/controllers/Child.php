@@ -70,7 +70,7 @@ class Child extends Controller {
         // If no book ID provided, redirect back
         if(!$bookId) {
             flash('request_error', 'Invalid book selection', 'alert alert-danger');
-            redirect('pages/index');
+            redirect('/child/childHome');
         }
 
         // Process request
@@ -82,7 +82,7 @@ class Child extends Controller {
             flash('request_error', 'Unable to request this book. Please try again.', 'alert alert-danger');
         }
         
-        redirect('pages/index');
+        redirect('/child/childHome');
     }
 
     // View my requests
