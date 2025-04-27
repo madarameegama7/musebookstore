@@ -6,7 +6,7 @@
     <main class="admin-main-content">
         <h1><?php echo $data['title']; ?></h1>
         <?php flash('admin_msg'); ?>
-        <table>
+        <table class="admin-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -24,7 +24,11 @@
                             <td><?php echo $r->request_id; ?></td>
                             <td><?php echo $r->communityName !== null ? htmlspecialchars($r->communityName) : 'N/A'; ?></td>
                             <td><?php echo htmlspecialchars($r->reason); ?></td>
-                            <td><?php echo ucfirst($r->request_status); ?></td>
+                            <td>
+                                <span class="status-badge <?php echo $r->request_status; ?>">
+                                    <?php echo ucfirst($r->request_status); ?>
+                                </span>
+                            </td>
                             <td><?php echo $r->created_at; ?></td>
                             <td>
                                 <?php if ($r->request_status === 'pending'): ?>
@@ -40,12 +44,14 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6">No delete requests found.</td>
+                        <td colspan="6" class="no-results">No delete requests found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
-        <a href="<?php echo URLROOT; ?>/admin" class="btn btn-back">Back to Dashboard</a>
+        <div class="action-buttons" style="margin-top: 20px;">
+            <a href="<?php echo URLROOT; ?>/admin" class="btn-back">Back to Dashboard</a>
+        </div>
     </main>
 </div>
 <?php require APPROOT . '/views/inc/footer.php'; ?>

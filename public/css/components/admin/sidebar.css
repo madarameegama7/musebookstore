@@ -73,6 +73,60 @@
     color: #ffffff; /* White icon on hover/active */
 }
 
+/* Collapsible Section Styling */
+.sidebar-section-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #adb5bd;
+    font-size: 1rem;
+    text-align: left;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s, color 0.2s;
+    outline: none;
+}
+.sidebar-section-toggle i {
+    margin-left: 8px;
+    font-size: 0.95rem;
+    transition: transform 0.2s;
+}
+.sidebar-section {
+    display: none;
+    flex-direction: column;
+    padding-left: 0;
+    background: #353642;
+}
+.sidebar-section.open {
+    display: flex;
+}
+.sidebar-section li a {
+    padding-left: 36px;
+    font-size: 0.93rem;
+}
+.sidebar-section-toggle:hover,
+.sidebar-section-toggle:focus {
+    background: #44455a;
+    color: #fff;
+}
+
+/* Add spacing between grouped sections */
+.admin-sidebar nav ul > li {
+    margin-bottom: 6px;
+}
+.admin-sidebar nav ul > li:last-child {
+    margin-bottom: 0;
+}
+
+/* Divider for visual separation (optional) */
+.admin-sidebar .sidebar-divider {
+    border: none;
+    border-top: 1px solid #44455a;
+    margin: 10px 0;
+}
 
 /* Ensure main content doesn't overlap */
 /* This is handled by .admin-main-content in admin_style.css */
@@ -114,5 +168,12 @@
     .admin-sidebar nav ul li.active a {
         border-left-color: transparent; /* Remove left border */
         border-bottom-color: #ffffff; /* White bottom indicator */
+    }
+    .sidebar-section-toggle {
+        padding: 10px 15px;
+        font-size: 0.98rem;
+    }
+    .sidebar-section li a {
+        padding-left: 28px;
     }
 }
