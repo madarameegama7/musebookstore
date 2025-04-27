@@ -1,0 +1,54 @@
+.delete-event-container {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.delete-event-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #c82333;
+}
+
+.delete-event-message {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.delete-event-form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-delete-event {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-delete-event:hover {
+    background-color: #c82333;
+}
+
+.btn-cancel-delete {
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.btn-cancel-delete:hover {
+    background-color: #5a6268;
+}
