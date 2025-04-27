@@ -1,4 +1,6 @@
 <?php
+require_once APPROOT . '/helpers/Alert_Helper.php';
+
 class Admin extends Controller
 {
     private $adminModel;
@@ -9,8 +11,8 @@ class Admin extends Controller
     {
         // Ensure user is logged in and is an admin
         if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-            // Optionally flash a message
-            flash('auth_err', 'Admin access required.', 'alert alert-danger');
+            // Use the new Alert Helper instead of flash
+            Alert_Helper::error("Access Denied", "Admin access required");
             redirect('users/login'); // Redirect non-admins
         }
 
@@ -141,7 +143,7 @@ class Admin extends Controller
     {
         $user = $this->adminModel->getUserById($userId);
         if (!$user) {
-            flash('admin_msg', 'User not found.', 'alert alert-danger');
+            Alert_Helper::error('User not found', 'The requested user does not exist.');
             redirect('admin/manageUsers');
         }
         $data = [
@@ -156,14 +158,14 @@ class Admin extends Controller
     {
         $user = $this->adminModel->getUserById($userId);
         if (!$user) {
-            flash('admin_msg', 'User not found.', 'alert alert-danger');
+            Alert_Helper::error('User not found', 'The requested user does not exist.');
             redirect('admin/manageUsers');
         }
 
         // Prevent editing self details via this form (can use profile page)
         // Although admin can change their own role via viewUser
         if ($user->user_id == $_SESSION['user_id']) {
-            flash('admin_msg', 'Use your profile page to edit your own details.', 'alert alert-warning');
+            Alert_Helper::warning('Action not allowed', 'Use your profile page to edit your own details.');
             redirect('admin/manageUsers');
         }
 
@@ -191,7 +193,7 @@ class Admin extends Controller
             // Fetch original user data to compare email
             $originalUser = $this->adminModel->getUserById($userId);
             if (!$originalUser) {
-                flash('admin_msg', 'User not found.', 'alert alert-danger');
+                Alert_Helper::error('User not found', 'The requested user does not exist.');
                 redirect('admin/manageUsers');
                 return;
             }
@@ -239,10 +241,10 @@ class Admin extends Controller
             // If no errors, attempt update
             if (empty($data['name_err']) && empty($data['email_err']) && empty($data['address_err']) && empty($data['contactNumber_err'])) {
                 if ($this->adminModel->updateUser($data)) {
-                    flash('admin_msg', 'User details updated successfully.');
+                    Alert_Helper::success('Success', 'User details updated successfully.');
                     redirect('admin/manageUsers'); // Or redirect('admin/viewUser/' . $userId);
                 } else {
-                    flash('admin_msg', 'Failed to update user details.', 'alert alert-danger');
+                    Alert_Helper::error('Update failed', 'Failed to update user details.');
                     // Reload view with data and error message
                     $this->view('pages/admin/v_edit_user', $data);
                 }
@@ -266,15 +268,15 @@ class Admin extends Controller
             // Basic validation (can add more roles if needed)
             $allowedRoles = ['admin', 'parent', 'child', 'ambassador'];
             if (!in_array($newRole, $allowedRoles)) {
-                flash('admin_msg', 'Invalid user role selected.', 'alert alert-danger');
+                Alert_Helper::error('Invalid Role', 'Invalid user role selected.');
                 redirect('admin/viewUser/' . $userId);
                 return; // Stop execution
             }
 
             if ($this->adminModel->updateUserRole($userId, $newRole)) {
-                flash('admin_msg', 'User role updated successfully.');
+                Alert_Helper::success('Success', 'User role updated successfully.');
             } else {
-                flash('admin_msg', 'Failed to update user role.', 'alert alert-danger');
+                Alert_Helper::error('Update failed', 'Failed to update user role.');
             }
             redirect('admin/viewUser/' . $userId);
         } else {
@@ -290,23 +292,23 @@ class Admin extends Controller
             // Ensure user exists before trying to delete
             $user = $this->adminModel->getUserById($userId);
             if (!$user) {
-                flash('admin_msg', 'User not found or already deleted.', 'alert alert-warning');
+                Alert_Helper::warning('User not found', 'User not found or already deleted.');
                 redirect('admin/manageUsers');
                 return;
             }
 
             // Prevent deleting self
             if ($userId == $_SESSION['user_id']) {
-                flash('admin_msg', 'You cannot delete your own account.', 'alert alert-danger');
+                Alert_Helper::error('Action not allowed', 'You cannot delete your own account.');
                 redirect('admin/manageUsers');
                 return;
             }
 
             if ($this->adminModel->deleteUserById($userId)) {
-                flash('admin_msg', 'User deleted successfully.');
+                Alert_Helper::success('Success', 'User deleted successfully.');
                 redirect('admin/manageUsers');
             } else {
-                flash('admin_msg', 'Failed to delete user.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete user.');
                 redirect('admin/manageUsers');
             }
         } else {
@@ -402,10 +404,10 @@ class Admin extends Controller
 
                 // Attempt to create user
                 if ($this->adminModel->createUser($data)) {
-                    flash('admin_msg', 'New user added successfully.');
+                    Alert_Helper::success('Success', 'New user added successfully.');
                     redirect('admin/manageUsers');
                 } else {
-                    flash('admin_msg', 'Failed to add user.', 'alert alert-danger');
+                    Alert_Helper::error('Add failed', 'Failed to add user.');
                     $this->view('pages/admin/v_add_user', $data); // Reload form with error
                 }
             } else {
@@ -475,7 +477,7 @@ class Admin extends Controller
     {
         $book = $this->adminModel->getBookById($bookId);
         if (!$book) {
-            flash('admin_msg', 'Book not found.', 'alert alert-danger');
+            Alert_Helper::error('Book not found', 'The requested book does not exist.');
             redirect('admin/manageBooks');
         }
         $data = [
@@ -490,7 +492,7 @@ class Admin extends Controller
     {
         $book = $this->adminModel->getBookById($bookId);
         if (!$book) {
-            flash('admin_msg', 'Book not found.', 'alert alert-danger');
+            Alert_Helper::error('Book not found', 'The requested book does not exist.');
             redirect('admin/manageBooks');
         }
 
@@ -528,7 +530,7 @@ class Admin extends Controller
             // Fetch original book data in case of errors
             $originalBook = $this->adminModel->getBookById($bookId);
             if (!$originalBook) {
-                flash('admin_msg', 'Book not found.', 'alert alert-danger');
+                Alert_Helper::error('Book not found', 'The requested book does not exist.');
                 redirect('admin/manageBooks');
                 return;
             }
@@ -599,10 +601,10 @@ class Admin extends Controller
             ) {
 
                 if ($this->adminModel->updateBook($data)) {
-                    flash('admin_msg', 'Book details updated successfully.');
+                    Alert_Helper::success('Success', 'Book details updated successfully.');
                     redirect('admin/manageBooks'); // Or redirect('admin/viewBook/' . $bookId);
                 } else {
-                    flash('admin_msg', 'Failed to update book details.', 'alert alert-danger');
+                    Alert_Helper::error('Update failed', 'Failed to update book details.');
                     $this->view('pages/admin/v_edit_book', $data); // Reload form with error
                 }
             } else {
@@ -697,10 +699,10 @@ class Admin extends Controller
             ) {
 
                 if ($this->adminModel->createBook($data)) {
-                    flash('admin_msg', 'New book added successfully.');
+                    Alert_Helper::success('Success', 'New book added successfully.');
                     redirect('admin/manageBooks');
                 } else {
-                    flash('admin_msg', 'Failed to add book.', 'alert alert-danger');
+                    Alert_Helper::error('Add failed', 'Failed to add book.');
                     $this->view('pages/admin/v_add_book', $data); // Reload form with error
                 }
             } else {
@@ -745,16 +747,16 @@ class Admin extends Controller
             // Ensure book exists
             $book = $this->adminModel->getBookById($bookId);
             if (!$book) {
-                flash('admin_msg', 'Book not found or already deleted.', 'alert alert-warning');
+                Alert_Helper::warning('Book not found', 'Book not found or already deleted.');
                 redirect('admin/manageBooks');
                 return;
             }
 
             if ($this->adminModel->deleteBookById($bookId)) {
-                flash('admin_msg', 'Book deleted successfully.');
+                Alert_Helper::success('Success', 'Book deleted successfully.');
                 redirect('admin/manageBooks');
             } else {
-                flash('admin_msg', 'Failed to delete book.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete book.');
                 redirect('admin/manageBooks');
             }
         } else {
@@ -779,9 +781,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->updateCommunityStatus($communityId, 'approved')) {
-                flash('admin_msg', 'Community approved successfully.');
+                Alert_Helper::success('Success', 'Community approved successfully.');
             } else {
-                flash('admin_msg', 'Failed to approve community.', 'alert alert-danger');
+                Alert_Helper::error('Approval failed', 'Failed to approve community.');
             }
             redirect('admin/manageCommunities');
         } else {
@@ -794,9 +796,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->updateCommunityStatus($communityId, 'rejected')) {
-                flash('admin_msg', 'Community rejected.');
+                Alert_Helper::success('Success', 'Community rejected.');
             } else {
-                flash('admin_msg', 'Failed to reject community.', 'alert alert-danger');
+                Alert_Helper::error('Rejection failed', 'Failed to reject community.');
             }
             redirect('admin/manageCommunities');
         } else {
@@ -809,9 +811,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->deleteCommunityById($communityId)) {
-                flash('admin_msg', 'Community deleted successfully.');
+                Alert_Helper::success('Success', 'Community deleted successfully.');
             } else {
-                flash('admin_msg', 'Failed to delete community.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete community.');
             }
             redirect('admin/manageCommunities');
         } else {
@@ -835,9 +837,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->updateTransactionStatus($transactionId, 'approved')) {
-                flash('admin_msg', 'Transaction approved successfully.');
+                Alert_Helper::success('Success', 'Transaction approved successfully.');
             } else {
-                flash('admin_msg', 'Failed to approve transaction.', 'alert alert-danger');
+                Alert_Helper::error('Approval failed', 'Failed to approve transaction.');
             }
             redirect('admin/manageTransactions');
         } else {
@@ -850,9 +852,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->updateTransactionStatus($transactionId, 'declined')) {
-                flash('admin_msg', 'Transaction declined.');
+                Alert_Helper::success('Success', 'Transaction declined.');
             } else {
-                flash('admin_msg', 'Failed to decline transaction.', 'alert alert-danger');
+                Alert_Helper::error('Decline failed', 'Failed to decline transaction.');
             }
             redirect('admin/manageTransactions');
         } else {
@@ -865,9 +867,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->deleteTransactionById($transactionId)) {
-                flash('admin_msg', 'Transaction deleted successfully.');
+                Alert_Helper::success('Success', 'Transaction deleted successfully.');
             } else {
-                flash('admin_msg', 'Failed to delete transaction.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete transaction.');
             }
             redirect('admin/manageTransactions');
         } else {
@@ -890,9 +892,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->deleteWritingGroupById($groupId)) {
-                flash('admin_msg', 'Writing group deleted successfully.');
+                Alert_Helper::success('Success', 'Writing group deleted successfully.');
             } else {
-                flash('admin_msg', 'Failed to delete writing group.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete writing group.');
             }
             redirect('admin/writingGroups');
         } else {
@@ -911,9 +913,9 @@ class Admin extends Controller
                 'image_path' => $_POST['image_path'] ?? null
             ];
             if ($this->adminModel->addWritingGroup($data)) {
-                flash('admin_msg', 'Writing group added.');
+                Alert_Helper::success('Success', 'Writing group added.');
             } else {
-                flash('admin_msg', 'Failed to add writing group.', 'alert alert-danger');
+                Alert_Helper::error('Add failed', 'Failed to add writing group.');
             }
             redirect('admin/writingGroups');
         } else {
@@ -928,7 +930,7 @@ class Admin extends Controller
             if ($g->writingGroup_id == $wgId) $group = $g;
         }
         if (!$group) {
-            flash('admin_msg', 'Writing group not found.', 'alert alert-danger');
+            Alert_Helper::error('Group not found', 'Writing group not found.');
             redirect('admin/writingGroups');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -940,10 +942,10 @@ class Admin extends Controller
                 'image_path' => $_POST['image_path'] ?? null
             ];
             if ($this->adminModel->updateWritingGroup($wgId, $data)) {
-                flash('admin_msg', 'Writing group updated.');
+                Alert_Helper::success('Success', 'Writing group updated.');
                 redirect('admin/writingGroups');
             } else {
-                flash('admin_msg', 'Failed to update writing group.', 'alert alert-danger');
+                Alert_Helper::error('Update failed', 'Failed to update writing group.');
                 redirect('admin/writingGroups');
             }
         } else {
@@ -970,9 +972,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->deleteWritingGroupPostById($postId)) {
-                flash('admin_msg', 'Writing group post deleted successfully.');
+                Alert_Helper::success('Success', 'Writing group post deleted successfully.');
             } else {
-                flash('admin_msg', 'Failed to delete writing group post.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete writing group post.');
             }
             redirect('admin/writingGroupPosts');
         } else {
@@ -991,9 +993,9 @@ class Admin extends Controller
                 'chapter_content' => $_POST['chapter_content']
             ];
             if ($this->adminModel->addWritingGroupPost($data)) {
-                flash('admin_msg', 'Writing group post added.');
+                Alert_Helper::success('Success', 'Writing group post added.');
             } else {
-                flash('admin_msg', 'Failed to add writing group post.', 'alert alert-danger');
+                Alert_Helper::error('Add failed', 'Failed to add writing group post.');
             }
             redirect('admin/writingGroupPosts');
         } else {
@@ -1008,7 +1010,7 @@ class Admin extends Controller
             if ($p->writingGroup_post_id == $postId) $post = $p;
         }
         if (!$post) {
-            flash('admin_msg', 'Writing group post not found.', 'alert alert-danger');
+            Alert_Helper::error('Post not found', 'Writing group post not found.');
             redirect('admin/writingGroupPosts');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1018,10 +1020,10 @@ class Admin extends Controller
                 'chapter_content' => $_POST['chapter_content']
             ];
             if ($this->adminModel->updateWritingGroupPost($postId, $data)) {
-                flash('admin_msg', 'Writing group post updated.');
+                Alert_Helper::success('Success', 'Writing group post updated.');
                 redirect('admin/writingGroupPosts');
             } else {
-                flash('admin_msg', 'Failed to update writing group post.', 'alert alert-danger');
+                Alert_Helper::error('Update failed', 'Failed to update writing group post.');
                 redirect('admin/writingGroupPosts');
             }
         } else {
@@ -1056,9 +1058,9 @@ class Admin extends Controller
                 'purchase_date' => $_POST['purchase_date']
             ];
             if ($this->adminModel->addToken($data)) {
-                flash('admin_msg', 'Token record added.');
+                Alert_Helper::success('Success', 'Token record added.');
             } else {
-                flash('admin_msg', 'Failed to add token.', 'alert alert-danger');
+                Alert_Helper::error('Add failed', 'Failed to add token.');
             }
             redirect('admin/manageTokens');
         } else {
@@ -1073,7 +1075,7 @@ class Admin extends Controller
         }
         $users = $this->adminModel->getAllUsers();
         if (!$token) {
-            flash('admin_msg', 'Token not found.', 'alert alert-danger');
+            Alert_Helper::error('Token not found', 'Token not found.');
             redirect('admin/manageTokens');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1085,10 +1087,10 @@ class Admin extends Controller
                 'purchase_date' => $_POST['purchase_date']
             ];
             if ($this->adminModel->updateToken($tokenId, $data)) {
-                flash('admin_msg', 'Token updated.');
+                Alert_Helper::success('Success', 'Token updated.');
                 redirect('admin/manageTokens');
             } else {
-                flash('admin_msg', 'Failed to update token.', 'alert alert-danger');
+                Alert_Helper::error('Update failed', 'Failed to update token.');
                 redirect('admin/manageTokens');
             }
         } else {
@@ -1103,9 +1105,9 @@ class Admin extends Controller
     public function deleteToken($tokenId)
     {
         if ($this->adminModel->deleteTokenById($tokenId)) {
-            flash('admin_msg', 'Token deleted.');
+            Alert_Helper::success('Success', 'Token deleted.');
         } else {
-            flash('admin_msg', 'Failed to delete token.', 'alert alert-danger');
+            Alert_Helper::error('Delete failed', 'Failed to delete token.');
         }
         redirect('admin/manageTokens');
     }
@@ -1131,9 +1133,9 @@ class Admin extends Controller
                 'content' => $_POST['content']
             ];
             if ($this->adminModel->addCommunityPost($data)) {
-                flash('admin_msg', 'Community post added.');
+                Alert_Helper::success('Success', 'Community post added.');
             } else {
-                flash('admin_msg', 'Failed to add post.', 'alert alert-danger');
+                Alert_Helper::error('Add failed', 'Failed to add post.');
             }
             redirect('admin/manageCommunityPosts');
         } else {
@@ -1147,7 +1149,7 @@ class Admin extends Controller
             if ($p->id == $postId) $post = $p;
         }
         if (!$post) {
-            flash('admin_msg', 'Post not found.', 'alert alert-danger');
+            Alert_Helper::error('Post not found', 'Post not found.');
             redirect('admin/manageCommunityPosts');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1157,10 +1159,10 @@ class Admin extends Controller
                 'content' => $_POST['content']
             ];
             if ($this->adminModel->updateCommunityPost($postId, $data)) {
-                flash('admin_msg', 'Post updated.');
+                Alert_Helper::success('Success', 'Post updated.');
                 redirect('admin/manageCommunityPosts');
             } else {
-                flash('admin_msg', 'Failed to update post.', 'alert alert-danger');
+                Alert_Helper::error('Update failed', 'Failed to update post.');
                 redirect('admin/manageCommunityPosts');
             }
         } else {
@@ -1175,9 +1177,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->deleteCommunityPostById($postId)) {
-                flash('admin_msg', 'Community post deleted successfully.');
+                Alert_Helper::success('Success', 'Community post deleted successfully.');
             } else {
-                flash('admin_msg', 'Failed to delete community post.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete community post.');
             }
             redirect('admin/manageCommunityPosts');
         } else {
@@ -1199,9 +1201,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->deletePaymentById($paymentId)) {
-                flash('admin_msg', 'Payment record deleted successfully.');
+                Alert_Helper::success('Success', 'Payment record deleted successfully.');
             } else {
-                flash('admin_msg', 'Failed to delete payment record.', 'alert alert-danger');
+                Alert_Helper::error('Delete failed', 'Failed to delete payment record.');
             }
             redirect('admin/managePayments');
         } else {
@@ -1223,9 +1225,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->updateDeleteRequestStatus($requestId, 'approved')) {
-                flash('admin_msg', 'Delete request approved. Community marked for deletion.');
+                Alert_Helper::success('Success', 'Delete request approved. Community marked for deletion.');
             } else {
-                flash('admin_msg', 'Failed to approve delete request.', 'alert alert-danger');
+                Alert_Helper::error('Approval failed', 'Failed to approve delete request.');
             }
             redirect('admin/deleteRequests');
         } else {
@@ -1236,9 +1238,9 @@ class Admin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->adminModel->updateDeleteRequestStatus($requestId, 'rejected')) {
-                flash('admin_msg', 'Delete request rejected.');
+                Alert_Helper::success('Success', 'Delete request rejected.');
             } else {
-                flash('admin_msg', 'Failed to reject delete request.', 'alert alert-danger');
+                Alert_Helper::error('Rejection failed', 'Failed to reject delete request.');
             }
             redirect('admin/deleteRequests');
         } else {
@@ -1269,10 +1271,10 @@ class Admin extends Controller
                 'community_id' => trim($_POST['community_id'])
             ];
             if ($this->adminModel->addEvent($data)) {
-                flash('admin_msg', 'Event added successfully.');
+                Alert_Helper::success('Success', 'Event added successfully.');
                 redirect('admin/manageEvents');
             } else {
-                flash('admin_msg', 'Failed to add event.', 'alert alert-danger');
+                Alert_Helper::error('Add failed', 'Failed to add event.');
                 redirect('admin/manageEvents');
             }
         } else {
@@ -1284,7 +1286,7 @@ class Admin extends Controller
     {
         $event = $this->adminModel->getEventById($eventId);
         if (!$event) {
-            flash('admin_msg', 'Event not found.', 'alert alert-danger');
+            Alert_Helper::error('Event not found', 'Event not found.');
             redirect('admin/manageEvents');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1298,10 +1300,10 @@ class Admin extends Controller
                 'community_id' => trim($_POST['community_id'])
             ];
             if ($this->adminModel->updateEvent($eventId, $data)) {
-                flash('admin_msg', 'Event updated successfully.');
+                Alert_Helper::success('Success', 'Event updated successfully.');
                 redirect('admin/manageEvents');
             } else {
-                flash('admin_msg', 'Failed to update event.', 'alert alert-danger');
+                Alert_Helper::error('Update failed', 'Failed to update event.');
                 redirect('admin/manageEvents');
             }
         } else {
@@ -1315,10 +1317,133 @@ class Admin extends Controller
     public function deleteEvent($eventId)
     {
         if ($this->adminModel->deleteEvent($eventId)) {
-            flash('admin_msg', 'Event deleted successfully.');
+            Alert_Helper::success('Success', 'Event deleted successfully.');
         } else {
-            flash('admin_msg', 'Failed to delete event.', 'alert alert-danger');
+            Alert_Helper::error('Delete failed', 'Failed to delete event.');
         }
         redirect('admin/manageEvents');
+    }
+
+    /**
+     * Manage User Verification page
+     * Shows all users with verification status and options to verify/unverify
+     */
+    public function manageVerification()
+    {
+        // Handle search and filter parameters
+        $searchTerm = $_GET['search'] ?? null;
+        $filter = $_GET['filter'] ?? null;
+        $users = [];
+
+        if ($searchTerm) {
+            $searchTerm = trim(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING));
+            // Only search if the trimmed term is not empty
+            if (!empty($searchTerm)) {
+                $users = $this->adminModel->searchUsersWithVerificationStatus($searchTerm, $filter);
+            } else {
+                // If search term is empty after trimming, show filtered users
+                $users = $this->adminModel->getAllUsersWithVerificationStatus($filter);
+                $searchTerm = null; // Reset searchTerm
+            }
+        } else {
+            // No search term, get all users (with optional filter)
+            $users = $this->adminModel->getAllUsersWithVerificationStatus($filter);
+        }
+
+        $data = [
+            'title' => 'Manage User Verification',
+            'users' => $users,
+            'searchTerm' => $searchTerm,
+            'filter' => $filter
+        ];
+
+        $this->view('pages/admin/v_manage_verification', $data);
+    }
+
+    /**
+     * Manually verify a user (admin action)
+     * 
+     * @param int $userId User ID to verify
+     */
+    public function verifyUser($userId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $user = $this->adminModel->getUserById($userId);
+
+            if (!$user) {
+                Alert_Helper::error('User not found', 'User not found.');
+                redirect('admin/manageVerification');
+                return;
+            }
+
+            if ($this->adminModel->verifyUser($userId)) {
+                Alert_Helper::success('Success', 'User verified successfully.');
+            } else {
+                Alert_Helper::error('Verification failed', 'Failed to verify user.');
+            }
+
+            redirect('admin/manageVerification');
+        } else {
+            redirect('admin/manageVerification');
+        }
+    }
+
+    /**
+     * Mark a user as unverified (admin action)
+     * 
+     * @param int $userId User ID to unverify
+     */
+    public function unverifyUser($userId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $user = $this->adminModel->getUserById($userId);
+
+            if (!$user) {
+                Alert_Helper::error('User not found', 'User not found.');
+                redirect('admin/manageVerification');
+                return;
+            }
+
+            if ($this->adminModel->unverifyUser($userId)) {
+                Alert_Helper::success('Success', 'User marked as unverified.');
+            } else {
+                Alert_Helper::error('Update failed', 'Failed to update user status.');
+            }
+
+            redirect('admin/manageVerification');
+        } else {
+            redirect('admin/manageVerification');
+        }
+    }
+
+    /**
+     * Generate and send a new OTP for a user (admin action)
+     * 
+     * @param int $userId User ID to generate OTP for
+     */
+    public function resendOTP($userId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Generate new OTP for the user
+            $result = $this->adminModel->generateNewOTP($userId);
+
+            if ($result) {
+                // Send OTP email
+                require_once APPROOT . '/helpers/Email_Helper.php';
+                $emailSent = Email_Helper::sendOTP($result['user']->user_email, $result['user']->user_name, $result['otp']);
+
+                if ($emailSent) {
+                    Alert_Helper::success('Success', 'OTP generated and sent to user.');
+                } else {
+                    Alert_Helper::warning('Email failed', 'OTP generated but email sending failed. OTP: ' . $result['otp']);
+                }
+            } else {
+                Alert_Helper::error('Generation failed', 'Failed to generate new OTP.');
+            }
+
+            redirect('admin/manageVerification');
+        } else {
+            redirect('admin/manageVerification');
+        }
     }
 }
