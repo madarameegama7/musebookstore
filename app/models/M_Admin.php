@@ -136,6 +136,19 @@ class M_Admin
         return $this->db->resultSet();
     }
 
+    // Add a new community
+    public function addCommunity($data)
+    {
+        $this->db->query('INSERT INTO community (communityName, communityDescription, communityImage, membership_type, status, delete_status, created_at) VALUES (:name, :description, :image, :membership_type, :status, :delete_status, NOW())');
+        $this->db->bind(':name', $data['communityName']);
+        $this->db->bind(':description', $data['communityDescription']);
+        $this->db->bind(':image', $data['communityImage']);
+        $this->db->bind(':membership_type', $data['membership_type']);
+        $this->db->bind(':status', 'pending');
+        $this->db->bind(':delete_status', 'none');
+        return $this->db->execute();
+    }
+
     // Get a single user by ID
     public function getUserById($userId)
     {

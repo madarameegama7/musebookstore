@@ -7,51 +7,75 @@
 
     <main class="admin-main-content">
         <h1><?php echo $data['title']; ?></h1>
-        <p>Manage all communities. Approve, reject, or delete as needed.</p>
+        <a href="<?php echo URLROOT; ?>/admin/addCommunity" class="btn btn-update" style="margin-bottom: 15px;">Add Community</a>
         <?php flash('admin_msg'); ?>
-
-        <table>
+        <table class="admin-table">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Image</th>
+                    <th>Membership</th>
                     <th>Status</th>
-                    <th>Membership Type</th>
+                    <th>Delete Status</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($data['communities'])): ?>
-                    <?php foreach ($data['communities'] as $community): ?>
-                        <tr>
-                            <td><?php echo $community->communityId; ?></td>
-                            <td><?php echo htmlspecialchars($community->communityName ?? ''); ?></td>
-                            <td><?php echo htmlspecialchars($community->communityDescription ?? ''); ?></td>
-                            <td><?php echo ucfirst($community->status); ?></td>
-                            <td><?php echo htmlspecialchars($community->membership_type ?? ''); ?></td>
-                            <td><?php echo date('Y-m-d', strtotime($community->created_at)); ?></td>
-                            <td>
-                                <?php if ($community->status === 'pending'): ?>
-                                    <form action="<?php echo URLROOT; ?>/admin/approveCommunity/<?php echo $community->communityId; ?>" method="post" style="display:inline;">
-                                        <button type="submit" class="btn-update">Approve</button>
-                                    </form>
-                                    <form action="<?php echo URLROOT; ?>/admin/rejectCommunity/<?php echo $community->communityId; ?>" method="post" style="display:inline;">
-                                        <button type="submit" class="btn-delete">Reject</button>
-                                    </form>
-                                <?php endif; ?>
-                                <form action="<?php echo URLROOT; ?>/admin/deleteCommunity/<?php echo $community->communityId; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this community?');">
-                                    <button type="submit" class="btn-delete">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+                <?php $communities = $data['communities'] ?? [];
+                if (empty($communities)) {
+                    // Dummy data if none provided
+                    $communities = [
+                        (object)[
+                            'communityId' => 1,
+                            'communityName' => 'Writers United',
+                            'communityDescription' => 'A community for aspiring writers.',
+                            'communityImage' => 'public/img/community/sample.jpg',
+                            'membership_type' => 'open',
+                            'status' => 'pending',
+                            'delete_status' => 'none',
+                            'created_at' => '2025-04-01 10:00:00'
+                        ],
+                        (object)[
+                            'communityId' => 2,
+                            'communityName' => 'Book Lovers',
+                            'communityDescription' => 'A place for book enthusiasts.',
+                            'communityImage' => 'public/img/community/sample2.jpg',
+                            'membership_type' => 'closed',
+                            'status' => 'approved',
+                            'delete_status' => 'none',
+                            'created_at' => '2025-04-10 15:30:00'
+                        ]
+                    ];
+                }
+                ?>
+                <?php foreach ($communities as $c): ?>
                     <tr>
-                        <td colspan="7">No communities found.</td>
+                        <td><?php echo $c->communityId; ?></td>
+                        <td><?php echo htmlspecialchars($c->communityName); ?></td>
+                        <td><?php echo htmlspecialchars(substr($c->communityDescription, 0, 40)); ?>...</td>
+                        <td><img src="<?php echo URLROOT . '/' . $c->communityImage; ?>" alt="Image" style="width:40px;height:40px;"></td>
+                        <td><?php echo htmlspecialchars($c->membership_type); ?></td>
+                        <td><?php echo htmlspecialchars($c->status); ?></td>
+                        <td><?php echo htmlspecialchars($c->delete_status); ?></td>
+                        <td><?php echo $c->created_at; ?></td>
+                        <td>
+                            <?php if ($c->status === 'pending'): ?>
+                                <form action="<?php echo URLROOT; ?>/admin/approveCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-update">Approve</button>
+                                </form>
+                                <form action="<?php echo URLROOT; ?>/admin/rejectCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-delete">Reject</button>
+                                </form>
+                            <?php endif; ?>
+                            <form action="<?php echo URLROOT; ?>/admin/deleteCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this community?');">
+                                <button type="submit" class="btn btn-delete">Delete</button>
+                            </form>
+                        </td>
                     </tr>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </main>
