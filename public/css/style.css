@@ -12,6 +12,12 @@
 @import url('components/book_form.css');
 @import url('components/index.css');
 @import url('components/button.css');
+@import url('components/parent/userprofile.css');
+@import url('components/books/book_preview.css');
+@import url('components/sidebar.css');
+@import url('components/parent/useranalytics.css');
+@import url('components/books/book_display.css');
+@import url('components/books/book_token.css');
 
 /* amasha */ 
 @import url('community/communityDetails.css');
@@ -33,20 +39,10 @@
 @import url('community/createPosts.css');
 @import url('community/addMembers.css');
 
-
-/*gayashan*/
-
-
-
-
-
-
-
-
-
-
-
-
+/* kaviru */
+@import url('components/admin/sidebar.css');
+@import url('components/admin/dashboard.css');
+@import url('components/admin/userprofile.css');
 
 /*FONTS*/
 @font-face {
