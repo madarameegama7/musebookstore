@@ -324,7 +324,7 @@ INSERT INTO `token` (`token_id`, `user_id`, `token_count`, `amount_paid`, `purch
 --
 
 CREATE TABLE `transaction` (
-  `transaction_id` int(11) NOT NULL,
+  `transaction_id` int(11) NOT NULL PRIMARY KEY,
   `book_id` int(11) NOT NULL,
   `requester_id` int(11) NOT NULL,
   `owner_id` int(11) NOT NULL,
