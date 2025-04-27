@@ -232,6 +232,28 @@ class Users extends Controller
                     // User exists but is not verified
                     flash('login_err', 'Please verify your email before logging in', 'alert alert-warning');
 
+                    // Get the unverified user's details
+                    $user = $this->userModel->getUnverifiedUserByEmail($data['email']);
+
+                    if ($user) {
+                        // Generate a new OTP and update expiry time
+                        require_once APPROOT . '/helpers/Email_Helper.php';
+                        $otp = Email_Helper::generateOTP();
+                        $otp_expires = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+
+                        // Update OTP in database
+                        if ($this->userModel->resendOTP($data['email'], $otp, $otp_expires)) {
+                            // Send OTP email
+                            $emailSent = Email_Helper::sendOTP($data['email'], $user->user_name, $otp);
+
+                            if ($emailSent) {
+                                flash('otp_msg', 'A new verification code has been sent to your email address.', 'alert alert-success');
+                            } else {
+                                flash('otp_msg', 'Failed to send verification email. Please try again or use the resend button.', 'alert alert-danger');
+                            }
+                        }
+                    }
+
                     // Redirect to OTP verification page
                     $verifyData = [
                         'email' => $data['email'],
