@@ -535,7 +535,7 @@ class M_Admin
     // Get single event
     public function getEventById($eventId)
     {
-        $this->db->query('SELECT e.*, c.communityName FROM event e JOIN community c ON e.community_id = c.communityId WHERE e.event_id = :event_id');
+        $this->db->query('SELECT e.*, c.communityName FROM event e LEFT JOIN community c ON e.community_id = c.communityId WHERE e.event_id = :event_id');
         $this->db->bind(':event_id', $eventId);
         return $this->db->single();
     }
