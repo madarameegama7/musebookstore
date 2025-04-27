@@ -325,6 +325,41 @@ public function getPosts($communityId) {
     $this->db->bind(':community_id', $communityId);
     return $this->db->resultSet();
 }
+public function viewCommunityWritingGroups($communityId) {
+    $this->db->query('SELECT * FROM writinggroup WHERE community_id = :community_id');
+    $this->db->bind(':community_id', $communityId);
+    return $this->db->resultSet(); // 
 
 }
+
+public function joinWritingGroup($writingGroupId) {
+    $this->db->query('UPDATE community_member SET writingGroup_id = :writingGroup_id WHERE user_id = :user_id');
+    $this->db->bind(':writingGroup_id', $writingGroupId);
+    $this->db->bind(':user_id', $_SESSION['user_id']); 
+    return $this->db->execute();
+}
+
+public function getCommunityMemberByUserIdAndGroupId($userId, $writingGroupId) {
+    $this->db->query('SELECT * FROM community_member WHERE user_id = :user_id AND writingGroup_id = :writingGroup_id');
+    $this->db->bind(':user_id', $userId);
+    $this->db->bind(':writingGroup_id', $writingGroupId);
+    return $this->db->single();
+}
+
+public function createCommunityWritingGroupPost($data) {
+   
+    $this->db->query("INSERT INTO writing_group_posts (writingGroup_id, community_member_id, chapter_title, chapter_content, created_at) 
+                      VALUES (:writingGroup_id, :community_member_id, :chapter_title, :chapter_content, NOW())");
+    
+    $this->db->bind(':writingGroup_id', $data['writingGroup_id']);
+    $this->db->bind(':community_member_id', $data['community_member_id']);  
+    $this->db->bind(':chapter_title', $data['chapter_title']);
+    $this->db->bind(':chapter_content', $data['chapter_content']);
+    
+    return $this->db->execute();
+}
+
+}
+
+
 ?>

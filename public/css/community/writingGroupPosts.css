@@ -21,6 +21,31 @@
     padding: 0 1rem;
 }
 
+.wgp-rules-section {
+    background-color: #fff5e6;
+    border-left: 6px solid #ffa500;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.wgp-rules-title {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: #ff8c00;
+}
+
+.wgp-rules-list {
+    list-style-type: none;
+    padding-left: 1rem;
+}
+
+.wgp-rules-list li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #444;
+}
+
 .wgp-posts-section {
     background: #fff;
     padding: 2rem;

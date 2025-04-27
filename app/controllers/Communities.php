@@ -862,6 +862,97 @@ public function viewCommunitySinglePost($postId) {
     }
 }
 
+public function viewCommunityWritingGroups($communityId){
+    $community = $this->communityModel->getCommunityById($communityId);
+    if (!$community) {
+        $data = ['error' => 'Community not found'];
+    }else {
+        $writingGroups = $this->communityModel->viewCommunityWritingGroups($communityId);
+        $data = [
+            'writingGroups' => $writingGroups,
+            'community' => $community
+        ];
+    }
+    $this->view('pages/parent/v_writingGroups', $data);
+
+
+}
+
+public function viewCommunityWritingGroupPosts($writingGroupId)
+{
+    $posts = $this->communityModel->getWritingGroupPosts($writingGroupId);
+
+    // Get the logged-in user's community_member_id for this writing group
+    $userCommunityMemberId = $this->communityModel->getCommunityMemberId($_SESSION['user_id'], $writingGroupId);
+
+    $data = [
+        'writingGroup_id' => $writingGroupId,
+        'posts' => $posts,
+        'writingGroup_name' => $this->communityModel->getWritingGroupName($writingGroupId),
+        'user_community_member_id' => $userCommunityMemberId,
+    ];
+
+    $this->view('pages/parent/v_writingGroupPosts', $data);
+}
+
+
+public function joinWritingGroupAction() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $groupId = $_POST['group_id'];
+
+        if ($this->communityModel->joinWritingGroup($groupId)) {
+            flash('join_success', 'You have successfully joined the writing group!');
+            redirect('communities/viewCommunityWritingGroupPosts/' . $groupId);
+        } else {
+            flash('join_error', 'Something went wrong. Please try again.', 'alert alert-danger');
+            redirect('communities');
+        }
+    } else {
+        redirect('communities');
+    }
+}
+
+public function createWritingGroupPostAction($writingGroupId) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $chapterTitle = trim($_POST['chapter_title']);
+        $chapterContent = trim($_POST['chapter_content']);
+
+        // First get the correct community_member_id (NOT user_id)
+        $communityMember = $this->communityModel->getCommunityMemberByUserIdAndGroupId($_SESSION['user_id'], $writingGroupId);
+
+        if (!$communityMember) {
+            flash('post_error', 'You are not a member of this writing group.', 'alert alert-danger');
+            redirect('communities/viewCommunityWritingGroupPosts/' . $writingGroupId);
+            return;
+        }
+
+        $data = [
+            'writingGroup_id' => $writingGroupId,
+            'community_member_id' => $communityMember->community_member_id, // <-- THIS!!
+            'chapter_title' => $chapterTitle,
+            'chapter_content' => $chapterContent,
+        ];
+
+        if ($this->communityModel->createCommunityWritingGroupPost($data)) {
+            flash('post_success', 'Chapter created successfully!');
+            redirect('communities/viewCommunityWritingGroupPosts/' . $writingGroupId);
+        } else {
+            flash('post_error', 'Failed to create chapter.', 'alert alert-danger');
+            redirect('communities/viewCommunityWritingGroupPosts/' . $writingGroupId);
+        }
+    } else {
+        $data = [
+            'chapter_title' => '',
+            'chapter_content' => '',
+            'writingGroup_id' => $writingGroupId,
+            'community_member_id' => '',
+            'title_err' => '',
+            'content_err' => ''
+        ];
+
+        $this->view('pages/parent/v_createWritingGroupPosts', $data);
+    }
+}
 
 
 }

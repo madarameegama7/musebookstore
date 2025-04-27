@@ -20,7 +20,7 @@
                 <h2 class="community-name"><?php echo $data['community']->communityName; ?></h2>
 
                 <div class="community-action-buttons">
-                    <a href="<?php echo URLROOT; ?>/communities/viewWritingGroups/<?php echo $data['community']->communityId; ?>" class="community-btn">Writing Groups</a>
+                    <a href="<?php echo URLROOT; ?>/communities/viewCommunityWritingGroups/<?php echo $data['community']->communityId; ?>" class="community-btn">Writing Groups</a>
                     <a href="<?php echo URLROOT; ?>/communities/viewEvent/<?php echo $data['community']->communityId; ?>" class="community-btn">Events</a>
                 </div>
 
