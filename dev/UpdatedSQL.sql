@@ -755,7 +755,7 @@ ALTER TABLE `writing_group_posts`
   ADD CONSTRAINT `writing_group_posts_ibfk_1` FOREIGN KEY (`writingGroup_id`) REFERENCES `writinggroup` (`writingGroup_id`),
   ADD CONSTRAINT `writing_group_posts_ibfk_2` FOREIGN KEY (`community_member_id`) REFERENCES `community_member` (`community_member_id`);
 COMMIT;
-
+ALTER TABLE user MODIFY user_id int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
