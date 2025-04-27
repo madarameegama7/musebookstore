@@ -1,0 +1,78 @@
+.create-event-main-content {
+    padding: 30px;
+    background-color: #f4f8fc;
+    min-height: 80vh;
+}
+
+.create-event-form-container {
+    background-color: #ffffff;
+    padding: 25px;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.create-event-title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.create-event-form-group {
+    margin-bottom: 15px;
+}
+
+.create-event-form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.create-event-alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.create-event-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.create-event-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.create-event-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.create-event-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.create-event-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.create-event-btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.create-event-btn-secondary:hover {
+    background-color: #565e64;
+}

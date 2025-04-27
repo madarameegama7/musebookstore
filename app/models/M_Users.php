@@ -67,13 +67,6 @@ class M_Users
         return false; // Login failed
     }
 
-    public function getAllUsers()
-    {
-        $this->db->query("SELECT * FROM user WHERE user_role='parent'");
-        $results = $this->db->resultSet();
-        return $results;
-    }
-
     public function storeResetToken($email, $token, $expiry)
     {
         $sql = "UPDATE user SET reset_token = :token, token_expiry = :expiry WHERE user_email = :email";
@@ -84,13 +77,7 @@ class M_Users
         return $this->db->execute();
     }
 
-    public function isValidToken($token)
-    {
-        $sql = "SELECT * FROM user WHERE reset_token = :token AND token_expiry > NOW()";
-        $this->db->query($sql);
-        $this->db->bind(':token', $token);
-        return $this->db->single();
-    }
+
 
     public function updatePasswordByToken($token, $hashedPassword)
     {
@@ -249,4 +236,22 @@ class M_Users
             return false;
         }
     }
+    
+    public function getAllUsers(){
+        $this->db->query("SELECT * FROM user WHERE user_role='parent' OR user_role='ambassador'");
+        $results=$this->db->resultSet();
+
+    }
+   
+
+    public function isValidToken($token)
+    {
+        $sql = "SELECT * FROM user WHERE reset_token = :token AND token_expiry > NOW()";
+        $this->db->query($sql);
+        $this->db->bind(':token', $token);
+        return $this->db->single();
+    }
+
+
+   
 }
