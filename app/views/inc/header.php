@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="/musebookstore/public/css/style.css">
     <link rel="stylesheet" href="/musebookstore/public/css/book-grid.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link rel="stylesheet" href="/musebookstore/public/css/components/custom-alerts.css">
 
     <link rel="stylesheet" href="/musebookstore/public/css/admin/admin_style.css">

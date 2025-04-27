@@ -9,11 +9,14 @@
                     <img src="/musebookstore/public/img/parent_dashboard/children.png" alt="Child Logo">
                 </div>
                 <h3>
-                    Child Accounts
+                    Child Count
+
                 </h3>
                 <p>
                 <p>
-                   3
+                <p>
+                <p><?php echo $data['child']->user_count; ?></p>
+                    </p>
                 </p>
 
                 </p>
@@ -27,10 +30,10 @@
                     Tokens
                 </h3>
                 <p>
-                    3
+                <p><?php echo $data['token']->token_count; ?></p>
                 </p>
                 <p class="up">
-                    3 more book tokens
+                more book tokens
                 </p>
             </div>
             <div class="stat">
@@ -42,10 +45,10 @@
                     Total books
                 </h3>
                 <p>
-                    3
+                    <p><?php echo $data['book']->book_count?></p>
                 </p>
                 <p class="up">
-                    3% Up from past month
+                    uploaded so far
                 </p>
             </div>
             <div class="stat">
@@ -57,10 +60,10 @@
                     Progress
                 </h3>
                 <p>
-                    5
+                <p><?php echo $data['transaction']->transaction_count?></p> 
                 </p>
                 <p class="up">
-                    10% increase of enagegment of books
+                <?php echo $data['transaction']->transaction_count?> engages with books
                 </p>
             </div>
 

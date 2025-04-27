@@ -11,7 +11,26 @@ class Users extends Controller
     }
     public function loadProfile()
     {
-        $data = [];
+        $userid = $_SESSION['user_id'];
+        $token=null;
+        $token = $this->userModel->getTokenCount($userid);
+
+        $child=null;
+        $child = $this->userModel->getChildCount($userid);
+
+        $book=null;
+        $book=$this->userModel->getBookCount($userid);
+
+        $transaction=null;
+        $transaction=$this->userModel->getTransactionCount($userid);
+    
+        $data = [
+            'token' => $token,
+            'child' => $child,
+            'book'=>$book,
+            'transaction'=>$transaction
+        ];
+
         $this->view('pages/parent/v_userprofile', $data);
     }
 
