@@ -33,7 +33,7 @@
             <?php endif; ?>
         </div>
 
-        <table>
+        <table class="admin-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -66,7 +66,7 @@
                     <?php endforeach; ?>
                 <?php elseif (empty($data['users']) && empty($data['searchTerm'])) : ?>
                     <tr>
-                        <td colspan="5">No users found.</td>
+                        <td colspan="5" class="no-results">No users found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -74,9 +74,5 @@
 
     </main>
 </div>
-
-<!-- Removed JavaScript includes for live search -->
-<!-- <script> const URLROOT = ... </script> -->
-<!-- <script src="<?php echo URLROOT; ?>/js/admin_live_search.js"></script> -->
 
 <?php require APPROOT . '/views/inc/footer.php'; ?>

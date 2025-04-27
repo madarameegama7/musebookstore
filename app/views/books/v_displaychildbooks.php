@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
                             <?php if(isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'child') : ?>
                                 <!-- Child users go to child/viewBook -->
                                 <a href="<?php echo URLROOT; ?>/child/viewBook/<?php echo $book->book_id; ?>" class="book-btn view-btn">View Details</a>
-                                <a href="<?php echo URLROOT; ?>/child/requestBook/<?php echo $book->book_id; ?>" class="book-btn request-btn">Request Book</a>
+                               
                             <?php else : ?>
                                 <!-- Regular users go to books/view -->
                                 <a href="<?php echo URLROOT; ?>/books/view/<?php echo $book->book_id; ?>" class="book-btn view-btn">View Details</a>

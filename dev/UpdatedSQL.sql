@@ -155,6 +155,13 @@ CREATE TABLE `community` (
   `delete_status` enum('none','requested','approved','rejected') DEFAULT 'none'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `community`
+--
+
+INSERT INTO `community` (`communityId`, `communityName`, `communityDescription`, `communityImage`, `membership_type`, `created_at`, `status`, `delete_status`) VALUES
+(10, 'Writers United', 'A community for aspiring writers to share and critique work.', 'public/img/community/sample.jpg', 'open', NOW(), 'pending', 'none');
+
 -- --------------------------------------------------------
 
 --
@@ -162,13 +169,6 @@ CREATE TABLE `community` (
 --
 
 CREATE TABLE `community_member` (
-  `community_member_id` int(100) NOT NULL,
-  `community_member_name` varchar(255) NOT NULL,
-  `community_id` int(100) NOT NULL,
-  `event_id` int(100) DEFAULT NULL,
-  `user_id` int(100) NOT NULL,
-  `writingGroup_id` int(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `community_member`

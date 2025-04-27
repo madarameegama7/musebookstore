@@ -18,7 +18,7 @@
             <div class="row align-items-center mb-4">
                 <div class="col-md-4 text-center">
                     <div class="avatar-container mb-3">
-                        <img src="<?php echo URLROOT; ?>/public/img/child-avatar.png" alt="Profile Avatar" class="img-fluid rounded-circle border border-primary" style="width: 150px; height: 150px; object-fit: cover;">
+                        <img src="<?php echo URLROOT; ?>/public/img/child-avatar.jpeg" alt="Profile Avatar" class="img-fluid rounded-circle border border-primary" style="width: 150px; height: 150px; object-fit: cover;">
                     </div>
                 </div>
                 
