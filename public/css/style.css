@@ -17,37 +17,30 @@
 @import url('components/parent/useranalytics.css');
 @import url('components/books/book_display.css');
 @import url('components/books/book_token.css');
+/* amasha */ 
+@import url('community/communityDetails.css');
+@import url('community/createcommunity.css');
+@import url('community/displayCom.css');
+@import url('community/editCommunity.css');
+@import url('community/displayMembers.css');
+@import url('community/writingGroups.css');
+@import url('community/createWritingGroup.css');
+@import url('community/communityEvents.css');
+@import url('community/createEvent.css');
+@import url('community/editEvent.css');
+@import url('community/deleteEvent.css');
+@import url('community/eventDetails.css');
+@import url('community/writingGroupPosts.css');
+@import url('community/requestDelete.css');
+@import url('community/viewCommunityPosts.css');
+@import url('community/viewSinglePost.css');
+@import url('community/createPosts.css');
+@import url('community/addMembers.css');
 
-/* amasha */
+/* kaviru */
 @import url('components/admin/sidebar.css');
 @import url('components/admin/dashboard.css');
 @import url('components/admin/userprofile.css');
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*gayashan*/
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*FONTS*/
 @font-face {
