@@ -37,6 +37,7 @@
     <div class="book-details">
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $data['books']->owner_id): ?>
             <span class="book-owner-tag">Owned by You</span>
+            <br><br>
         <?php endif; ?>
         <p><strong><?php echo strtoupper($data['books']->book_genre); ?></strong></p>
         <h2><?php echo $data['books']->book_title; ?></h2>
@@ -46,6 +47,7 @@
         <!-- Show the Buy Book button if the listing type is 'sell' -->
         <?php if ($data['books']->listing_type === 'sell' && (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != $data['books']->owner_id)): ?>
             <button class="cta-button">Buy Book</button>
+            <br><br>
             <!-- Display owner name only for buy option -->
             <p>Book Owner: <strong><?php echo $data['owner']->book_owner; ?></strong></p>
             <p>Contact Number: <strong><?php echo $data['owner']->contact_number; ?></strong></p>
