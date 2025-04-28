@@ -108,7 +108,7 @@
     });
 </script>
 
-<?php if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child'): ?>
+<?php if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 'child' || $_SESSION['user_role'] != 'ambassador'): ?>
     <div class="articles-container">
         <h2>Articles</h2>
         <div class="articles">
@@ -171,6 +171,21 @@
                 <a href="<?= URLROOT ?>/books/show" class="cta-button">View All Books</a>
             </div>
         <?php endif; ?>
+        <?php elseif (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'ambassador'): ?>
+            <section class="hero">
+    <div class="index-content">
+        <h1>Connect, share, and grow </h1>
+        <h2>Welcome to <br>Communities</h2>
+        Explore our vibrant book communities <br>
+        <p>with like-minded readers today!</p>
+    </div>
+    <div class="index-top-image">
+        <img src="/musebookstore/public/img/index-page.jpg">
+    </div>
+</section>
+<a href="<?php echo URLROOT?>/communities/display" class="cta-button">Explore Communities</a>
+
+
     <?php endif; ?>
     </div>
 

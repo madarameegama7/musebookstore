@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 ?>
 <div class="booktoken-container">
     <main>
-    <p>Tokens <strong><?php echo $data['token']->token_count; ?></strong></p>
+    <?php flash('payment_message'); ?>
         <h2 class="main-title">
             <center>Buy tokens for unlimited book swappings</center>
         </h2>
@@ -53,7 +53,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
                         Get reward points
                     </li>
                 </ul>
-                <a class="cta highlight" href="#" onclick="paymentGateway(event)">
+                <a class="cta highlight" href="<?php echo URLROOT?>/books/makePayment" >
                     Purchase Token
                 </a>
 
@@ -61,52 +61,3 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
         </div>
     </main>
 </div>
-
-<script src="https://www.payhere.lk/lib/payhere.js"></script>
-<script>
-    function paymentGateway() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            var obj = JSON.parse(xhttp.responseText);
-
-            var payment = {
-                "sandbox": true,
-                "merchant_id": obj.merchant_id,
-                "return_url": "<?php echo URLROOT; ?>/books/bookhistory",
-                "cancel_url": "<?php echo URLROOT?>/books/bookhistory",
-                "notify_url": "<?php echo URLROOT?>/books/payherenotify",
-                "order_id": obj.order_id,
-                "items": obj.items,
-                "amount": obj.amount,
-                "currency": obj.currency,
-                "hash": obj.hash,
-                "first_name": obj.first_name,
-                "last_name": obj.last_name,
-                "email": obj.email,
-                "phone": obj.phone,
-                "address": obj.address,
-                "city": obj.city,
-                "country": "Sri Lanka"
-            };
-
-            payhere.onCompleted = function(orderId) {
-                alert("Payment completed. OrderID: " + orderId);
-            };
-
-            payhere.onDismissed = function() {
-                alert("Payment dismissed.");
-            };
-
-            payhere.onError = function(error) {
-                alert("Error: " + error);
-            };
-
-            payhere.startPayment(payment);
-        }
-    };
-    xhttp.open("GET", "<?php echo URLROOT; ?>/books/tokenpayment", true);
-    xhttp.send();
-}
-
-</script>

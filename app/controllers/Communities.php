@@ -1,6 +1,7 @@
 <?php
 class Communities extends Controller {
     private $communityModel;
+    private $userModel;
 
     public function __construct() {
         $this->communityModel = $this->model('M_Communities');
