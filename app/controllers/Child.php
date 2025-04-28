@@ -97,11 +97,7 @@ class Child extends Controller {
         $this->view('pages/child/v_my_requests', $data);
     }
     
-    /**
-     * Add a comment to a book
-     * @param int $bookId The book ID
-     * @return void
-     */
+    
     public function addComment($bookId) {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
@@ -138,12 +134,7 @@ class Child extends Controller {
         }
     }
     
-    /**
-     * Delete a comment
-     * @param int $commentId The comment ID
-     * @param int $bookId The book ID (for redirection)
-     * @return void
-     */
+   
     public function deleteComment($commentId, $bookId) {
         if($this->commentModel->deleteComment($commentId, $_SESSION['user_id'])) {
             flash('comment_success', 'Comment deleted', 'alert alert-success');
@@ -154,12 +145,7 @@ class Child extends Controller {
         redirect('child/viewBook/' . $bookId);
     }
 
-    /**
-     * Edit a comment
-     * @param int $commentId The comment ID to edit
-     * @param int $bookId The book ID (for redirection)
-     * @return void
-     */
+   
     public function editComment($commentId, $bookId) {
         // Get the comment to check if it belongs to the user
         $comment = $this->commentModel->getCommentById($commentId);
@@ -269,11 +255,7 @@ class Child extends Controller {
         redirect('child/viewBook/' . $bookId);
     }
 
-    /**
-     * Remove a book from favorites
-     * @param int $bookId The book ID
-     * @return void
-     */
+    
     public function removeFromFavorites($bookId = null) {
         // If no book ID provided, redirect back
         if(!$bookId) {
@@ -294,10 +276,7 @@ class Child extends Controller {
         redirect('child/viewBook/' . $bookId);
     }
 
-    /**
-     * View favorite books
-     * @return void
-     */
+   
     public function favorites() {
         $userId = $_SESSION['user_id'];
         $favoriteBooks = $this->favoriteModel->getFavoriteBooks($userId);
@@ -310,10 +289,7 @@ class Child extends Controller {
         $this->view('pages/child/v_favorites', $data);
     }
 
-    /**
-     * View all articles written by children
-     * @return void
-     */
+  
     public function articles() {
         // Get all published articles
         $articles = $this->articleModel->getAllArticles();
@@ -326,10 +302,7 @@ class Child extends Controller {
         $this->view('pages/child/v_articles', $data);
     }
 
-    /**
-     * View my articles (articles written by the current child user)
-     * @return void
-     */
+   
     public function myArticles() {
         $userId = $_SESSION['user_id'];
         $articles = $this->articleModel->getArticlesByUser($userId);
@@ -342,11 +315,7 @@ class Child extends Controller {
         $this->view('pages/child/v_my_articles', $data);
     }
 
-    /**
-     * View a single article
-     * @param int $articleId The article ID
-     * @return void
-     */
+   
     public function viewArticle($articleId = null) {
         if(!$articleId) {
             redirect('child/articles');
@@ -365,10 +334,7 @@ class Child extends Controller {
         $this->view('pages/child/v_article_detail', $data);
     }
 
-    /**
-     * Create a new article
-     * @return void
-     */
+   
     public function createArticle() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
@@ -420,11 +386,7 @@ class Child extends Controller {
         }
     }
 
-    /**
-     * Edit an existing article
-     * @param int $articleId The article ID
-     * @return void
-     */
+    
     public function editArticle($articleId = null) {
         if(!$articleId) {
             redirect('child/myArticles');
@@ -490,11 +452,7 @@ class Child extends Controller {
         }
     }
 
-    /**
-     * Delete an article
-     * @param int $articleId The article ID
-     * @return void
-     */
+  
     public function deleteArticle($articleId = null) {
         if(!$articleId) {
             redirect('child/myArticles');
@@ -526,10 +484,7 @@ class Child extends Controller {
         }
     }
 
-    /**
-     * View child user profile dashboard
-     * @return void
-     */
+    
     public function profile() {
         $userId = $_SESSION['user_id'];
         
