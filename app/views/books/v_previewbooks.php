@@ -1,29 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <?php require APPROOT . '/views/inc/components/topnavbar.php'; ?>
 
-<style>
-    .book-owner-tag {
-        background-color: green;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
-    .custom-message {
-        background-color: #f4f4f4;
-        color:rgb(230, 163, 55);
-        padding: 15px;
-        margin-bottom: 20px;
-        margin-left: 200px;
-        margin-right: 200px;
-        border-radius: 5px;
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-    }
-</style>
-
 <!-- Custom message above the book preview container -->
 <div class="custom-message">
     <p>If you wish to buy book you can contact book owner and exchange books physically</p>
