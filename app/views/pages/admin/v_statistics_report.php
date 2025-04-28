@@ -196,7 +196,7 @@
                                         label += ': ';
                                     }
                                     if (reportType === 'financial' && context.dataset.label.includes('Amount')) {
-                                        label += 'KES ' + context.formattedValue;
+                                        label += 'LKR ' + context.formattedValue;
                                     } else {
                                         label += context.formattedValue;
                                     }
