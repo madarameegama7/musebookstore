@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-light">
-                            <a href="<?php echo URLROOT; ?>/admin_controllers/reports/users" class="text-primary">View Report <i class="fas fa-arrow-right"></i></a>
+                            <a href="<?php echo URLROOT; ?>/admin/reports/users" class="text-primary">View Report <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-light">
-                            <a href="<?php echo URLROOT; ?>/admin_controllers/reports/books" class="text-success">View Report <i class="fas fa-arrow-right"></i></a>
+                            <a href="<?php echo URLROOT; ?>/admin/reports/books" class="text-success">View Report <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-light">
-                            <a href="<?php echo URLROOT; ?>/admin_controllers/reports/transactions" class="text-info">View Report <i class="fas fa-arrow-right"></i></a>
+                            <a href="<?php echo URLROOT; ?>/admin/reports/transactions" class="text-info">View Report <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -113,9 +113,20 @@
                             </div>
                         </div>
                         <div class="card-footer bg-light">
-                            <a href="<?php echo URLROOT; ?>/admin_controllers/reports/payments" class="text-warning">View Report <i class="fas fa-arrow-right"></i></a>
+                            <a href="<?php echo URLROOT; ?>/admin/reports/payments" class="text-warning">View Report <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h4 class="card-title">View Full Reports</h4>
+                <p class="card-text">Access detailed reports for each section:</p>
+                <div class="mb-3">
+                    <a href="<?php echo URLROOT; ?>/admin/reports/users" class="btn btn-primary me-2">User Reports</a>
+                    <a href="<?php echo URLROOT; ?>/admin/reports/books" class="btn btn-success me-2">Book Reports</a>
+                    <a href="<?php echo URLROOT; ?>/admin/reports/transactions" class="btn btn-warning me-2">Transaction Reports</a>
+                    <a href="<?php echo URLROOT; ?>/admin/reports/payments" class="btn btn-info">Payment Reports</a>
                 </div>
             </div>
 
@@ -126,7 +137,7 @@
                     <div class="card">
                         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">User Statistics</h5>
-                            <form action="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod" method="POST" class="d-inline">
+                            <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
                                 <input type="hidden" name="report_type" value="user">
                                 <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                                 <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
@@ -175,7 +186,7 @@
                     <div class="card">
                         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Book Statistics</h5>
-                            <form action="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod" method="POST" class="d-inline">
+                            <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
                                 <input type="hidden" name="report_type" value="book">
                                 <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                                 <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
@@ -226,7 +237,7 @@
                     <div class="card">
                         <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Transaction Statistics</h5>
-                            <form action="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod" method="POST" class="d-inline">
+                            <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
                                 <input type="hidden" name="report_type" value="transaction">
                                 <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                                 <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
@@ -277,7 +288,7 @@
                     <div class="card">
                         <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Financial Statistics</h5>
-                            <form action="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod" method="POST" class="d-inline">
+                            <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
                                 <input type="hidden" name="report_type" value="financial">
                                 <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                                 <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">

@@ -14,21 +14,21 @@
 
         <!-- Search Form -->
         <div class="search-container admin-search-container" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-            <form action="<?php echo URLROOT; ?>/admin/manageVerification" method="get" style="display: flex; flex-grow: 1; gap: 10px;">
+            <form action="<?php echo URLROOT; ?>/admin/verification/manageVerification" method="get" style="display: flex; flex-grow: 1; gap: 10px;">
                 <input type="text" name="search" id="userSearchInput" placeholder="Search by Email, Name or ID..." value="<?php echo htmlspecialchars($data['searchTerm'] ?? ''); ?>" style="flex-grow: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px;">
                 <button type="submit" class="btn-search">Search</button>
             </form>
             <!-- Clear button -->
             <?php if (!empty($data['searchTerm'])): ?>
-                <a href="<?php echo URLROOT; ?>/admin/manageVerification" class="btn-grey">Clear</a>
+                <a href="<?php echo URLROOT; ?>/admin/verification/manageVerification" class="btn-grey">Clear</a>
             <?php endif; ?>
         </div>
 
         <!-- Filter buttons -->
         <div class="filter-buttons">
-            <a href="<?php echo URLROOT; ?>/admin/manageVerification" class="filter-btn <?php echo empty($data['filter']) ? 'active' : ''; ?>">All Users</a>
-            <a href="<?php echo URLROOT; ?>/admin/manageVerification?filter=verified" class="filter-btn <?php echo ($data['filter'] ?? '') === 'verified' ? 'active' : ''; ?>">Verified</a>
-            <a href="<?php echo URLROOT; ?>/admin/manageVerification?filter=unverified" class="filter-btn <?php echo ($data['filter'] ?? '') === 'unverified' ? 'active' : ''; ?>">Unverified</a>
+            <a href="<?php echo URLROOT; ?>/admin/verification/manageVerification" class="filter-btn <?php echo empty($data['filter']) ? 'active' : ''; ?>">All Users</a>
+            <a href="<?php echo URLROOT; ?>/admin/verification/manageVerification?filter=verified" class="filter-btn <?php echo ($data['filter'] ?? '') === 'verified' ? 'active' : ''; ?>">Verified</a>
+            <a href="<?php echo URLROOT; ?>/admin/verification/manageVerification?filter=unverified" class="filter-btn <?php echo ($data['filter'] ?? '') === 'unverified' ? 'active' : ''; ?>">Unverified</a>
         </div>
 
         <div class="table-responsive">

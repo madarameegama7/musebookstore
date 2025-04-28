@@ -9,7 +9,7 @@
         <?php flash('admin_msg'); ?>
         <section style="margin-bottom: 30px;">
             <h2>Add Writing Group</h2>
-            <form action="<?php echo URLROOT; ?>/admin/addWritingGroup" method="post" class="admin-form">
+            <form action="<?php echo URLROOT; ?>/admin/writinggroup/addWritingGroup" method="post" class="admin-form">
                 <label for="writingGroup_name">Name:</label>
                 <input type="text" id="writingGroup_name" name="writingGroup_name" maxlength="255" required>
                 <label for="writingGroup_description">Description:</label>
@@ -43,8 +43,8 @@
                             <td><?php echo $g->community_id; ?></td>
                             <td><?php echo htmlspecialchars($g->image_path ?? 'N/A'); ?></td>
                             <td>
-                                <a href="<?php echo URLROOT; ?>/admin/editWritingGroup/<?php echo $g->writingGroup_id; ?>" class="btn btn-edit">Edit</a>
-                                <form action="<?php echo URLROOT; ?>/admin/deleteWritingGroup/<?php echo $g->writingGroup_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this writing group?');">
+                                <a href="<?php echo URLROOT; ?>/admin/writinggroup/editWritingGroup/<?php echo $g->writingGroup_id; ?>" class="btn btn-edit">Edit</a>
+                                <form action="<?php echo URLROOT; ?>/admin/writinggroup/deleteWritingGroup/<?php echo $g->writingGroup_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this writing group?');">
                                     <button type="submit" class="btn btn-delete">Delete</button>
                                 </form>
                             </td>

@@ -37,7 +37,7 @@ if (!isset($_SESSION['user_role'])) {
             <div class="form-validation">
                 <div class="book-image-validation">
                     <img src="<?php echo URLROOT; ?>/img/components/profilephoto/green-tick.png" alt="green-tick" width="15px" height="15px">
-                    Select a Profile picture
+                    Select a Book picture
                 </div>
             </div>
             <span class="form-invalid"><?php echo $data['book_image_err']; ?></span>
@@ -184,6 +184,18 @@ if (!isset($_SESSION['user_role'])) {
             </select>
             <span class="form-invalid"><?php echo $data['book_option_err']; ?></span>
             <br><br>
+
+            <label>Is book child safe</label>
+            <select class="childsafe" name="childsafe" required>
+                <option value="true" <?php if ($data['childsafe'] == 'Yes') 'selected';?>>
+                    Yes
+                </option>
+                <option value="false" <?php if ($data['childsafe'] == 'No') 'selected';?>>
+                    No
+                </option>
+
+            </select>
+            <span class="form-invalid"><?php echo $data['childsafe_err']; ?></span>
 
             <button type="submit" name="add-book-btn" class="add-book-btn">Add Book</button>
 

@@ -10,18 +10,18 @@
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h1><?php echo $data['title']; ?></h1>
-            <a href="<?php echo URLROOT; ?>/admin/createBook" class="btn btn-update" style="margin-bottom: 10px;">Add New Book</a>
+            <a href="<?php echo URLROOT; ?>/admin/book/createBook" class="btn btn-update" style="margin-bottom: 10px;">Add New Book</a>
         </div>
 
         <!-- Search Form -->
         <div class="search-container admin-search-container" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-            <form action="<?php echo URLROOT; ?>/admin/manageBooks" method="get" style="display: flex; flex-grow: 1; gap: 10px;">
+            <form action="<?php echo URLROOT; ?>/admin/book/manageBooks" method="get" style="display: flex; flex-grow: 1; gap: 10px;">
                 <input type="text" name="search" id="bookSearchInput" placeholder="Search by Book ID, Title, Author, ISBN, Owner ID/Name..." value="<?php echo htmlspecialchars($data['searchTerm'] ?? ''); ?>" style="flex-grow: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px;">
                 <button type="submit" class="btn btn-search" style="padding: 8px 15px; border-radius: 4px; cursor: pointer;">Search</button> <!-- Added Search Button -->
             </form>
             <!-- Clear button -->
             <?php if (!empty($data['searchTerm'])): ?>
-                <a href="<?php echo URLROOT; ?>/admin/manageBooks" class="btn btn-grey" style="text-decoration: none; padding: 8px 15px; border-radius: 4px;">Clear</a>
+                <a href="<?php echo URLROOT; ?>/admin/book/manageBooks" class="btn btn-grey" style="text-decoration: none; padding: 8px 15px; border-radius: 4px;">Clear</a>
             <?php endif; ?>
         </div>
 

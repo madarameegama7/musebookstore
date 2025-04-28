@@ -6,14 +6,14 @@
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
 
     <main class="admin-main-content">
-        <a href="<?php echo URLROOT; ?>/admin/manageUsers" class="btn btn-back"><i class="fa fa-arrow-left"></i> Back to Users</a>
+        <a href="<?php echo URLROOT; ?>/admin/user/manageUsers" class="btn btn-back"><i class="fa fa-arrow-left"></i> Back to Users</a>
 
         <?php flash('admin_msg'); ?> <!-- Display flash messages if update fails on reload -->
 
         <h2><?php echo $data['title']; ?></h2>
         <p>Edit user details below. Role must be changed via the 'View/Edit Role' button on the user list.</p>
 
-        <form class="edit-user-form" action="<?php echo URLROOT; ?>/admin/updateUser/<?php echo $data['user_id']; ?>" method="post">
+        <form class="edit-user-form" action="<?php echo URLROOT; ?>/admin/user/updateUser/<?php echo $data['user_id']; ?>" method="post">
 
             <label for="name">Name: <sup>*</sup></label>
             <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($data['name'] ?? ''); ?>" required>
