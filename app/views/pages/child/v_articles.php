@@ -226,4 +226,3 @@
 </div>
 
 <?php require APPROOT.'/views/inc/footer.php'; ?>
->>>>>>> dd8dada7a02c1d4dd1cc36f10b604a5265d1b3fa

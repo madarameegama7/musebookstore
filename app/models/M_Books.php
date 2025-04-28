@@ -45,7 +45,7 @@ class M_Books{
     }
     public function getChildBooks($limit = null) {
         if ($limit) {
-            $this->db->query("SELECT * FROM book WHERE child_safe = 'Yes' ORDER BY created_at DESC LIMIT :limit");
+            $this->db->query("SELECT * FROM book WHERE child_safe = 'yes' ORDER BY book_author LIMIT :limit");
             $this->db->bind(':limit', $limit);
         } else {
             $this->db->query('SELECT * FROM book ORDER BY created_at DESC');
