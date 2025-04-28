@@ -14,7 +14,6 @@
 
     <?php flash('join_success'); ?>
     <?php flash('join_error'); ?>
-
 </header>
 
 <div class="writing-container">
@@ -32,7 +31,6 @@
                             <?php else: ?>
                             <img src="<?= URLROOT ?>/public/img/community/default_group.jpg" alt="<?= htmlspecialchars($group->writingGroup_name) ?>" class="group-image-preview">
                             <?php endif; ?>
-
                             </a>
                         </div>
                         <div class="writing-group__header">
@@ -47,14 +45,19 @@
                              View Details
                               </a>
 
-                              <button 
-                              type="button" 
-                              class="writing-group-btn join-now-btn" 
-                              onclick="openJoinModal(<?= $group->writingGroup_id ?>)">
-                              Join Now
-                              </button>
-                            </div>
+                              <!-- Check if the user has successfully joined -->
+                              <?php if (flash('join_success')): ?>
+                                  <button class="writing-group-btn joined-btn" disabled>Joined</button>
+                              <?php else: ?>
+                                  <button 
+                                  type="button" 
+                                  class="writing-group-btn join-now-btn" 
+                                  onclick="openJoinModal(<?= $group->writingGroup_id ?>)">
+                                  Join Now
+                                  </button>
+                              <?php endif; ?>
 
+                            </div>
                         </div>
                     </li>
                 <?php endforeach; ?>
@@ -88,17 +91,41 @@
     </div>
 </div>
 
+<!-- Success Pop-up (This will show when a user successfully joins) -->
+<div id="successPopup" class="modal" style="display:none;">
+    <div class="modal__content">
+        <span class="modal__close" onclick="closeSuccessPopup()">&times;</span>
+        <h2 class="modal__title">Success!</h2>
+        <p>You have successfully joined the writing group.</p>
+    </div>
+</div>
 
 <script>
+// Open Join Modal
 function openJoinModal(groupId) {
     document.getElementById('join-group-id').value = groupId;
     document.getElementById('joinModal').style.display = 'block';
 }
 
+// Close Join Modal
 function closeJoinModal() {
     document.getElementById('joinModal').style.display = 'none';
 }
-</script>
 
+// Open Success Pop-up
+function openSuccessPopup() {
+    document.getElementById('successPopup').style.display = 'block';
+}
+
+// Close Success Pop-up
+function closeSuccessPopup() {
+    document.getElementById('successPopup').style.display = 'none';
+}
+
+// Show success popup if flash success message exists
+<?php if (flash('join_success')): ?>
+    openSuccessPopup();
+<?php endif; ?>
+</script>
 
 <?php require APPROOT.'/views/inc/footer.php'; ?>

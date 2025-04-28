@@ -1,54 +1,172 @@
-/* eventDetails.css */
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --accent-color: #ffd700;
+    --text-color: #2c3e50;
+    --bg-color: #f9f9f9;
+    --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
 .event-details-main {
-    padding: 40px 20px;
-    background-color: #f5f7fa;
+    padding: clamp(2rem, 5vw, 4rem) 20px;
+    background-color: var(--bg-color);
     min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 .event-details-container {
     max-width: 800px;
     margin: 0 auto;
     background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+}
+
+.event-details-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
 .event-details-title {
     text-align: center;
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 30px;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    font-weight: 700;
 }
 
 .event-details-box {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #444;
+    line-height: 1.6;
 }
 
 .event-name {
-    font-size: 1.5rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
 }
 
 .event-description,
 .event-location,
 .event-date,
 .event-time {
-    margin-bottom: 10px;
+    margin-bottom: 1.2rem;
+    padding: 1rem;
+    background: var(--bg-color);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.event-description:hover,
+.event-location:hover,
+.event-date:hover,
+.event-time:hover {
+    background: white;
+    box-shadow: var(--card-shadow);
+    transform: translateX(5px);
+}
+
+.event-label {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .event-map {
-    margin-top: 25px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    margin-top: 2rem;
+    border: none;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: var(--card-shadow);
+    height: 300px;
+    width: 100%;
 }
 
 .event-not-found {
     text-align: center;
-    color: #c0392b;
-    font-weight: bold;
+    color: #e74c3c;
+    font-weight: 600;
+    padding: 2rem;
+    background: #fdf2f2;
+    border-radius: 8px;
+    margin-top: 2rem;
 }
+
+.event-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.event-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+}
+
+.event-btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.event-btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}
+
+.event-btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.event-btn-secondary:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .event-details-container {
+        margin: 1rem;
+    }
+    
+    .event-actions {
+        flex-direction: column;
+    }
+    
+    .event-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-details-title {
+        font-size: 1.8rem;
+    }
+    
+    .event-name {
+        font-size: 1.4rem;
+    }
+    
+    .event-details-box {
+        font-size: 1rem;
+    }
+}
+

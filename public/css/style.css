@@ -36,6 +36,8 @@
 @import url('community/viewSinglePost.css');
 @import url('community/createPosts.css');
 @import url('community/addMembers.css');
+@import url('components/parent/communityDetails.css');
+@import url('components/parent/communities.css');
 
 /* kaviru */
 @import url('components/admin/sidebar.css');
