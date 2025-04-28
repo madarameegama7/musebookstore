@@ -7,7 +7,8 @@ class M_Books{
     }
    
     public function create($data){
-        $this->db->query('INSERT INTO book(book_title, book_author, book_genre, book_condition, book_price, listing_type, owner_id, book_publisher, book_published_year, book_ISBN, book_image, child_safe) VALUES(:book_title, :book_author, :book_genre, :book_condition, :book_price,  :listing_type, :owner_id, :book_publisher, :book_published_year, :book_ISBN, :book_image, :child_safe)');
+        $this->db->query('INSERT INTO book(book_title, book_author, book_genre, book_condition, book_price, listing_type, owner_id, book_publisher, book_published_year, book_ISBN, book_image, child_safe) 
+        VALUES(:book_title, :book_author, :book_genre, :book_condition, :book_price,  :listing_type, :owner_id, :book_publisher, :book_published_year, :book_ISBN, :book_image, :child_safe)');
         $this->db->bind(':book_image',$data['book_image_name']);
         $this->db->bind(':book_title',$data['booktitle']);
         $this->db->bind(':book_author',$data['author']);

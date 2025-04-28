@@ -123,7 +123,7 @@ class Books extends Controller
                 $data['book_condition_err'] = "Please select book condition";
 
             }
-            if (empty($data['price'])) {
+            if (empty($data['price']) || !is_numeric($data['price'])) {
                 $data['book_price_err'] = "Please enter a price";
 
             }
@@ -135,8 +135,11 @@ class Books extends Controller
                 $data['book_publisher_err'] = "Please enter publisher name";
 
             }
-            if (empty($data['year'])) {
-                $data['book_year_err'] = "Please enter published year";
+            if (empty($data['year']) || !preg_match('/^\d{4}$/',$data['year']) ) {
+                $data['book_year_err'] = "Please enter a valid 4-digit year";
+
+            }elseif(!empty($data['year']) && ($data['year'] < 1500 || $data['year'] > date('Y'))){
+                $data['book_year_err'] = "Please enter realistic published year";
 
             }
             if (empty($data['isbn'])) {
