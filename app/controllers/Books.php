@@ -78,6 +78,7 @@ class Books extends Controller
                 'publisher' => trim($_POST['publisher']),
                 'year' => trim($_POST['year']),
                 'isbn' => trim($_POST['isbn']),
+                'childsafe' => trim($_POST['childsafe']),
 
                 'book_image_err' => '',
                 'book_title_err' => '',
@@ -88,7 +89,8 @@ class Books extends Controller
                 'book_option_err' => '',
                 'book_publisher_err' => '',
                 'book_year_err' => '',
-                'book_isbn_err' => ''
+                'book_isbn_err' => '',
+                'childsafe_err' => ''
 
 
 
@@ -141,6 +143,10 @@ class Books extends Controller
                 $data['book_isbn_err'] = "Please enter ISBN";
 
             }
+            if (empty($data['childsafe'])) {
+                $data['childsafe_err'] = "Please select child safe or not";
+
+            }
 
 
             if (
@@ -153,7 +159,8 @@ class Books extends Controller
                 empty($data['book_option_err']) &&
                 empty($data['book_publisher_err']) &&
                 empty($data['book_year_err']) &&
-                empty($data['book_isbn_err'])
+                empty($data['book_isbn_err']) &&
+                empty($data['childsafe_err'])
             ) {
 
                 if ($this->bookModel->create($data)) {
@@ -182,6 +189,7 @@ class Books extends Controller
                 'publisher' => '',
                 'year' => '',
                 'isbn' => '',
+                'childsafe' => '',
 
                 'book_image_err' => '',
                 'book_title_err' => '',
@@ -192,7 +200,8 @@ class Books extends Controller
                 'book_option_err' => '',
                 'book_publisher_err' => '',
                 'book_year_err' => '',
-                'book_isbn_err' => ''
+                'book_isbn_err' => '',
+                'childsafe_err' => ''
 
 
             ];
