@@ -1,3 +1,4 @@
+
 /* Parent-Child Management Styles */
 
 :root {
@@ -634,3 +635,4 @@ input[type="password"].form-control-parent:focus {
     transform: scale(1.01);
     background-color: #f1f5ff;
 }
+
