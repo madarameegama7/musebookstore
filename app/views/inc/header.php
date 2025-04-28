@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/musebookstore/public/img/title.png" type="image/png">
-    <title><?php echo SITENAME; ?></title>
+    <title><?= SITENAME; ?></title>
 
     <link rel="stylesheet" href="/musebookstore/public/css/style.css">
     <link rel="stylesheet" href="/musebookstore/public/css/book-grid.css">
