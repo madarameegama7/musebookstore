@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 24, 2025 at 09:01 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 27, 2025 at 02:15 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `muse`
+-- Database: `muse1`
 --
 
 -- --------------------------------------------------------
@@ -65,21 +65,23 @@ CREATE TABLE `book` (
   `book_publisher` varchar(100) DEFAULT NULL,
   `book_published_year` int(11) DEFAULT NULL,
   `book_ISBN` varchar(100) DEFAULT NULL,
-  `book_image` varchar(255) DEFAULT NULL
+  `book_image` varchar(255) DEFAULT NULL,
+  `child_safe` enum('yes','no') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `book`
 --
 
-INSERT INTO `book` (`book_id`, `book_title`, `book_author`, `book_genre`, `book_condition`, `book_price`, `listing_type`, `owner_id`, `book_status`, `created_at`, `book_publisher`, `book_published_year`, `book_ISBN`, `book_image`) VALUES
-(20, 'Atomic Habits', 'James Clear', 'Productivity', 'new', 3600.00, 'sell', 5, 'available', '2025-04-20 13:59:05', 'Avery (an imprint of Penguin Random House)', 2018, 'ISBN-10: 0735211299', '1745157545_67476f974f7ef_atomicbooks.jpg'),
-(21, 'Harry Potter and the Cursed Child', 'J.K. Rowling', 'Fiction', 'used', 2600.00, 'swap', 5, 'available', '2025-04-20 14:01:11', 'Arthur A. Levine Books​', 2016, 'ISBN-13: 978-1338216660​', '1745157671_67477c84c8eae_Harry Potter And The Cursed Child.jpg'),
-(22, 'Iron Flame', 'Rebecca Yarros', 'Fiction', 'used', 2600.00, 'swap', 5, 'swapped', '2025-04-20 14:03:08', 'Red Tower Books​', 2023, 'ISBN-13: 978-1649374172', '1745157788_67477cc0c289a_iron flame.jpg'),
-(23, 'Spare', 'Prince Harry, Duke of Sussex', 'Biography / Memoir', 'new', 2300.00, 'swap', 5, 'swapped', '2025-04-20 14:05:48', 'Penguin Random House', 2023, 'ISBN-13: 978-0593593806', '1745157948_67477d4d5f850_Spare.jpg'),
-(24, 'It Ends with Us', 'Colleen Hoover', 'Fiction', 'used', 2500.00, 'swap', 5, 'swapped', '2025-04-20 14:10:33', 'Atria Books', 2016, '978-1501110368', '1745158233_67477d06efb77_itendswithus.jpg'),
-(25, 'Unsinkable: A Memoir', 'Debbie Reynolds and Dorian Hannaway', 'Biography / Memoir', 'new', 2300.00, 'swap', 23, 'available', '2025-04-21 07:27:36', 'William Morrow', 2013, '978-0062213655', '1745220456_67477eb590f45_unsinkable.jpg'),
-(26, 'Moon and Stars', 'Jenna Warren', 'Entertainment', 'new', 2500.00, 'swap', 5, 'swapped', '2025-04-24 17:09:52', 'Google Books', 2016, '7556565945', '1745514592_67477e7cbc3da_The moon and stars.jpg');
+INSERT INTO `book` (`book_id`, `book_title`, `book_author`, `book_genre`, `book_condition`, `book_price`, `listing_type`, `owner_id`, `book_status`, `created_at`, `book_publisher`, `book_published_year`, `book_ISBN`, `book_image`, `child_safe`) VALUES
+(20, 'Atomic Habits', 'James Clear', 'Productivity', 'new', 3600.00, 'sell', 5, 'available', '2025-04-20 13:59:05', 'Avery (an imprint of Penguin Random House)', 2018, 'ISBN-10: 0735211299', '1745157545_67476f974f7ef_atomicbooks.jpg', NULL),
+(21, 'Harry Potter and the Cursed Child', 'J.K. Rowling', 'Fiction', 'used', 2600.00, 'swap', 5, 'available', '2025-04-20 14:01:11', 'Arthur A. Levine Books​', 2016, 'ISBN-13: 978-1338216660​', '1745157671_67477c84c8eae_Harry Potter And The Cursed Child.jpg', NULL),
+(22, 'Iron Flame', 'Rebecca Yarros', 'Fiction', 'used', 2600.00, 'swap', 5, 'swapped', '2025-04-20 14:03:08', 'Red Tower Books​', 2023, 'ISBN-13: 978-1649374172', '1745157788_67477cc0c289a_iron flame.jpg', NULL),
+(23, 'Spare', 'Prince Harry, Duke of Sussex', 'Biography / Memoir', 'new', 2300.00, 'swap', 5, 'swapped', '2025-04-20 14:05:48', 'Penguin Random House', 2023, 'ISBN-13: 978-0593593806', '1745157948_67477d4d5f850_Spare.jpg', NULL),
+(24, 'It Ends with Us', 'Colleen Hoover', 'Fiction', 'used', 2500.00, 'swap', 5, 'swapped', '2025-04-20 14:10:33', 'Atria Books', 2016, '978-1501110368', '1745158233_67477d06efb77_itendswithus.jpg', NULL),
+(25, 'Unsinkable: A Memoir', 'Debbie Reynolds and Dorian Hannaway', 'Biography / Memoir', 'new', 2300.00, 'swap', 23, 'available', '2025-04-21 07:27:36', 'William Morrow', 2013, '978-0062213655', '1745220456_67477eb590f45_unsinkable.jpg', NULL),
+(26, 'Moon and Stars', 'Jenna Warren', 'Entertainment', 'new', 2500.00, 'swap', 5, 'swapped', '2025-04-24 17:09:52', 'Google Books', 2016, '7556565945', '1745514592_67477e7cbc3da_The moon and stars.jpg', NULL),
+(28, 'The Women', 'Yaros Rebecaa', 'Communication', 'used', 4200.00, 'swap', 5, 'swapped', '2025-04-27 09:52:12', 'Kristin Hannah', 2024, '74125890', '1745747532_The women.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -154,6 +156,18 @@ CREATE TABLE `community` (
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
   `delete_status` enum('none','requested','approved','rejected') DEFAULT 'none'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `community`
+--
+
+INSERT INTO `community` (`communityId`, `communityName`, `communityDescription`, `communityImage`, `membership_type`, `created_at`, `status`, `delete_status`) VALUES
+(1, 'BookMark & Brevity', 'Welcome to BookMark & Brevity, a community designed for passionate readers, writers, and storytellers who appreciate the art of concise yet impactful writing. In a world overwhelmed by information, this group aims to celebrate the power of brevity — creating content that speaks volumes in just a few words. Whether you\'re an avid reader looking to explore short stories, or a writer trying to hone your skills in crafting tight, engaging narratives, this is the space for you!\n\nHere, we believe that sometimes less is more. Short stories, flash fiction, poems, and even thought-provoking one-liners can leave a lasting impression. In this community, you will:\n\nConnect with Like-minded Writers and Readers: Share your work, explore others’ writings, and engage in discussions about the beauty of brevity and storytelling.\n\nParticipate in Writing Challenges: Join weekly and monthly writing prompts designed to help you sharpen your ability to convey powerful messages in a few sentences or paragraphs.\n\nGet Feedback: Receive constructive critiques and support from fellow writers to improve your craft.\n\nDiscover New Writers: Explore fresh voices in the world of short and succinct writing. Find inspiration in the art of telling a story with less.', 'public/img/community/1.jpg', 'Private', '2025-04-06 14:22:26', 'approved', 'none'),
+(2, 'Chapter Chat', 'Chapter Chat is a vibrant book community where readers connect, share reviews, discuss favorite reads, and discover new titles together. Whether you&#39;re into fiction, non-fiction, or niche genres, Chapter Chat brings book lovers together to spark meaningful conversations—one chapter at a time.', 'public/img/community/2.jpg', 'private', '2025-04-07 07:02:17', 'approved', 'none'),
+(3, 'Chapter Chat', 'Chapter Chat is a vibrant book community where readers connect, share reviews, discuss favorite reads, and discover new titles together. Whether you&#39;re into fiction, non-fiction, or niche genres, Chapter Chat brings book lovers together to spark meaningful conversations—one chapter at a time.', 'public/img/community/2.jpg', 'private', '2025-04-07 08:46:37', 'approved', 'none'),
+(4, 'Booked Beyond Imagination', 'Beyond Imagination is an inspiring and thought-provoking book that explores the limitless potential of the human mind and creativity. Through powerful stories, insights, and reflections, it encourages readers to break free from conventional thinking, dream bigger, and unlock their true potential. Perfect for anyone seeking motivation and a fresh perspective on life.', 'public/img/community/3.jpg', 'private', '2025-04-07 08:48:24', 'approved', 'none'),
+(5, 'The Boundless Bookworms.', 'The Boundless Bookworms is a vibrant book community where readers connect, share reviews, discuss favorite reads, and discover new titles together. Whether you&#39;re into fiction, non-fiction, or niche genres, The Boundless Bookworms brings book lovers together to spark meaningful conversations—one chapter at a time', 'public/img/community/4.jpg', 'private', '2025-04-07 14:59:22', 'approved', 'none'),
+(6, 'Between the Lines', 'Welcome to Between the Lines, a community where writers and readers come together to explore the untold, the hidden meanings, and the subtle nuances that lie just beneath the surface of storytelling. Here, we celebrate the power of the spaces between the words — those unspoken elements that give depth to the story. Whether you\'re a writer seeking to refine your craft or a reader who loves to analyze the deeper layers of a narrative, Between the Lines is the perfect place to dive deeper into the art of storytelling.\n\nIn this community, we believe that every piece of writing holds secrets, emotions, and themes waiting to be uncovered. The true essence of a story often lies between the lines, where characters’ motivations, hidden desires, and unspoken truths are revealed. Here, you can:\n\nEngage in Thoughtful Discussions: Join in conversations that explore the layers of meaning in the books you love, from symbolism to subtext, and discover new perspectives on familiar works.\n\nSharpen Your Writing: Share your stories, poems, and essays, and receive insightful feedback focused on how to add depth and hidden meaning to your writing.\n\nExplore Hidden Themes and Subtext: Take part in writing exercises and discussions that focus on subtle storytelling techniques, such as foreshadowing, symbolism, and the power of unsaid emotions.\n\nRead Between the Lines: Delve into thought-provoking discussions that encourage critical thinking about what’s left unsaid in literature and the role of implication in good writing.', 'public/img/community/Untitled design (2).png', 'private', '2025-04-23 10:46:05', 'pending', 'none');
 
 -- --------------------------------------------------------
 
@@ -251,7 +265,8 @@ INSERT INTO `notification` (`notification_id`, `user_id`, `message`, `transactio
 (11, 5, 'Damithri has requested to swap the book titled \'It Ends with Us\' with you.', 12, '2025-04-22 01:58:15', NULL),
 (12, 5, 'Dinu Meegama has requested to swap the book titled \'It Ends with Us\' with you.', 13, '2025-04-22 02:12:11', NULL),
 (13, 5, 'Damithri has requested to swap the book titled \'Spare\' with you.', 16, '2025-04-24 02:18:25', '23'),
-(16, 5, 'Dinu Meegama has requested to swap the book titled \'Moon and Stars\' with you.', 19, '2025-04-24 17:10:29', '20');
+(16, 5, 'Dinu Meegama has requested to swap the book titled \'Moon and Stars\' with you.', 19, '2025-04-24 17:10:29', '20'),
+(18, 5, 'Damithri has requested to swap the book titled \'The Women\' with you.', 21, '2025-04-27 09:54:25', '23');
 
 -- --------------------------------------------------------
 
@@ -313,8 +328,8 @@ CREATE TABLE `token` (
 --
 
 INSERT INTO `token` (`token_id`, `user_id`, `token_count`, `amount_paid`, `purchase_date`, `updated_at`) VALUES
-(1, 5, 0, 200.00, '2025-04-01', '2025-04-24 17:10:45'),
-(2, 23, 4, 200.00, '2025-04-02', '2025-04-24 06:48:21'),
+(1, 5, 3, 200.00, '2025-04-01', '2025-04-27 09:55:11'),
+(2, 23, 3, 200.00, '2025-04-02', '2025-04-27 09:55:11'),
 (3, 20, 4, 200.00, '2025-04-06', '2025-04-24 17:10:45');
 
 -- --------------------------------------------------------
@@ -324,7 +339,7 @@ INSERT INTO `token` (`token_id`, `user_id`, `token_count`, `amount_paid`, `purch
 --
 
 CREATE TABLE `transaction` (
-  `transaction_id` int(11) NOT NULL PRIMARY KEY,
+  `transaction_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
   `requester_id` int(11) NOT NULL,
   `owner_id` int(11) NOT NULL,
@@ -347,7 +362,8 @@ INSERT INTO `transaction` (`transaction_id`, `book_id`, `requester_id`, `owner_i
 (16, 23, 23, 5, 'swap', 'approved', '2025-04-24 02:18:25', '2025-04-24 06:48:21'),
 (17, 22, 5, 5, 'swap', 'declined', '2025-04-24 16:49:48', '2025-04-24 16:52:02'),
 (18, 22, 20, 5, 'swap', 'approved', '2025-04-24 16:51:02', '2025-04-24 16:52:02'),
-(19, 26, 20, 5, 'swap', 'approved', '2025-04-24 17:10:29', '2025-04-24 17:10:45');
+(19, 26, 20, 5, 'swap', 'approved', '2025-04-24 17:10:29', '2025-04-24 17:10:45'),
+(21, 28, 23, 5, 'swap', 'approved', '2025-04-27 09:54:25', '2025-04-27 09:55:11');
 
 -- --------------------------------------------------------
 
@@ -365,20 +381,24 @@ CREATE TABLE `user` (
   `user_phone` varchar(20) DEFAULT NULL,
   `user_address` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `user_photo` varchar(255) DEFAULT NULL
+  `user_photo` varchar(255) DEFAULT NULL,
+  `user_otp` varchar(10) DEFAULT NULL,
+  `user_otp_expires` datetime DEFAULT NULL,
+  `user_is_verified` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_role`, `parent_id`, `user_phone`, `user_address`, `created_at`, `user_photo`) VALUES
-(5, 'Madara Meegamaaa', 'madarameegama7@gmail.com', '$2y$10$xLs7VmMM/./XlPzZGtGdmeGnSboxafT3N/2tW5FJ3adi/Oc04Kgmu', 'admin', NULL, '0719589692', 'Homagama', '2025-02-20 13:03:57', '1745071507_photo.png'),
-(7, 'Shehan De Alwis', 'shehan12@gmail.com', '$2y$10$Xo9yihOP5LmA1/xU0CjDl.PSlAEp93Cbg4UEGtjacTSMBVJdW9IUC', 'ambassador', NULL, '0723295295', 'Kottawa', '2025-02-23 02:17:28', NULL),
-(17, 'Amasha Miyuru', 'bashiniskam@gmail.com', '$2y$10$VWcNHT3Qk4SnXey4IdGxlOPErfZE9fgZ1T9ktWrk2tZIm.WS90n8m', 'parent', NULL, '0719589787', 'Galle', '2025-02-27 10:07:15', NULL),
-(20, 'Dinu Meegama', 'dinumeegama97@gmail.com', '$2y$10$.49XzL2siTqoAzS7mhdqfOq6e0/Fdb.y4yc5xO1pomKl8b09GKNhS', 'parent', NULL, '0719589692', 'Ja Ela', '2025-03-05 18:16:51', NULL),
-(23, 'Damithri', 'damithrimeegama2002@gmail.com', '$2y$10$drPjC8ec8UlKi8i259HO0ewOfxxxLe6ZiwQWS09GM6Nzd1wv2oJsO', 'parent', NULL, '0719589693', 'Colombo', '2025-04-19 14:30:51', '1745073051_photo.png'),
-(24, 'hana', 'hana@gamil.com', '$2y$10$RbjDfXgU1tlX9okU4kkvKugr9f3RBrG2TLXhJsrgR6jW3K6O3OZfK', 'child', 5, NULL, NULL, '2025-04-23 17:00:11', NULL);
+INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_role`, `parent_id`, `user_phone`, `user_address`, `created_at`, `user_photo`, `user_otp`, `user_otp_expires`, `user_is_verified`) VALUES
+(5, 'Madara Meegama', 'madarameegama7@gmail.com', '$2y$10$xLs7VmMM/./XlPzZGtGdmeGnSboxafT3N/2tW5FJ3adi/Oc04Kgmu', 'ambassador', NULL, '0719589692', 'Homagama', '2025-02-20 13:03:57', '1745071507_photo.png', NULL, NULL, 1),
+(7, 'Shehan De Alwis', 'shehan12@gmail.com', '$2y$10$Xo9yihOP5LmA1/xU0CjDl.PSlAEp93Cbg4UEGtjacTSMBVJdW9IUC', 'ambassador', NULL, '0723295295', 'Kottawa', '2025-02-23 02:17:28', NULL, NULL, NULL, 0),
+(17, 'Amasha Miyuru', 'bashiniskam@gmail.com', '$2y$10$VWcNHT3Qk4SnXey4IdGxlOPErfZE9fgZ1T9ktWrk2tZIm.WS90n8m', 'parent', NULL, '0719589787', 'Galle', '2025-02-27 10:07:15', NULL, NULL, NULL, 0),
+(20, 'Dinu Meegama', 'dinumeegama97@gmail.com', '$2y$10$.49XzL2siTqoAzS7mhdqfOq6e0/Fdb.y4yc5xO1pomKl8b09GKNhS', 'parent', NULL, '0719589692', 'Ja Ela', '2025-03-05 18:16:51', NULL, NULL, NULL, 0),
+(23, 'Damithri', 'damithrimeegama2002@gmail.com', '$2y$10$drPjC8ec8UlKi8i259HO0ewOfxxxLe6ZiwQWS09GM6Nzd1wv2oJsO', 'parent', NULL, '0719589693', 'Colombo', '2025-04-19 14:30:51', '1745073051_photo.png', NULL, NULL, 1),
+(24, 'hana', 'hana@gamil.com', '$2y$10$RbjDfXgU1tlX9okU4kkvKugr9f3RBrG2TLXhJsrgR6jW3K6O3OZfK', 'child', 5, NULL, NULL, '2025-04-23 17:00:11', NULL, NULL, NULL, 0),
+(25, 'Madara', '2022is060@stu.ucsc.cmb.ac.lk', '$2y$10$nSRAy6Ui29paqrHMvTteNOLFDHHXTtspFiVLWBcHzcINA3hqGQoAu', 'parent', NULL, '0719589692', 'Homagama', '2025-04-27 11:31:31', '1745753491_propic.jpg', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -507,6 +527,12 @@ ALTER TABLE `book_request`
   ADD KEY `book_id` (`book_id`);
 
 --
+-- Indexes for table `community`
+--
+ALTER TABLE `community`
+  ADD PRIMARY KEY (`communityId`);
+
+--
 -- Indexes for table `community_member`
 --
 ALTER TABLE `community_member`
@@ -607,7 +633,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `book_comments`
@@ -626,6 +652,12 @@ ALTER TABLE `book_favorites`
 --
 ALTER TABLE `book_request`
   MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `community`
+--
+ALTER TABLE `community`
+  MODIFY `communityId` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `community_member`
@@ -649,7 +681,7 @@ ALTER TABLE `event`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -667,13 +699,13 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `writinggroup`
@@ -717,7 +749,7 @@ ALTER TABLE `book_request`
 --
 ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`);
+  ADD CONSTRAINT `notification_id` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`transaction_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `payment`
@@ -738,9 +770,9 @@ ALTER TABLE `token`
 ALTER TABLE `transaction`
   ADD CONSTRAINT `fk_transaction_buyer` FOREIGN KEY (`requester_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `fk_transaction_seller` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
   ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`requester_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `transaction_id` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user`

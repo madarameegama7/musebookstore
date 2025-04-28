@@ -58,7 +58,7 @@
                     value="<?php echo $data['confirmPassword']; ?>" required>
                 <span class="form-invalid"><?php echo $data['confirmPassword_err']; ?></span>
 
-                <label>Address</label>
+                <label>City</label>
                 <input type="text" id="address" name="address" placeholder="Enter Address"
                     value="<?php echo $data['address']; ?>" required></input>
                 <span class="form-invalid"><?php echo $data['address_err']; ?></span>

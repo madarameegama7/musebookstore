@@ -107,7 +107,7 @@ class Parent_User extends Controller
                 $result = $this->_childModel->createChild($childData);
                 
                 if($result) {
-                    flash('child_account', 'Child account created successfully.', 'alert alert-success');
+                    flash('child_account', 'Child account created successfully. Password: ' . $plain_password, 'alert alert-success');
                     redirect('parent_user');
                 } else {
                     flash('child_account', 'Something went wrong creating the child account', 'alert alert-danger');

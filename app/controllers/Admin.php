@@ -821,6 +821,28 @@ class Admin extends Controller
         }
     }
 
+    public function addCommunity()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'communityName' => trim($_POST['communityName']),
+                'communityDescription' => trim($_POST['communityDescription']),
+                'communityImage' => trim($_POST['communityImage']),
+                'membership_type' => trim($_POST['membership_type'])
+            ];
+            if ($this->adminModel->addCommunity($data)) {
+                Alert_Helper::success('Success', 'Community added successfully.');
+                redirect('admin/manageCommunities');
+            } else {
+                Alert_Helper::error('Add failed', 'Failed to add community.');
+                $this->view('pages/admin/v_add_community', $data);
+            }
+        } else {
+            $this->view('pages/admin/v_add_community');
+        }
+    }
+
     // Manage Transactions page
     public function manageTransactions()
     {

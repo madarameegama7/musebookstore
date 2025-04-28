@@ -320,7 +320,7 @@ class Child extends Controller {
         
         $data = [
             'articles' => $articles,
-            'page_title' => 'Young Writers\' Corner'
+            'page_title' => 'Child Articles'
         ];
         
         $this->view('pages/child/v_articles', $data);
@@ -331,8 +331,15 @@ class Child extends Controller {
      * @return void
      */
     public function myArticles() {
-        // Redirect to the articles page with the "My Articles" tab active
-        redirect('child/articles');
+        $userId = $_SESSION['user_id'];
+        $articles = $this->articleModel->getArticlesByUser($userId);
+        
+        $data = [
+            'articles' => $articles,
+            'page_title' => 'My Articles'
+        ];
+        
+        $this->view('pages/child/v_my_articles', $data);
     }
 
     /**
@@ -373,8 +380,7 @@ class Child extends Controller {
                 'content' => trim($_POST['content']),
                 'image_url' => isset($_POST['image_url']) ? trim($_POST['image_url']) : null,
                 'title_err' => '',
-                'content_err' => '',
-                'action' => isset($_POST['action']) ? $_POST['action'] : 'publish'
+                'content_err' => ''
             ];
             
             // Validate title
@@ -389,18 +395,10 @@ class Child extends Controller {
             
             // Make sure there are no errors
             if(empty($data['title_err']) && empty($data['content_err'])) {
-                // Determine status based on action
-                $status = ($data['action'] === 'draft') ? 'draft' : 'published';
-                
                 // Add article
-                if($articleId = $this->articleModel->addArticle($_SESSION['user_id'], $data['title'], $data['content'], $data['image_url'], $status)) {
-                    if($status === 'draft') {
-                        flash('article_success', 'Your article has been saved as a draft', 'alert alert-success');
-                        redirect('child/myDrafts');
-                    } else {
-                        flash('article_success', 'Your article has been published', 'alert alert-success');
-                        redirect('child/viewArticle/' . $articleId);
-                    }
+                if($articleId = $this->articleModel->addArticle($_SESSION['user_id'], $data['title'], $data['content'], $data['image_url'])) {
+                    flash('article_success', 'Your article has been published', 'alert alert-success');
+                    redirect('child/viewArticle/' . $articleId);
                 } else {
                     flash('article_error', 'Something went wrong. Please try again.', 'alert alert-danger');
                     $this->view('pages/child/v_create_article', $data);
@@ -451,8 +449,7 @@ class Child extends Controller {
                 'content' => trim($_POST['content']),
                 'image_url' => isset($_POST['image_url']) ? trim($_POST['image_url']) : null,
                 'title_err' => '',
-                'content_err' => '',
-                'action' => isset($_POST['action']) ? $_POST['action'] : 'publish'
+                'content_err' => ''
             ];
             
             // Validate title
@@ -467,18 +464,10 @@ class Child extends Controller {
             
             // Make sure there are no errors
             if(empty($data['title_err']) && empty($data['content_err'])) {
-                // Determine status based on action
-                $status = ($data['action'] === 'draft') ? 'draft' : 'published';
-                
                 // Update article
-                if($this->articleModel->updateArticle($articleId, $_SESSION['user_id'], $data['title'], $data['content'], $data['image_url'], $status)) {
-                    if($status === 'draft') {
-                        flash('article_success', 'Your article has been saved as a draft', 'alert alert-success');
-                        redirect('child/myDrafts');
-                    } else {
-                        flash('article_success', 'Your article has been updated', 'alert alert-success');
-                        redirect('child/viewArticle/' . $articleId);
-                    }
+                if($this->articleModel->updateArticle($articleId, $_SESSION['user_id'], $data['title'], $data['content'], $data['image_url'])) {
+                    flash('article_success', 'Your article has been updated', 'alert alert-success');
+                    redirect('child/viewArticle/' . $articleId);
                 } else {
                     flash('article_error', 'Something went wrong. Please try again.', 'alert alert-danger');
                     $this->view('pages/child/v_edit_article', $data);
@@ -494,8 +483,7 @@ class Child extends Controller {
                 'content' => $article->content,
                 'image_url' => $article->image_url,
                 'title_err' => '',
-                'content_err' => '',
-                'status' => $article->status
+                'content_err' => ''
             ];
             
             $this->view('pages/child/v_edit_article', $data);
@@ -535,54 +523,6 @@ class Child extends Controller {
             ];
             
             $this->view('pages/child/v_delete_article', $data);
-        }
-    }
-
-    /**
-     * View my draft articles
-     * @return void
-     */
-    public function myDrafts() {
-        $userId = $_SESSION['user_id'];
-        $drafts = $this->articleModel->getDraftsByUser($userId);
-        
-        $data = [
-            'drafts' => $drafts,
-            'page_title' => 'My Draft Articles'
-        ];
-        
-        $this->view('pages/child/v_my_drafts', $data);
-    }
-
-    /**
-     * Publish a draft article
-     * @param int $articleId The article ID
-     * @return void
-     */
-    public function publishDraft($articleId = null) {
-        if(!$articleId) {
-            redirect('child/myDrafts');
-        }
-        
-        // Check if article exists and belongs to user
-        $article = $this->articleModel->getArticleById($articleId);
-        
-        if(!$article || $article->user_id != $_SESSION['user_id'] || $article->status != 'draft') {
-            flash('article_error', 'You are not authorized to publish this draft', 'alert alert-danger');
-            redirect('child/myDrafts');
-        }
-        
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Update article status to published
-            if($this->articleModel->updateArticle($articleId, $_SESSION['user_id'], $article->title, $article->content, $article->image_url, 'published')) {
-                flash('article_success', 'Your draft has been published', 'alert alert-success');
-                redirect('child/viewArticle/' . $articleId);
-            } else {
-                flash('article_error', 'Something went wrong. Please try again.', 'alert alert-danger');
-                redirect('child/myDrafts');
-            }
-        } else {
-            redirect('child/myDrafts');
         }
     }
 

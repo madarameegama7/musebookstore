@@ -136,6 +136,19 @@ class M_Admin
         return $this->db->resultSet();
     }
 
+    // Add a new community
+    public function addCommunity($data)
+    {
+        $this->db->query('INSERT INTO community (communityName, communityDescription, communityImage, membership_type, status, delete_status, created_at) VALUES (:name, :description, :image, :membership_type, :status, :delete_status, NOW())');
+        $this->db->bind(':name', $data['communityName']);
+        $this->db->bind(':description', $data['communityDescription']);
+        $this->db->bind(':image', $data['communityImage']);
+        $this->db->bind(':membership_type', $data['membership_type']);
+        $this->db->bind(':status', 'pending');
+        $this->db->bind(':delete_status', 'none');
+        return $this->db->execute();
+    }
+
     // Get a single user by ID
     public function getUserById($userId)
     {
@@ -492,7 +505,7 @@ class M_Admin
     // Get all delete requests with community info
     public function getAllDeleteRequests()
     {
-        $this->db->query('SELECT dr.*, c.communityName FROM delete_requests dr JOIN community c ON dr.community_id = c.communityId ORDER BY dr.created_at DESC');
+        $this->db->query('SELECT dr.*, c.communityName FROM delete_requests dr LEFT JOIN community c ON dr.community_id = c.communityId ORDER BY dr.created_at DESC');
         return $this->db->resultSet();
     }
 
@@ -535,7 +548,7 @@ class M_Admin
     // Get single event
     public function getEventById($eventId)
     {
-        $this->db->query('SELECT e.*, c.communityName FROM event e JOIN community c ON e.community_id = c.communityId WHERE e.event_id = :event_id');
+        $this->db->query('SELECT e.*, c.communityName FROM event e LEFT JOIN community c ON e.community_id = c.communityId WHERE e.event_id = :event_id');
         $this->db->bind(':event_id', $eventId);
         return $this->db->single();
     }

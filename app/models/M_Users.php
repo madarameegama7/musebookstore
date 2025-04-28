@@ -20,7 +20,20 @@ class M_Users
             return false;
         }
     }
-
+    public function findUserByBookId($book_id) {
+        // SQL query to find user by book_id
+        $this->db->query('SELECT u.user_name AS book_owner, u.user_phone AS contact_number, u.user_address AS city
+        FROM user u, book b
+        WHERE u.user_id = b.owner_id AND b.book_id = :book_id');
+        
+        // Bind the correct parameter book_id
+        $this->db->bind(':book_id', $book_id);
+        
+        // Return the result
+        return $this->db->single();
+    }
+    
+    
     public function registerUser($data)
     {
         // First pass - just insert user with OTP info but without verification
@@ -136,10 +149,12 @@ class M_Users
     //user dashboard analytics
     public function getTokenCount($user_id)
     {
-        $this->db->query('SELECT * FROM token WHERE user_id = :user_id');
+        $this->db->query('SELECT token_count FROM token WHERE user_id = :user_id');
         $this->db->bind(':user_id', $user_id);
         return $this->db->single();
+        
     }
+    
     public function getTransactionCount($user_id)
     {
         $this->db->query('SELECT COUNT(transaction_id) AS transaction_count FROM transaction WHERE requester_id = :user_id');

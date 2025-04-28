@@ -150,23 +150,6 @@ class M_Articles {
     }
 
     /**
-     * Get draft articles by a specific user
-     * @param int $userId The user ID
-     * @return array Array of draft articles
-     */
-    public function getDraftsByUser($userId) {
-        $this->db->query('SELECT a.*, u.user_name as author_name 
-                          FROM articles a
-                          JOIN user u ON a.user_id = u.user_id
-                          WHERE a.user_id = :user_id AND a.status = "draft"
-                          ORDER BY a.updated_at DESC, a.created_at DESC');
-        
-        $this->db->bind(':user_id', $userId);
-        
-        return $this->db->resultSet();
-    }
-
-    /**
      * Get a single article by ID
      * @param int $articleId The article ID
      * @return object|bool The article object if found, false otherwise

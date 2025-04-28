@@ -421,8 +421,17 @@ body {
                 <i class="fas fa-newspaper fa-3x"></i>
             </div>
             <h3>Articles</h3>
-            <p>Read and write articles with our community</p>
-            <a href="<?=URLROOT?>/child/articles" class="feature-link">Explore Articles</a>
+            <p>Read interesting articles written by other children</p>
+            <a href="<?=URLROOT?>/child/articles" class="feature-link">Read Articles</a>
+        </div>
+        
+        <div class="feature-tile">
+            <div class="feature-icon my-article-icon">
+                <i class="fas fa-pencil-alt fa-3x"></i>
+            </div>
+            <h3>My Articles</h3>
+            <p>Write and manage your own articles</p>
+            <a href="<?=URLROOT?>/child/myArticles" class="feature-link">My Articles</a>
         </div>
         
         <div class="feature-tile">

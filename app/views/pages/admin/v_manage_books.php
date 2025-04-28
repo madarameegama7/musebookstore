@@ -33,7 +33,7 @@
             <?php endif; ?>
         </div>
 
-        <table>
+        <table class="admin-table">
             <thead>
                 <tr>
                     <th>Book ID</th>
@@ -64,7 +64,7 @@
                     <?php endforeach; ?>
                 <?php elseif (empty($data['books']) && empty($data['searchTerm'])) : ?>
                     <tr>
-                        <td colspan="6">No books found.</td>
+                        <td colspan="6" class="no-results">No books found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

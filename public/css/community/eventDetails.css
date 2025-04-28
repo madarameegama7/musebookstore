@@ -1,0 +1,54 @@
+/* eventDetails.css */
+
+.event-details-main {
+    padding: 40px 20px;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+.event-details-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.event-details-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.event-details-box {
+    font-size: 1rem;
+    color: #444;
+}
+
+.event-name {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.event-description,
+.event-location,
+.event-date,
+.event-time {
+    margin-bottom: 10px;
+}
+
+.event-map {
+    margin-top: 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.event-not-found {
+    text-align: center;
+    color: #c0392b;
+    font-weight: bold;
+}

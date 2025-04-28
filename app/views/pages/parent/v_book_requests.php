@@ -53,6 +53,8 @@
                                 <th>Child Name</th>
                                 <th>Book Title</th>
                                 <th>Author</th>
+                                <th>Book Owner Name</th>
+                                <th>Contact Number</th>
                                 <th>Request Date</th>
                                 <th>Status</th>
                                 <th>Actions</th>
@@ -64,6 +66,8 @@
                                     <td><?= $request->child_name ?></td>
                                     <td><?= $request->book_title ?></td>
                                     <td><?= $request->book_author ?></td>
+                                    <td><?=$request->owner_name?></td>
+                                    <td><?=$request->contact_number?></td>
                                     <td><?= date('M d, Y', strtotime($request->created_at)) ?></td>
                                     <td>
                                         <?php if($request->status == 'pending') : ?>
