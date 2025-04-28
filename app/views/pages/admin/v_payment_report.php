@@ -1,4 +1,6 @@
-<?php require APPROOT . '/views/inc/admin_header.php'; ?>
+<?php
+require_once APPROOT . '/helpers/Report_Helper.php';
+require APPROOT . '/views/inc/admin_header.php'; ?>
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/report_style.css">
 
 <div class="report-container">

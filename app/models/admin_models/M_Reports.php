@@ -152,105 +152,326 @@ class M_Reports
     }
 
     /**
-     * Get detailed user report
+     * Get detailed user report with advanced filtering
      */
-    public function getUserReport()
+    public function getUserReport($filters = [])
     {
-        $this->db->query("SELECT 
-                            u.user_id, 
-                            u.user_name, 
-                            u.user_email, 
-                            u.user_role, 
-                            u.created_at,
-                            u.user_is_verified,
-                            p.user_name as parent_name,
-                            (SELECT COUNT(*) FROM book WHERE owner_id = u.user_id) as book_count,
-                            (SELECT COUNT(*) FROM transaction WHERE requester_id = u.user_id) as transaction_count,
-                            (SELECT COALESCE(SUM(token_count), 0) FROM token WHERE user_id = u.user_id) as token_count
-                          FROM user u
-                          LEFT JOIN user p ON u.parent_id = p.user_id
-                          ORDER BY u.created_at DESC");
+        $sql = "SELECT 
+                u.user_id, 
+                u.user_name, 
+                u.user_email, 
+                u.user_role, 
+                u.created_at,
+                u.user_is_verified,
+                p.user_name as parent_name,
+                (SELECT COUNT(*) FROM book WHERE owner_id = u.user_id) as book_count,
+                (SELECT COUNT(*) FROM transaction WHERE requester_id = u.user_id) as transaction_count,
+                (SELECT COALESCE(SUM(token_count), 0) FROM token WHERE user_id = u.user_id) as token_count
+              FROM user u
+              LEFT JOIN user p ON u.parent_id = p.user_id
+              WHERE 1=1";
+
+        // Apply filters
+        $params = [];
+
+        // Date range filter
+        if (!empty($filters['start_date'])) {
+            $sql .= " AND u.created_at >= :start_date";
+            $params[':start_date'] = $filters['start_date'];
+        }
+
+        if (!empty($filters['end_date'])) {
+            $sql .= " AND u.created_at <= :end_date";
+            $params[':end_date'] = $filters['end_date'];
+        }
+
+        // Role filter
+        if (!empty($filters['role'])) {
+            $sql .= " AND u.user_role = :role";
+            $params[':role'] = $filters['role'];
+        }
+
+        // Status filter (verified/unverified)
+        if (isset($filters['status']) && $filters['status'] !== '') {
+            if ($filters['status'] === 'active') {
+                $sql .= " AND u.user_is_verified = 1";
+            } elseif ($filters['status'] === 'inactive') {
+                $sql .= " AND u.user_is_verified = 0";
+            }
+        }
+
+        // Search filter (name, email)
+        if (!empty($filters['search'])) {
+            $sql .= " AND (u.user_name LIKE :search OR u.user_email LIKE :search)";
+            $params[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        $sql .= " ORDER BY u.created_at DESC";
+
+        $this->db->query($sql);
+
+        // Bind all parameters
+        foreach ($params as $param => $value) {
+            $this->db->bind($param, $value);
+        }
 
         return $this->db->resultSet();
     }
 
     /**
-     * Get detailed book report
+     * Get detailed book report with advanced filtering
      */
-    public function getBookReport()
+    public function getBookReport($filters = [])
     {
-        $this->db->query("SELECT 
-                            b.book_id, 
-                            b.book_title, 
-                            b.book_author, 
-                            b.book_genre, 
-                            b.book_condition, 
-                            b.book_price, 
-                            b.listing_type, 
-                            b.book_status, 
-                            b.created_at,
-                            b.child_safe,
-                            u.user_name as owner_name,
-                            u.user_role as owner_role,
-                            (SELECT COUNT(*) FROM book_favorites WHERE book_id = b.book_id) as favorite_count,
-                            (SELECT COUNT(*) FROM book_comments WHERE book_id = b.book_id) as comment_count,
-                            (SELECT COUNT(*) FROM transaction WHERE book_id = b.book_id) as transaction_count
-                          FROM book b
-                          JOIN user u ON b.owner_id = u.user_id
-                          ORDER BY b.created_at DESC");
+        $sql = "SELECT 
+                b.book_id, 
+                b.book_title, 
+                b.book_author, 
+                b.book_genre, 
+                b.book_condition, 
+                b.book_price, 
+                b.listing_type, 
+                b.book_status, 
+                b.created_at,
+                b.child_safe,
+                u.user_name as owner_name,
+                u.user_id as owner_id,
+                u.user_role as owner_role,
+                (SELECT COUNT(*) FROM book_favorites WHERE book_id = b.book_id) as favorite_count,
+                (SELECT COUNT(*) FROM book_comments WHERE book_id = b.book_id) as comment_count,
+                (SELECT COUNT(*) FROM transaction WHERE book_id = b.book_id) as transaction_count
+              FROM book b
+              JOIN user u ON b.owner_id = u.user_id
+              WHERE 1=1";
+
+        // Apply filters
+        $params = [];
+
+        // Date range filter
+        if (!empty($filters['start_date'])) {
+            $sql .= " AND b.created_at >= :start_date";
+            $params[':start_date'] = $filters['start_date'];
+        }
+
+        if (!empty($filters['end_date'])) {
+            $sql .= " AND b.created_at <= :end_date";
+            $params[':end_date'] = $filters['end_date'];
+        }
+
+        // Genre filter
+        if (!empty($filters['genre'])) {
+            $sql .= " AND b.book_genre = :genre";
+            $params[':genre'] = $filters['genre'];
+        }
+
+        // Condition filter
+        if (!empty($filters['condition'])) {
+            $sql .= " AND b.book_condition = :condition";
+            $params[':condition'] = $filters['condition'];
+        }
+
+        // Status filter
+        if (!empty($filters['status'])) {
+            $sql .= " AND b.book_status = :status";
+            $params[':status'] = $filters['status'];
+        }
+
+        // Listing type filter
+        if (!empty($filters['listing_type'])) {
+            $sql .= " AND b.listing_type = :listing_type";
+            $params[':listing_type'] = $filters['listing_type'];
+        }
+
+        // Child safe filter
+        if (!empty($filters['child_safe'])) {
+            $sql .= " AND b.child_safe = :child_safe";
+            $params[':child_safe'] = $filters['child_safe'];
+        }
+
+        // Search filter (title, author, ISBN)
+        if (!empty($filters['search'])) {
+            $sql .= " AND (b.book_title LIKE :search OR b.book_author LIKE :search OR b.book_ISBN LIKE :search)";
+            $params[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        $sql .= " ORDER BY b.created_at DESC";
+
+        $this->db->query($sql);
+
+        // Bind all parameters
+        foreach ($params as $param => $value) {
+            $this->db->bind($param, $value);
+        }
 
         return $this->db->resultSet();
     }
 
     /**
-     * Get detailed transaction report
+     * Get detailed transaction report with advanced filtering
      */
-    public function getTransactionReport()
+    public function getTransactionReport($filters = [])
     {
-        $this->db->query("SELECT 
-                            t.transaction_id, 
-                            t.type, 
-                            t.status, 
-                            t.created_at,
-                            t.updated_at,
-                            b.book_title,
-                            b.book_price,
-                            b.listing_type,
-                            req.user_name as requester_name,
-                            owner.user_name as owner_name,
-                            (SELECT COUNT(*) FROM payment WHERE transaction_id = t.transaction_id) as has_payment
-                          FROM transaction t
-                          JOIN book b ON t.book_id = b.book_id
-                          JOIN user req ON t.requester_id = req.user_id
-                          JOIN user owner ON t.owner_id = owner.user_id
-                          ORDER BY t.created_at DESC");
+        $sql = "SELECT 
+                t.transaction_id, 
+                t.type, 
+                t.status, 
+                t.created_at,
+                t.updated_at,
+                t.book_id,
+                t.requester_id,
+                t.owner_id,
+                b.book_title,
+                b.book_price,
+                b.listing_type,
+                req.user_name as requester_name,
+                owner.user_name as owner_name,
+                (SELECT COUNT(*) FROM payment WHERE transaction_id = t.transaction_id) as has_payment
+              FROM transaction t
+              JOIN book b ON t.book_id = b.book_id
+              JOIN user req ON t.requester_id = req.user_id
+              JOIN user owner ON t.owner_id = owner.user_id
+              WHERE 1=1";
+
+        // Apply filters
+        $params = [];
+
+        // Date range filter
+        if (!empty($filters['start_date'])) {
+            $sql .= " AND t.created_at >= :start_date";
+            $params[':start_date'] = $filters['start_date'];
+        }
+
+        if (!empty($filters['end_date'])) {
+            $sql .= " AND t.created_at <= :end_date";
+            $params[':end_date'] = $filters['end_date'];
+        }
+
+        // Type filter (sell/swap)
+        if (!empty($filters['type'])) {
+            $sql .= " AND t.type = :type";
+            $params[':type'] = $filters['type'];
+        }
+
+        // Status filter
+        if (!empty($filters['status'])) {
+            $sql .= " AND t.status = :status";
+            $params[':status'] = $filters['status'];
+        }
+
+        // Search filter (book title, requester, owner)
+        if (!empty($filters['search'])) {
+            $sql .= " AND (b.book_title LIKE :search OR req.user_name LIKE :search OR owner.user_name LIKE :search)";
+            $params[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        $sql .= " ORDER BY t.created_at DESC";
+
+        $this->db->query($sql);
+
+        // Bind all parameters
+        foreach ($params as $param => $value) {
+            $this->db->bind($param, $value);
+        }
 
         return $this->db->resultSet();
     }
 
     /**
-     * Get detailed payment report
+     * Get detailed payment report with advanced filtering
      */
-    public function getPaymentReport()
+    public function getPaymentReport($filters = [])
     {
-        $this->db->query("SELECT 
-                            p.payment_id, 
-                            p.amount, 
-                            p.currency, 
-                            p.status, 
-                            p.created_at,
-                            p.order_id,
-                            u.user_name,
-                            u.user_email,
-                            CASE WHEN p.transaction_id IS NOT NULL THEN 'Book Purchase' ELSE 'Token Purchase' END as payment_type,
-                            t.transaction_id,
-                            b.book_title
-                          FROM payment p
-                          JOIN user u ON p.user_id = u.user_id
-                          LEFT JOIN transaction t ON p.transaction_id = t.transaction_id
-                          LEFT JOIN book b ON t.book_id = b.book_id
-                          ORDER BY p.created_at DESC");
+        $sql = "SELECT 
+                p.payment_id, 
+                p.amount, 
+                p.currency, 
+                p.status, 
+                p.created_at,
+                p.order_id,
+                p.user_id,
+                p.transaction_id,
+                u.user_name,
+                u.user_email,
+                CASE WHEN p.transaction_id IS NOT NULL THEN 'Book Purchase' ELSE 'Token Purchase' END as payment_type,
+                t.transaction_id,
+                b.book_title
+              FROM payment p
+              JOIN user u ON p.user_id = u.user_id
+              LEFT JOIN transaction t ON p.transaction_id = t.transaction_id
+              LEFT JOIN book b ON t.book_id = b.book_id
+              WHERE 1=1";
+
+        // Apply filters
+        $params = [];
+
+        // Date range filter
+        if (!empty($filters['start_date'])) {
+            $sql .= " AND p.created_at >= :start_date";
+            $params[':start_date'] = $filters['start_date'];
+        }
+
+        if (!empty($filters['end_date'])) {
+            $sql .= " AND p.created_at <= :end_date";
+            $params[':end_date'] = $filters['end_date'];
+        }
+
+        // Payment type filter
+        if (!empty($filters['type'])) {
+            if ($filters['type'] === 'Book Purchase') {
+                $sql .= " AND p.transaction_id IS NOT NULL";
+            } elseif ($filters['type'] === 'Token Purchase') {
+                $sql .= " AND p.transaction_id IS NULL";
+            }
+        }
+
+        // Status filter
+        if (!empty($filters['status'])) {
+            $sql .= " AND p.status = :status";
+            $params[':status'] = $filters['status'];
+        }
+
+        // Amount range filter
+        if (!empty($filters['min_amount'])) {
+            $sql .= " AND p.amount >= :min_amount";
+            $params[':min_amount'] = $filters['min_amount'];
+        }
+
+        if (!empty($filters['max_amount'])) {
+            $sql .= " AND p.amount <= :max_amount";
+            $params[':max_amount'] = $filters['max_amount'];
+        }
+
+        // Search filter (order ID, user name, email)
+        if (!empty($filters['search'])) {
+            $sql .= " AND (p.order_id LIKE :search OR u.user_name LIKE :search OR u.user_email LIKE :search OR b.book_title LIKE :search)";
+            $params[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        $sql .= " ORDER BY p.created_at DESC";
+
+        $this->db->query($sql);
+
+        // Bind all parameters
+        foreach ($params as $param => $value) {
+            $this->db->bind($param, $value);
+        }
 
         return $this->db->resultSet();
+    }
+
+    /**
+     * Get distinct book genres for filter dropdown
+     */
+    public function getDistinctBookGenres()
+    {
+        $this->db->query("SELECT DISTINCT book_genre FROM book ORDER BY book_genre");
+        $results = $this->db->resultSet();
+
+        $genres = [];
+        foreach ($results as $result) {
+            $genres[] = $result->book_genre;
+        }
+
+        return $genres;
     }
 }
