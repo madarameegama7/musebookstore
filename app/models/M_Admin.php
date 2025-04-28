@@ -754,4 +754,15 @@ class M_Admin
         $this->db->bind(':payment_id', $paymentId);
         return $this->db->execute();
     }
+
+    // Get all community members 
+    public function getAllCommunityMembers()
+    {
+        $this->db->query('SELECT cm.*, c.communityName, u.user_name 
+                          FROM community_member cm 
+                          LEFT JOIN community c ON cm.community_id = c.communityId 
+                          LEFT JOIN user u ON cm.user_id = u.user_id 
+                          ORDER BY cm.community_member_name');
+        return $this->db->resultSet();
+    }
 }

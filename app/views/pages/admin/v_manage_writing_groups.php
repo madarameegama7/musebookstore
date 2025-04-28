@@ -14,8 +14,15 @@
                 <input type="text" id="writingGroup_name" name="writingGroup_name" maxlength="255" required>
                 <label for="writingGroup_description">Description:</label>
                 <textarea id="writingGroup_description" name="writingGroup_description" rows="4" required></textarea>
-                <label for="community_id">Community ID:</label>
-                <input type="number" id="community_id" name="community_id" min="1" required>
+                <label for="community_id">Community:</label>
+                <select id="community_id" name="community_id" required>
+                    <option value="">Select a community</option>
+                    <?php if (isset($data['communities']) && !empty($data['communities'])): ?>
+                        <?php foreach ($data['communities'] as $community): ?>
+                            <option value="<?php echo $community->communityId; ?>"><?php echo htmlspecialchars($community->communityName); ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
                 <label for="image_path">Image Path (optional):</label>
                 <input type="text" id="image_path" name="image_path" placeholder="e.g., public/img/community/group.jpg">
                 <button type="submit" class="btn btn-update">Add Group</button>
@@ -28,7 +35,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>Community ID</th>
+                    <th>Community</th>
                     <th>Image Path</th>
                     <th>Actions</th>
                 </tr>
@@ -40,7 +47,7 @@
                             <td><?php echo $g->writingGroup_id; ?></td>
                             <td><?php echo htmlspecialchars($g->writingGroup_name); ?></td>
                             <td><?php echo htmlspecialchars(mb_strimwidth($g->writingGroup_description, 0, 60, '...')); ?></td>
-                            <td><?php echo $g->community_id; ?></td>
+                            <td><?php echo htmlspecialchars($g->communityName ?? 'Unknown'); ?></td>
                             <td><?php echo htmlspecialchars($g->image_path ?? 'N/A'); ?></td>
                             <td>
                                 <a href="<?php echo URLROOT; ?>/admin/writinggroup/editWritingGroup/<?php echo $g->writingGroup_id; ?>" class="btn btn-edit">Edit</a>

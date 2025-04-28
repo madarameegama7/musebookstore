@@ -9,14 +9,32 @@
         <section style="margin-bottom: 30px;">
             <h2>Add Writing Group Post</h2>
             <form action="<?php echo URLROOT; ?>/admin/addWritingGroupPost" method="post" class="admin-form">
-                <label for="writingGroup_id">Writing Group ID:</label>
-                <input type="number" id="writingGroup_id" name="writingGroup_id" min="1" required>
-                <label for="community_member_id">Community Member ID:</label>
-                <input type="number" id="community_member_id" name="community_member_id" min="1" required>
+                <label for="writingGroup_id">Writing Group:</label>
+                <select id="writingGroup_id" name="writingGroup_id" required>
+                    <option value="">Select a writing group</option>
+                    <?php if (isset($data['writingGroups']) && !empty($data['writingGroups'])): ?>
+                        <?php foreach ($data['writingGroups'] as $group): ?>
+                            <option value="<?php echo $group->writingGroup_id; ?>"><?php echo htmlspecialchars($group->writingGroup_name); ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+
+                <label for="community_member_id">Community Member:</label>
+                <select id="community_member_id" name="community_member_id" required>
+                    <option value="">Select a community member</option>
+                    <?php if (isset($data['communityMembers']) && !empty($data['communityMembers'])): ?>
+                        <?php foreach ($data['communityMembers'] as $member): ?>
+                            <option value="<?php echo $member->community_member_id; ?>"><?php echo htmlspecialchars($member->community_member_name); ?> <?php echo $member->communityName ? '(Community: ' . htmlspecialchars($member->communityName) . ')' : ''; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+
                 <label for="chapter_title">Chapter Title:</label>
                 <input type="text" id="chapter_title" name="chapter_title" maxlength="255" required>
+
                 <label for="chapter_content">Chapter Content:</label>
                 <textarea id="chapter_content" name="chapter_content" rows="6" required></textarea>
+
                 <button type="submit" class="btn btn-update">Add Post</button>
             </form>
         </section>
@@ -25,8 +43,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Group ID</th>
-                    <th>Member ID</th>
+                    <th>Writing Group</th>
+                    <th>Member</th>
                     <th>Chapter Title</th>
                     <th>Content</th>
                     <th>Created At</th>
@@ -38,8 +56,8 @@
                     <?php foreach ($data['posts'] as $p): ?>
                         <tr>
                             <td><?php echo $p->writingGroup_post_id; ?></td>
-                            <td><?php echo $p->writingGroup_id; ?></td>
-                            <td><?php echo $p->community_member_id; ?></td>
+                            <td><?php echo htmlspecialchars($p->writingGroup_name ?? 'Unknown Group'); ?></td>
+                            <td><?php echo htmlspecialchars($p->community_member_name ?? 'Unknown Member'); ?></td>
                             <td><?php echo htmlspecialchars($p->chapter_title); ?></td>
                             <td><?php echo htmlspecialchars(mb_strimwidth($p->chapter_content, 0, 60, '...')); ?></td>
                             <td><?php echo $p->created_at; ?></td>

@@ -18,7 +18,7 @@
                     <option value="">-- Select Community --</option>
                     <?php foreach ($data['communities'] as $community): ?>
                         <option value="<?php echo $community->communityId; ?>" <?php echo ($data['community_id'] == $community->communityId) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($community->communityName); ?> (ID: <?php echo $community->communityId; ?>)
+                            <?php echo htmlspecialchars($community->communityName); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

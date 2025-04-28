@@ -8,9 +8,13 @@ class WritingGroupAdminController extends Admin
     public function manageWritingGroups()
     {
         $groups = $this->adminModel->getAllWritingGroups();
+        // Get all communities for the dropdown in the add form
+        $communities = $this->adminModel->getAllCommunities();
+
         $data = [
             'title' => 'Manage Writing Groups',
-            'groups' => $groups
+            'groups' => $groups,
+            'communities' => $communities // Pass communities to the view
         ];
         $this->view('pages/admin/v_manage_writing_groups', $data);
     }
@@ -57,11 +61,15 @@ class WritingGroupAdminController extends Admin
                 $this->view('pages/admin/v_add_writing_group', $data);
             }
         } else {
+            // Get all communities for the dropdown
+            $communities = $this->adminModel->getAllCommunities();
+
             $data = [
                 'writingGroup_name' => '',
                 'writingGroup_description' => '',
                 'community_id' => '',
                 'image_path' => '',
+                'communities' => $communities, // Add communities to data
                 'title' => 'Add New Writing Group',
                 'writingGroup_name_err' => '',
                 'writingGroup_description_err' => '',
@@ -180,9 +188,15 @@ class WritingGroupAdminController extends Admin
     public function writingGroupPosts()
     {
         $posts = $this->adminModel->getAllWritingGroupPosts();
+        // Get all writing groups and community members for dropdowns
+        $writingGroups = $this->adminModel->getAllWritingGroups();
+        $communityMembers = $this->adminModel->getAllCommunityMembers();
+
         $data = [
             'title' => 'Manage Writing Group Posts',
-            'posts' => $posts
+            'posts' => $posts,
+            'writingGroups' => $writingGroups,
+            'communityMembers' => $communityMembers
         ];
         $this->view('pages/admin/v_manage_writing_group_posts', $data);
     }

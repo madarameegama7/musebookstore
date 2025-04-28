@@ -149,9 +149,15 @@ class CommunityAdminController extends Admin
     public function manageCommunityPosts()
     {
         $posts = $this->adminModel->getAllCommunityPosts();
+        // Get all communities and community members for dropdowns
+        $communities = $this->adminModel->getAllCommunities();
+        $communityMembers = $this->adminModel->getAllCommunityMembers();
+
         $data = [
             'title' => 'Manage Community Posts',
-            'posts' => $posts
+            'posts' => $posts,
+            'communities' => $communities,
+            'communityMembers' => $communityMembers
         ];
         $this->view('pages/admin/v_manage_community_posts', $data);
     }

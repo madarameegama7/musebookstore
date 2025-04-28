@@ -59,8 +59,15 @@
             <input type="date" id="event_date" name="event_date" required>
             <label for="event_time">Time:</label>
             <input type="time" id="event_time" name="event_time" required>
-            <label for="community_id">Community ID:</label>
-            <input type="number" id="community_id" name="community_id" required>
+            <label for="community_id">Community:</label>
+            <select id="community_id" name="community_id" required>
+                <option value="">Select a community</option>
+                <?php if (isset($data['communities']) && !empty($data['communities'])): ?>
+                    <?php foreach ($data['communities'] as $community): ?>
+                        <option value="<?php echo $community->communityId; ?>"><?php echo htmlspecialchars($community->communityName); ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
             <button type="submit" class="btn btn-update">Add Event</button>
         </form>
         <a href="<?php echo URLROOT; ?>/admin" class="btn btn-back" style="margin-top: 15px;">Back to Dashboard</a>

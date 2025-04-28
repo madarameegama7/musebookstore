@@ -47,14 +47,20 @@
                     <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/manageCommunities') !== false ? 'active' : ''; ?>">
                         <a href="<?php echo URLROOT; ?>/admin/community/manageCommunities"><i class="fas fa-users-cog"></i> Manage Communities</a>
                     </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/manageCommunityPosts') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/community/manageCommunityPosts"><i class="fas fa-comments"></i> Community Posts</a>
+                    </li>
                     <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/deleteRequests') !== false ? 'active' : ''; ?>">
                         <a href="<?php echo URLROOT; ?>/admin/community/deleteRequests"><i class="fas fa-trash-alt"></i> Delete Requests</a>
                     </li>
                     <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/event/manageEvents') !== false ? 'active' : ''; ?>">
                         <a href="<?php echo URLROOT; ?>/admin/event/manageEvents"><i class="fas fa-calendar-alt"></i> Manage Events</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/writingGroups') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroups"><i class="fas fa-pen-nib"></i> Writing Groups</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/manageWritingGroups') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/manageWritingGroups"><i class="fas fa-pen-nib"></i> Writing Groups</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/writingGroupPosts') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroupPosts"><i class="fas fa-book-open"></i> Writing Group Posts</a>
                     </li>
                 </ul>
             </li>
