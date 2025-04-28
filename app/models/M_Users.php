@@ -80,11 +80,10 @@ class M_Users
         return false; // Login failed
     }
 
-    public function getAllUsers()
-    {
-        $this->db->query("SELECT * FROM user WHERE user_role='parent'");
-        $results = $this->db->resultSet();
-        return $results;
+    public function getAllUsers(){
+        $this->db->query("SELECT * FROM user WHERE user_role='parent' OR user_role='ambassador'");
+        $results=$this->db->resultSet();
+
     }
 
     public function storeResetToken($email, $token, $expiry)
