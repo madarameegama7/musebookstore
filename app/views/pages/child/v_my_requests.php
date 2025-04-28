@@ -114,6 +114,7 @@
     .book-title {
         font-weight: 600;
         color: #336699;
+        font-size: 1.4rem;
     }
     
     .book-link {

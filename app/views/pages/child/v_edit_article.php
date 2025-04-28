@@ -104,6 +104,21 @@
         transform: translateY(-2px);
     }
     
+    .btn-draft {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-draft:hover {
+        background-color: #3e8e41;
+    }
+    
     .btn-cancel {
         background-color: #f5f5f5;
         color: #333;
@@ -176,8 +191,13 @@
             </div>
             
             <div class="form-buttons">
-                <button type="submit" class="btn-update">Update Article</button>
-                <a href="<?php echo URLROOT; ?>/child/viewArticle/<?php echo $data['article_id']; ?>" class="btn-cancel">Cancel</a>
+                <button type="submit" name="action" value="publish" class="btn-update">Update Article</button>
+                <button type="submit" name="action" value="draft" class="btn-draft">Save as Draft</button>
+                <?php if(isset($data['status']) && $data['status'] === 'published'): ?>
+                    <a href="<?php echo URLROOT; ?>/child/viewArticle/<?php echo $data['article_id']; ?>" class="btn-cancel">Cancel</a>
+                <?php else: ?>
+                    <a href="<?php echo URLROOT; ?>/child/myDrafts" class="btn-cancel">Cancel</a>
+                <?php endif; ?>
             </div>
         </form>
         

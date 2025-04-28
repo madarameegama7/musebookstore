@@ -291,6 +291,18 @@
     justify-content: center;
 }
 
+/* Small button styling - consistent for all button types */
+.btn-parent.btn-sm, 
+.btn-parent-primary.btn-sm, 
+.btn-parent-light.btn-sm, 
+.btn-parent-danger.btn-sm, 
+.btn-parent-success.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-height: 38px;
+    border-radius: calc(var(--border-radius) - 2px);
+}
+
 .btn-parent-primary i, .btn-parent-light i {
     margin-right: 8px;
     font-size: 1.1rem;
@@ -309,12 +321,38 @@
     border: 2px solid #e1e5f1;
 }
 
-.btn-parent-primary:hover, .btn-parent-light:hover {
+/* Danger button */
+.btn-parent-danger {
+    background: linear-gradient(135deg, var(--danger-color) 0%, #c0392b 100%);
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    min-height: 50px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 1;
+    transform-origin: center;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-parent-danger i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-parent-primary:hover, .btn-parent-light:hover, .btn-parent-danger:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
 }
 
-.btn-parent-primary:hover i, .btn-parent-light:hover i {
+.btn-parent-primary:hover i, .btn-parent-light:hover i, .btn-parent-danger:hover i {
     transform: scale(1.2);
 }
 

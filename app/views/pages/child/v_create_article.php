@@ -119,6 +119,21 @@
         background-color: #e0e0e0;
     }
     
+    .btn-draft {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-draft:hover {
+        background-color: #3e8e41;
+    }
+    
     .article-tips {
         background-color: #f9f9f9;
         border-left: 4px solid #E91E63;
@@ -176,7 +191,8 @@
             </div>
             
             <div class="form-buttons">
-                <button type="submit" class="btn-publish">Publish Article</button>
+                <button type="submit" name="action" value="publish" class="btn-publish">Publish Article</button>
+                <button type="submit" name="action" value="draft" class="btn-draft">Save as Draft</button>
                 <a href="<?php echo URLROOT; ?>/child/myArticles" class="btn-cancel">Cancel</a>
             </div>
         </form>
