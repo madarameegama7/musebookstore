@@ -31,15 +31,16 @@
                             <td><?php echo ucfirst($t->status); ?></td>
                             <td><?php echo $t->created_at; ?></td>
                             <td>
+                                <a href="<?php echo URLROOT; ?>/admin/transaction/viewTransaction/<?php echo $t->transaction_id; ?>" class="btn btn-view">View</a>
                                 <?php if ($t->status === 'pending'): ?>
-                                    <form action="<?php echo URLROOT; ?>/admin/approveTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;">
+                                    <form action="<?php echo URLROOT; ?>/admin/transaction/approveTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;">
                                         <button type="submit" class="btn btn-update">Approve</button>
                                     </form>
-                                    <form action="<?php echo URLROOT; ?>/admin/declineTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;">
+                                    <form action="<?php echo URLROOT; ?>/admin/transaction/declineTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;">
                                         <button type="submit" class="btn btn-delete">Decline</button>
                                     </form>
                                 <?php endif; ?>
-                                <form action="<?php echo URLROOT; ?>/admin/deleteTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
+                                <form action="<?php echo URLROOT; ?>/admin/transaction/deleteTransaction/<?php echo $t->transaction_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
                                     <button type="submit" class="btn btn-delete">Delete</button>
                                 </form>
                             </td>

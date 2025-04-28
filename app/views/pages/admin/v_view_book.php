@@ -8,7 +8,7 @@
     <main class="admin-main-content">
         <?php flash('admin_msg'); ?> <!-- Display flash messages -->
         <h1><?php echo $data['title']; ?></h1>
-        <a href="<?php echo URLROOT; ?>/admin/manageBooks" class="btn-back">Back to Book List</a>
+        <a href="<?php echo URLROOT; ?>/admin/book/manageBooks" class="btn-back">Back to Book List</a>
 
         <div class="book-details-card">
             <h2>Book Information</h2>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="admin-actions">
-            <form action="<?php echo URLROOT; ?>/admin/deleteBook/<?php echo $data['book']->book_id; ?>" method="post" onsubmit="return confirm('Are you sure you want to delete this book? This action cannot be undone.');">
+            <form action="<?php echo URLROOT; ?>/admin/book/deleteBook/<?php echo $data['book']->book_id; ?>" method="post" onsubmit="return confirm('Are you sure you want to delete this book? This action cannot be undone.');">
                 <button type="submit" class="btn-delete">Delete Book</button>
             </form>
         </div>
