@@ -21,9 +21,7 @@ class Child extends Controller {
         $this->articleModel = $this->model('M_Articles');
     }
     
-    /**
-     * Default index method - redirects to childHome
-     */
+   
     public function index() {
         redirect('pages/index');
     }
@@ -42,9 +40,7 @@ class Child extends Controller {
     }
     
         
-    /**
-     * Search for books by title, author, or genre
-     */
+    
     public function searchBooks() {
         // Get search query
         $query = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -230,11 +226,7 @@ class Child extends Controller {
         $this->view('pages/child/v_book_detail', $data);
     }
 
-    /**
-     * Add a book to favorites
-     * @param int $bookId The book ID
-     * @return void
-     */
+    
     public function addToFavorites($bookId = null) {
         // If no book ID provided, redirect back
         if(!$bookId) {
