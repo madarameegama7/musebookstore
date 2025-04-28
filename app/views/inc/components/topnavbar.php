@@ -5,7 +5,7 @@
     }
 </script>
 
-<div class="topnavbar">
+<div class="topnavbar no-print">
     <ul>
         <li class="logo-container">
             <img src="/musebookstore/public/img/muse logo.png" alt="Muse Bookstore Logo">
@@ -26,7 +26,7 @@
 
             <!-- Add Browse All Books option for child users -->
             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'child'): ?>
-                
+
                 <li class="menu-item" style="margin-right: 15px;">
                     <a href="<?php echo URLROOT ?>/child/childHome" style="color: #4CAF50; font-weight: bold;">
                         <i class="fas fa-th-large"></i> Features
@@ -53,18 +53,18 @@
                         break;
                     case 'ambassador':
                         // Add ambassador profile link if it exists
-                        // $profileLink = URLROOT . '/pages/ambassadorProfileView';
+                        $profileLink = URLROOT . '/Pages/ambassadorView';
                         break;
                         // Add other roles as needed
                 }
             }
             ?>
             <a href="<?php echo $profileLink; ?>">
-    <img width="50" height="50"
-         style="border-radius: 50%; object-fit: cover;" 
-         src="<?php echo URLROOT . '/img/profileImgs/' . (empty($_SESSION['user_photo']) ? 'profileImg.jpg' : $_SESSION['user_photo']); ?>"
-         alt="user-male-circle--v1" />
-</a>
+                <img width="50" height="50"
+                    style="border-radius: 50%; object-fit: cover;"
+                    src="<?php echo URLROOT . '/img/profileImgs/' . (empty($_SESSION['user_photo']) ? 'profileImg.jpg' : $_SESSION['user_photo']); ?>"
+                    alt="user-male-circle--v1" />
+            </a>
 
 
 

@@ -1,4 +1,4 @@
-<aside class="admin-sidebar">
+<aside class="admin-sidebar no-print">
     <div class="logo-container">
         <a href="<?php echo URLROOT; ?>/admin">
             <img src="<?php echo URLROOT; ?>/img/muse%20logo.png" alt="Muse Admin Logo">
