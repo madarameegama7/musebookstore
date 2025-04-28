@@ -59,10 +59,10 @@ function getStatusBadgeClass($status)
  * Format currency value
  * 
  * @param float $amount Amount to format
- * @param string $currency Currency code (default: KES)
+ * @param string $currency Currency code (default: LKR)
  * @return string Formatted currency value
  */
-function formatCurrency($amount, $currency = 'KES')
+function formatCurrency($amount, $currency = 'LKR')
 {
     return $currency . ' ' . number_format($amount, 2);
 }

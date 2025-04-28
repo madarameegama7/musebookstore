@@ -58,7 +58,7 @@
 
             <div class="summary-card">
                 <h3>Revenue</h3>
-                <div class="value">KES <?php echo !empty($data['financial_stats']) ? number_format($data['financial_stats'][0]->total_amount, 2) : '0.00'; ?></div>
+                <div class="value">LKR <?php echo !empty($data['financial_stats']) ? number_format($data['financial_stats'][0]->total_amount, 2) : '0.00'; ?></div>
                 <div class="label">Total revenue generated</div>
                 <a href="<?php echo URLROOT; ?>/admin/reports/payments" class="btn btn-sm btn-info mt-3">View Report</a>
             </div>
@@ -334,9 +334,9 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Payments</th>
-                                        <th>Total (KES)</th>
-                                        <th>Book Sales (KES)</th>
-                                        <th>Token Sales (KES)</th>
+                                        <th>Total (LKR)</th>
+                                        <th>Book Sales (LKR)</th>
+                                        <th>Token Sales (LKR)</th>
                                     </tr>
                                 </thead>
                                 <tbody>

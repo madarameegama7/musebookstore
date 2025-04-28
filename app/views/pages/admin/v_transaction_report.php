@@ -103,7 +103,7 @@
                                     <td><?php echo $transaction->requester_name; ?></td>
                                     <td><?php echo $transaction->owner_name; ?></td>
                                     <td>
-                                        <?php echo ($transaction->type == 'sell') ? 'KES ' . number_format($transaction->book_price, 2) : 'N/A'; ?>
+                                        <?php echo ($transaction->type == 'sell') ? 'LKR ' . number_format($transaction->book_price, 2) : 'N/A'; ?>
                                     </td>
                                     <td><?php echo date('Y-m-d H:i', strtotime($transaction->created_at)); ?></td>
                                     <td><?php echo date('Y-m-d H:i', strtotime($transaction->updated_at)); ?></td>
@@ -186,7 +186,7 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 <script> -->
-    <!-- function printWithFilename() {
+                <!-- function printWithFilename() {
         const currentDate = new Date();
         const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
         const originalTitle = document.title;
@@ -228,7 +228,7 @@
                 'sell': <?php echo $sellCount; ?>,
                 'swap': <?php echo $swapCount; ?>
             }; -->
-            <!-- const typeCtx = document.getElementById('typeChart').getContext('2d');
+                <!-- const typeCtx = document.getElementById('typeChart').getContext('2d');
             new Chart(typeCtx, {
                 type: 'pie',
                 data: {
@@ -302,4 +302,4 @@
         <?php endif; ?>
     });
 </script> -->
-<?php require APPROOT . '/views/inc/admin_footer.php'; ?>
+                <?php require APPROOT . '/views/inc/admin_footer.php'; ?>

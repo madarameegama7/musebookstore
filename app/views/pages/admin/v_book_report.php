@@ -147,7 +147,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <?php echo ($book->listing_type == 'sell') ? 'KES ' . number_format($book->book_price, 2) : 'N/A'; ?>
+                                        <?php echo ($book->listing_type == 'sell') ? 'LKR ' . number_format($book->book_price, 2) : 'N/A'; ?>
                                     </td>
                                     <td>
                                         <span class="status-badge status-<?php echo $book->listing_type; ?>">
@@ -528,4 +528,4 @@
     });
 </script> -->
 
-<?php require APPROOT . '/views/inc/admin_footer.php'; ?>
+                <?php require APPROOT . '/views/inc/admin_footer.php'; ?>
