@@ -7,7 +7,7 @@ class M_Books{
     }
    
     public function create($data){
-        $this->db->query('INSERT INTO book(book_title, book_author, book_genre, book_condition, book_price, listing_type, owner_id, book_publisher, book_published_year, book_ISBN, book_image) VALUES(:book_title, :book_author, :book_genre, :book_condition, :book_price,  :listing_type, :owner_id, :book_publisher, :book_published_year, :book_ISBN, :book_image)');
+        $this->db->query('INSERT INTO book(book_title, book_author, book_genre, book_condition, book_price, listing_type, owner_id, book_publisher, book_published_year, book_ISBN, book_image, child_safe) VALUES(:book_title, :book_author, :book_genre, :book_condition, :book_price,  :listing_type, :owner_id, :book_publisher, :book_published_year, :book_ISBN, :book_image, :child_safe)');
         $this->db->bind(':book_image',$data['book_image_name']);
         $this->db->bind(':book_title',$data['booktitle']);
         $this->db->bind(':book_author',$data['author']);
@@ -19,6 +19,8 @@ class M_Books{
         $this->db->bind(':book_publisher',$data['publisher']);
         $this->db->bind(':book_published_year',$data['year']);
         $this->db->bind(':book_ISBN',$data['isbn']);
+        $this->db->bind(':child_safe',$data['childsafe']);
+
 
         //Execute
         if($this->db->execute()){
@@ -28,11 +30,6 @@ class M_Books{
             return false;
         }
     }
-    /**
-     * Get books from the database
-     * @param int $limit Optional limit for number of books to return
-     * @return array Books from the database
-     */
     public function getBooks($limit = null){
         // Query from the book table directly instead of the v_books view
         if ($limit) {
@@ -45,6 +42,19 @@ class M_Books{
         $results = $this->db->resultSet();
         return $results;
     }
+    public function getChildBooks($limit = null) {
+        if ($limit) {
+            $this->db->query("SELECT * FROM book WHERE child_safe = 'Yes' ORDER BY created_at DESC LIMIT :limit");
+            $this->db->bind(':limit', $limit);
+        } else {
+            $this->db->query('SELECT * FROM book ORDER BY created_at DESC');
+        }
+        
+        // Get the results and return them
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    
 
     public function getBooksById($book_id){
         $this->db->query('SELECT * FROM book WHERE book_id = :book_id');

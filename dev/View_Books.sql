@@ -11,7 +11,8 @@ book.listing_type as listing_type,
 book.book_condition as book_condition,
 book.book_publisher as book_publisher,
 book.book_published_year as book_published_year,
-book.book_ISBN as book_ISBN
+book.book_ISBN as book_ISBN,
+book.child_safe as child_safe
 FROM book INNER JOIN user
 ON book.owner_id = user.user_id
 ORDER by book.created_at;

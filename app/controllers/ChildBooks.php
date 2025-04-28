@@ -30,7 +30,7 @@ class ChildBooks extends Controller
     }
     public function show()
     {
-        $books = $this->bookModel->getBooks();
+        $books = $this->bookModel->getChildBooks();
         $data = [
             'books' => $books
         ];
