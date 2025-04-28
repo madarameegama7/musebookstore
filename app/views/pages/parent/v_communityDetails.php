@@ -21,7 +21,7 @@
 
                 <div class="community-action-buttons">
                     <a href="<?php echo URLROOT; ?>/communities/viewCommunityWritingGroups/<?php echo $data['community']->communityId; ?>" class="community-btn">Writing Groups</a>
-                    <a href="<?php echo URLROOT; ?>/communities/viewEvent/<?php echo $data['community']->communityId; ?>" class="community-btn">Events</a>
+                    <a href="<?php echo URLROOT; ?>/communities/viewCommunityEvents/<?php echo $data['community']->communityId; ?>" class="community-btn">Events</a>
                 </div>
 
                 <p class="community-info"><strong>Type:</strong> <?php echo $data['community']->membership_type; ?></p>
@@ -29,21 +29,26 @@
             </div>
         </div>
 
-        <div class="community-blog-section">
-            <h2 class="community-page-subtitle">Community Articles</h2>
+        <!-- Community Posts Section -->
+        <div class="community-posts-section">
+            <h3 class="community-posts-title">Community Articles</h3>
+
+          
+        <a href="<?php echo URLROOT; ?>/communities/createCommunityPost/<?php echo $data['community']->communityId; ?>" class="create-blog-btn">Create Blog</a>
+    </div>
+            
             <?php if (!empty($data['posts'])): ?>
-                <div class="community-posts-list">
+                <div class="community-posts-wrapper">
                     <?php foreach ($data['posts'] as $post): ?>
                         <div class="community-post-card">
-                            <h3 class="community-post-title"><?php echo $post->title; ?></h3>
-                            <p class="community-post-body"><?php echo substr($post->content, 0, 100); ?>...</p>
-                            <a href="<?php echo URLROOT; ?>/communities/viewPosts/<?php echo $post->id; ?>" class="community-btn view-btn">Read More</a>
-                            <a href="<?php echo URLROOT; ?>/communities/deletePost/<?php echo $post->id; ?>/<?php echo $data['community']->communityId; ?>" class="community-btn delete-btn">Delete</a>
+                            <h4 class="post-title"><?php echo $post->title; ?></h4>
+                            <p class="post-summary"><?php echo substr($post->content, 0, 100) . '...'; ?></p>
+                            <a href="<?php echo URLROOT . '/communities/viewSingleCommunityPost/' . $post->id; ?>" class="read-more-btn">Read More</a>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <p class="no-posts-message">No blog posts yet.</p>
+                <p>No community articles found.</p>
             <?php endif; ?>
         </div>
     </div>
