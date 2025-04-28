@@ -6,21 +6,28 @@
     <main class="admin-main-content">
         <h1>Edit Writing Group</h1>
         <?php flash('admin_msg'); ?>
-        <form action="<?php echo URLROOT; ?>/admin/writinggroup/editWritingGroup/<?php echo $data['group']->writingGroup_id; ?>" method="post" class="admin-form" style="max-width: 600px;">
+        <form action="<?php echo URLROOT; ?>/admin/writingGroup/updateWritingGroup/<?php echo $data['writingGroup_id']; ?>" method="post" class="admin-form" style="max-width: 600px;">
             <label>Name:
-                <input type="text" name="writingGroup_name" maxlength="255" value="<?php echo htmlspecialchars($data['group']->writingGroup_name); ?>" required>
+                <input type="text" name="writingGroup_name" maxlength="255" value="<?php echo htmlspecialchars($data['writingGroup_name']); ?>" required>
             </label>
             <label>Description:
-                <textarea name="writingGroup_description" rows="4" required><?php echo htmlspecialchars($data['group']->writingGroup_description); ?></textarea>
+                <textarea name="writingGroup_description" rows="4" required><?php echo htmlspecialchars($data['writingGroup_description']); ?></textarea>
             </label>
-            <label>Community ID:
-                <input type="number" name="community_id" min="1" value="<?php echo $data['group']->community_id; ?>" required>
+            <label>Community:
+                <select name="community_id" required>
+                    <option value="">-- Select Community --</option>
+                    <?php foreach ($data['communities'] as $community): ?>
+                        <option value="<?php echo $community->communityId; ?>" <?php echo ($data['community_id'] == $community->communityId) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($community->communityName); ?> (ID: <?php echo $community->communityId; ?>)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </label>
             <label>Image Path (optional):
-                <input type="text" name="image_path" value="<?php echo htmlspecialchars($data['group']->image_path ?? ''); ?>" placeholder="e.g., public/img/community/group.jpg">
+                <input type="text" name="image_path" value="<?php echo htmlspecialchars($data['image_path'] ?? ''); ?>" placeholder="e.g., public/img/community/group.jpg">
             </label>
             <button type="submit" class="btn btn-update">Update Group</button>
-            <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroups" class="btn btn-grey">Cancel</a>
+            <a href="<?php echo URLROOT; ?>/admin/writingGroup/manageWritingGroups" class="btn btn-grey">Cancel</a>
         </form>
     </main>
 </div>

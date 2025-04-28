@@ -19,12 +19,15 @@ class WritingGroupAdminController extends Admin
     public function addWritingGroup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $postData = [];
+            foreach ($_POST as $key => $value) {
+                $postData[$key] = trim(htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8'));
+            }
             $data = [
-                'writingGroup_name' => trim($_POST['writingGroup_name']),
-                'writingGroup_description' => trim($_POST['writingGroup_description']),
-                'community_id' => trim($_POST['community_id']),
-                'image_path' => trim($_POST['image_path'] ?? ''),
+                'writingGroup_name' => $postData['writingGroup_name'],
+                'writingGroup_description' => $postData['writingGroup_description'],
+                'community_id' => $postData['community_id'],
+                'image_path' => $postData['image_path'] ?? '',
                 'title' => 'Add New Writing Group',
                 'writingGroup_name_err' => '',
                 'writingGroup_description_err' => '',
@@ -72,6 +75,7 @@ class WritingGroupAdminController extends Admin
     // Show Edit Writing Group Form
     public function editWritingGroup($wgId)
     {
+        // Get the writing group data
         $group = null;
         foreach ($this->adminModel->getAllWritingGroups() as $g) {
             if ($g->writingGroup_id == $wgId) $group = $g;
@@ -80,6 +84,10 @@ class WritingGroupAdminController extends Admin
             Alert_Helper::error('Group not found', 'Writing group not found.');
             redirect('admin/writingGroup/manageWritingGroups');
         }
+
+        // Get all available communities for the dropdown
+        $communities = $this->adminModel->getAllCommunities();
+
         $data = [
             'writingGroup_id' => $wgId,
             'writingGroup_name' => $group->writingGroup_name,
@@ -90,7 +98,8 @@ class WritingGroupAdminController extends Admin
             'writingGroup_name_err' => '',
             'writingGroup_description_err' => '',
             'community_id_err' => '',
-            'image_path_err' => ''
+            'image_path_err' => '',
+            'communities' => $communities // Pass the communities to the view
         ];
         $this->view('pages/admin/v_edit_writing_group', $data);
     }
@@ -99,7 +108,12 @@ class WritingGroupAdminController extends Admin
     public function updateWritingGroup($wgId)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Replace deprecated FILTER_SANITIZE_STRING with modern filtering approach
+            $postData = [];
+            foreach ($_POST as $key => $value) {
+                $postData[$key] = trim(htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8'));
+            }
+
             $group = null;
             foreach ($this->adminModel->getAllWritingGroups() as $g) {
                 if ($g->writingGroup_id == $wgId) $group = $g;
@@ -111,10 +125,10 @@ class WritingGroupAdminController extends Admin
             }
             $data = [
                 'writingGroup_id' => $wgId,
-                'writingGroup_name' => trim($_POST['writingGroup_name']),
-                'writingGroup_description' => trim($_POST['writingGroup_description']),
-                'community_id' => trim($_POST['community_id']),
-                'image_path' => trim($_POST['image_path'] ?? ''),
+                'writingGroup_name' => $postData['writingGroup_name'],
+                'writingGroup_description' => $postData['writingGroup_description'],
+                'community_id' => $postData['community_id'],
+                'image_path' => $postData['image_path'] ?? '',
                 'title' => 'Edit Writing Group',
                 'writingGroup_name_err' => '',
                 'writingGroup_description_err' => '',
@@ -190,12 +204,15 @@ class WritingGroupAdminController extends Admin
     public function addWritingGroupPost()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $postData = [];
+            foreach ($_POST as $key => $value) {
+                $postData[$key] = trim(htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8'));
+            }
             $data = [
-                'writingGroup_id' => $_POST['writingGroup_id'],
-                'community_member_id' => $_POST['community_member_id'],
-                'chapter_title' => $_POST['chapter_title'],
-                'chapter_content' => $_POST['chapter_content']
+                'writingGroup_id' => $postData['writingGroup_id'],
+                'community_member_id' => $postData['community_member_id'],
+                'chapter_title' => $postData['chapter_title'],
+                'chapter_content' => $postData['chapter_content']
             ];
             if ($this->adminModel->addWritingGroupPost($data)) {
                 Alert_Helper::success('Success', 'Writing group post added.');
@@ -219,10 +236,13 @@ class WritingGroupAdminController extends Admin
             redirect('admin/writingGroup/writingGroupPosts');
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $postData = [];
+            foreach ($_POST as $key => $value) {
+                $postData[$key] = trim(htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8'));
+            }
             $data = [
-                'chapter_title' => $_POST['chapter_title'],
-                'chapter_content' => $_POST['chapter_content']
+                'chapter_title' => $postData['chapter_title'],
+                'chapter_content' => $postData['chapter_content']
             ];
             if ($this->adminModel->updateWritingGroupPost($postId, $data)) {
                 Alert_Helper::success('Success', 'Writing group post updated.');
