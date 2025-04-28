@@ -628,3 +628,58 @@
     visibility: visible;
     opacity: 1;
 }
+
+/* ===============================
+   Reports Dashboard Specific Styles - Additional to report_style.css
+   =============================== */
+
+.report-options .card {
+    transition: all 0.3s ease;
+    height: 100%;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.report-options .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.report-options .card-title {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.report-options .card-text {
+    color: #6c757d;
+    min-height: 50px;
+}
+
+/* Enhanced buttons styling */
+.report-options .btn-outline-primary:hover,
+.report-options .btn-outline-success:hover,
+.report-options .btn-outline-warning:hover,
+.report-options .btn-outline-info:hover {
+    color: white;
+}
+
+/* Table styling enhancements */
+.table-sm th, .table-sm td {
+    padding: 0.5rem;
+}
+
+/* Print styles adjustment */
+@media print {
+    .report-options {
+        display: none !important;
+    }
+    
+    .report-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .report-chart-container {
+        page-break-inside: avoid;
+    }
+}

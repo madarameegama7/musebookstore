@@ -16,7 +16,7 @@
 
         <!-- Date Range Selection -->
         <div class="report-filters">
-            <form action="<?php echo URLROOT; ?>/admin_controllers/reports" method="POST" class="filter-form">
+            <form action="<?php echo URLROOT; ?>/admin/reportsAdmin/index" method="POST" class="filter-form">
                 <div class="filter-group">
                     <label for="start_date" class="form-label">Start Date</label>
                     <input type="date" class="form-control" id="start_date" name="start_date"
@@ -39,21 +39,21 @@
                 <h3>Users</h3>
                 <div class="value"><?php echo !empty($data['user_stats']) ? $data['user_stats'][0]->user_count : 0; ?></div>
                 <div class="label">Total registered users</div>
-                <a href="<?php echo URLROOT; ?>/admin/reports/users" class="btn btn-sm btn-primary mt-3">View Report</a>
+                <a href="<?php echo URLROOT; ?>/admin/reportsAdmin/users" class="btn btn-sm btn-primary mt-3">View Report</a>
             </div>
 
             <div class="summary-card">
                 <h3>Books</h3>
                 <div class="value"><?php echo !empty($data['book_stats']) ? $data['book_stats'][0]->book_count : 0; ?></div>
                 <div class="label">Books in the system</div>
-                <a href="<?php echo URLROOT; ?>/admin/reports/books" class="btn btn-sm btn-success mt-3">View Report</a>
+                <a href="<?php echo URLROOT; ?>/admin/reportsAdmin/books" class="btn btn-sm btn-success mt-3">View Report</a>
             </div>
 
             <div class="summary-card">
                 <h3>Transactions</h3>
                 <div class="value"><?php echo !empty($data['transaction_stats']) ? $data['transaction_stats'][0]->transaction_count : 0; ?></div>
                 <div class="label">Total transactions</div>
-                <a href="<?php echo URLROOT; ?>/admin/reports/transactions" class="btn btn-sm btn-warning mt-3">View Report</a>
+                <a href="<?php echo URLROOT; ?>/admin/reportsAdmin/transactions" class="btn btn-sm btn-warning mt-3">View Report</a>
             </div>
 
             <div class="summary-card">
@@ -86,7 +86,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/users/csv">CSV Export</a></li>
+                                                    <!-- PDF export temporarily disabled 
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/users/pdf">PDF Export</a></li>
+                                                    -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -107,7 +109,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/books/csv">CSV Export</a></li>
+                                                    <!-- PDF export temporarily disabled 
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/books/pdf">PDF Export</a></li>
+                                                    -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -128,7 +132,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/transactions/csv">CSV Export</a></li>
+                                                    <!-- PDF export temporarily disabled 
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/transactions/pdf">PDF Export</a></li>
+                                                    -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -149,7 +155,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/payments/csv">CSV Export</a></li>
+                                                    <!-- PDF export temporarily disabled 
                                                     <li><a class="dropdown-item" href="<?php echo URLROOT; ?>/admin/reports/payments/pdf">PDF Export</a></li>
+                                                    -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -169,14 +177,16 @@
                 <div class="report-chart-container">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>User Statistics</h3>
-                        <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
+                        <form action="<?php echo URLROOT; ?>/admin/reportsAdmin/customPeriod" method="POST" class="d-inline">
                             <input type="hidden" name="report_type" value="user">
                             <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                             <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="submit" name="format" value="html" class="btn btn-outline-primary btn-sm">Full Report</button>
                                 <button type="submit" name="format" value="csv" class="btn btn-outline-success btn-sm">CSV</button>
+                                <!-- PDF export temporarily disabled 
                                 <button type="submit" name="format" value="pdf" class="btn btn-outline-danger btn-sm">PDF</button>
+                                -->
                             </div>
                         </form>
                     </div>
@@ -216,14 +226,16 @@
                 <div class="report-chart-container">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>Book Statistics</h3>
-                        <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
+                        <form action="<?php echo URLROOT; ?>/admin/reportsAdmin/customPeriod" method="POST" class="d-inline">
                             <input type="hidden" name="report_type" value="book">
                             <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                             <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="submit" name="format" value="html" class="btn btn-outline-primary btn-sm">Full Report</button>
                                 <button type="submit" name="format" value="csv" class="btn btn-outline-success btn-sm">CSV</button>
+                                <!-- PDF export temporarily disabled 
                                 <button type="submit" name="format" value="pdf" class="btn btn-outline-danger btn-sm">PDF</button>
+                                -->
                             </div>
                         </form>
                     </div>
@@ -265,14 +277,16 @@
                 <div class="report-chart-container">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>Transaction Statistics</h3>
-                        <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
+                        <form action="<?php echo URLROOT; ?>/admin/reportsAdmin/customPeriod" method="POST" class="d-inline">
                             <input type="hidden" name="report_type" value="transaction">
                             <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                             <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="submit" name="format" value="html" class="btn btn-outline-primary btn-sm">Full Report</button>
                                 <button type="submit" name="format" value="csv" class="btn btn-outline-success btn-sm">CSV</button>
+                                <!-- PDF export temporarily disabled 
                                 <button type="submit" name="format" value="pdf" class="btn btn-outline-danger btn-sm">PDF</button>
+                                -->
                             </div>
                         </form>
                     </div>
@@ -314,14 +328,16 @@
                 <div class="report-chart-container">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>Financial Statistics</h3>
-                        <form action="<?php echo URLROOT; ?>/admin/reports/customPeriod" method="POST" class="d-inline">
+                        <form action="<?php echo URLROOT; ?>/admin/reportsAdmin/customPeriod" method="POST" class="d-inline">
                             <input type="hidden" name="report_type" value="financial">
                             <input type="hidden" name="start_date" value="<?php echo isset($data['start_date']) ? $data['start_date'] : date('Y-m-01'); ?>">
                             <input type="hidden" name="end_date" value="<?php echo isset($data['end_date']) ? $data['end_date'] : date('Y-m-d'); ?>">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="submit" name="format" value="html" class="btn btn-outline-primary btn-sm">Full Report</button>
                                 <button type="submit" name="format" value="csv" class="btn btn-outline-success btn-sm">CSV</button>
+                                <!-- PDF export temporarily disabled 
                                 <button type="submit" name="format" value="pdf" class="btn btn-outline-danger btn-sm">PDF</button>
+                                -->
                             </div>
                         </form>
                     </div>
