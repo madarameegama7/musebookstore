@@ -5,10 +5,10 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1><?php echo $data['title']; ?></h1>
-                <div>
+                <div class="no-print">
                     <a href="<?php echo URLROOT; ?>/admin/reports/index" class="btn btn-secondary">Back to Reports</a>
                     <a href="<?php echo URLROOT; ?>/admin/reports/books/csv" class="btn btn-success">Export CSV</a>
-                    <a href="<?php echo URLROOT; ?>/admin/reports/books/pdf" class="btn btn-danger">Export PDF</a>
+                    <a onclick="printWithFilename()" class="btn btn-danger">Export PDF</a>
                 </div>
             </div>
 
@@ -16,9 +16,9 @@
 
             <!-- Book Report Table -->
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <!-- <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">Book Report</h5>
-                </div>
+                </div> -->
                 <div class="card-body">
                     <?php if (empty($data['books'])) : ?>
                         <p class="text-muted">No book data available.</p>
@@ -174,6 +174,19 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function printWithFilename() {
+        const currentDate = new Date();
+        const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
+
+        const originalTitle = document.title;
+        const siteName = "musebookstore";
+
+        document.title = `${siteName}_transaction_report_${dateString}`;
+        window.print();
+        document.title = originalTitle;
+    }
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize DataTable

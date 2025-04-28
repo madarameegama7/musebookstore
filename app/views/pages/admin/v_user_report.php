@@ -5,10 +5,10 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1><?php echo $data['title']; ?></h1>
-                <div>
-                    <a href="<?php echo URLROOT; ?>/admin/reports/index" class="btn btn-secondary">Back to Reports</a>
-                    <a href="<?php echo URLROOT; ?>/admin/reports/users/csv" class="btn btn-success">Export CSV</a>
-                    <a href="<?php echo URLROOT; ?>/admin/reports/users/pdf" class="btn btn-danger">Export PDF</a>
+                <div class="no-print">
+                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports" class="btn btn-secondary">Back to Reports</a>
+                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports/users/csv" class="btn btn-success">Export CSV</a>
+                    <a onclick="printWithFilename()" class="btn btn-danger">Export PDF</a>
                 </div>
             </div>
 
@@ -16,9 +16,9 @@
 
             <!-- User Report Table -->
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">User Report</h5>
-                </div>
+<!--                <div class="card-header bg-primary text-white">-->
+<!--                    <h5 class="mb-0">User Report</h5>-->
+<!--                </div>-->
                 <div class="card-body">
                     <?php if (empty($data['users'])) : ?>
                         <p class="text-muted">No user data available.</p>
@@ -118,7 +118,23 @@
     </div>
 </div>
 
-<script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script>
+        function printWithFilename() {
+            const currentDate = new Date();
+            const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
+
+            const originalTitle = document.title;
+            const siteName = "musebookstore";
+
+            document.title = `${siteName}_user_report_${dateString}`;
+            window.print();
+            document.title = originalTitle;
+        }
+    </script>
+
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize DataTable
         $('#userReportTable').DataTable({
