@@ -26,14 +26,14 @@ class ReportsAdminController extends Admin
      */
     public function index()
     {
-        // Default to current month period
-        $startDate = $_SESSION['report_filter_start_date'] ?? date('Y-m-01'); // First day of current month
-        $endDate = $_SESSION['report_filter_end_date'] ?? date('Y-m-d'); // Today
+        // Default to a wider date range to capture all records
+        $startDate = $_SESSION['report_filter_start_date'] ?? date('Y-01-01'); // First day of current year
+        $endDate = $_SESSION['report_filter_end_date'] ?? date('Y-m-d', strtotime('+1 day')); // Tomorrow to include everything up to now
 
         // Process date range form submission
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $startDate = $_POST['start_date'] ?? date('Y-m-01');
-            $endDate = $_POST['end_date'] ?? date('Y-m-d');
+            $startDate = $_POST['start_date'] ?? date('Y-01-01');
+            $endDate = $_POST['end_date'] ?? date('Y-m-d', strtotime('+1 day'));
 
             // Store filter settings in session for persistence
             $_SESSION['report_filter_start_date'] = $startDate;

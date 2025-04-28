@@ -26,14 +26,14 @@ class Reports extends Controller
      */
     public function index()
     {
-        // Default to current month period
-        $startDate = date('Y-m-01'); // First day of current month
-        $endDate = date('Y-m-d'); // Today
+        // Default to a wider date range to capture all records
+        $startDate = date('Y-01-01'); // First day of current year
+        $endDate = date('Y-m-d', strtotime('+1 day')); // Tomorrow to include everything up to now
 
         // Process date range form submission
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $startDate = $_POST['start_date'] ?? date('Y-m-01');
-            $endDate = $_POST['end_date'] ?? date('Y-m-d');
+            $startDate = $_POST['start_date'] ?? date('Y-01-01');
+            $endDate = $_POST['end_date'] ?? date('Y-m-d', strtotime('+1 day'));
         }
 
         // Get summary statistics for the period
@@ -251,9 +251,9 @@ class Reports extends Controller
         require_once($fpdfPath);
         require_once($pdfReportPath);
 
-        // Create PDF document using our extended class
-        $pdf = new PDF_Report();
-        $pdf->AddPage();
+        // // Create PDF document using our extended class
+        // $pdf = new PDF_Report();
+        // $pdf->AddPage();
 
         // Set document title
         $pdf->SetFont('Arial', 'B', 16);
