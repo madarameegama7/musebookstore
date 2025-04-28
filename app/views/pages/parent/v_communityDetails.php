@@ -32,6 +32,10 @@
         <!-- Community Posts Section -->
         <div class="community-posts-section">
             <h3 class="community-posts-title">Community Articles</h3>
+
+          
+        <a href="<?php echo URLROOT; ?>/communities/createCommunityPost/<?php echo $data['community']->communityId; ?>" class="create-blog-btn">Create Blog</a>
+    </div>
             
             <?php if (!empty($data['posts'])): ?>
                 <div class="community-posts-wrapper">

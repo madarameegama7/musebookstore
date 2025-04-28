@@ -34,7 +34,6 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'ambassador') {
             <div class="community-action-btns">
                 <a href="<?php echo URLROOT; ?>/communities/editCom/<?php echo $community->communityId; ?>" class="community-edit-btn">Edit</a>
                 <a href="<?php echo URLROOT; ?>/communities/requestDeleteForm/<?php echo $community->communityId; ?>" class="community-delete-btn">Delete</a>
-
             </div>
         <?php endif; ?>
     </div>
@@ -47,4 +46,4 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'ambassador') {
     </div>
 </div>
 
-<?php require APPROOT.'/views/inc/footer.php';?>
+<?php require APPROOT.'/views/inc/footer.php';?>  

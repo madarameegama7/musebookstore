@@ -29,22 +29,24 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'ambassador') {
         </div>
 
         <div class="community-posts-section">
-            <h3 class="community-posts-title">Community Articles</h3>
-            
-            <?php if (!empty($data['posts'])): ?>
-                <div class="community-posts-wrapper">
-                    <?php foreach ($data['posts'] as $post): ?>
-                        <div class="community-post-card">
-                            <h4 class="post-title"><?php echo $post->title; ?></h4>
-                            <p class="post-summary"><?php echo substr($post->content, 0, 100) . '...'; ?></p>
-                            <a href="<?php echo URLROOT . '/communities/viewSingleCommunityPost/' . $post->id; ?>" class="read-more-btn">Read More</a>
-                        </div>
-                    <?php endforeach; ?>
+    <h3 class="community-posts-title">Community Articles</h3>
+    
+    
+    <?php if (!empty($data['posts'])): ?>
+        <div class="community-posts-wrapper">
+            <?php foreach ($data['posts'] as $post): ?>
+                <div class="community-post-card">
+                    <h4 class="post-title"><?php echo htmlspecialchars($post->title); ?></h4>
+                    <p class="post-summary"><?php echo htmlspecialchars(substr($post->content, 0, 100)) . '...'; ?></p>
+                    <a href="<?php echo URLROOT . '/communities/viewSinglePost/' . $post->id; ?>" class="read-more-btn">Read More</a>
                 </div>
-            <?php else: ?>
-                <p>No community articles found.</p>
-            <?php endif; ?>
+            <?php endforeach; ?>
         </div>
+    <?php else: ?>
+        <p>No community articles found.</p>
+    <?php endif; ?>
+</div>
+
     </div>
 </div>
 

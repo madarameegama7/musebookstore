@@ -90,7 +90,7 @@
 
 /* Edit button */
 .my-community-edit-btn {
-    background-color: #007bff;
+    background-color: #7474eb;
     color: #fff;
     padding: 8px 16px;
     border-radius: 5px;
@@ -100,7 +100,7 @@
 }
 
 .my-community-edit-btn:hover {
-    background-color: #007bff;
+    background-color: #7474eb;
 }
 
 /* Delete button */

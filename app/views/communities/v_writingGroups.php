@@ -48,10 +48,11 @@
                                 Edit
                              </button>
 
-                            <form action="<?= URLROOT ?>/communities/deleteWritingGroup/<?= $group->writingGroup_id ?>" method="post" onsubmit="return confirm('Are you sure?')">
-                            <input type="hidden" name="communityId" value="<?= $data['community']->communityId ?>">
-                            <button type="submit" class="writing-group-btn delete-group-btn">Delete</button>
-                            </form>
+                             <form action="<?= URLROOT ?>/communities/requestDeleteWritingGroup/<?= $group->writingGroup_id ?>" method="post" onsubmit="return confirm('Are you sure you want to request deletion of this group?')">
+            <input type="hidden" name="communityId" value="<?= $data['community']->communityId ?>">
+            <input type="hidden" name="reason" value="This writing group has repeatedly violated our guidelines, despite multiple warnings. Continued non-compliance has made it impossible to maintain the community."> 
+            <button type="submit" class="writing-group-btn delete-group-btn">Request Delete</button>
+        </form>
                         </div>
                         </div>
                     </li>

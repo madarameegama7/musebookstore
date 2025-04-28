@@ -111,23 +111,33 @@ class M_Communities {
     
         return $this->db->resultSet(); // 
     }
-    
-    public function deleteWritingGroupById($id) {
-        try {
-            $this->db->query('DELETE FROM writinggroup WHERE writingGroup_id = :id');
-            $this->db->bind(':id', $id);
-            $result = $this->db->execute();
-            if ($result) {
-                error_log("Successfully deleted writing group with ID: $id");
-            } else {
-                error_log("Failed to delete writing group with ID: $id");
-            }
-            return $result;
-        } catch (Exception $e) {
-            error_log("Error during delete operation: " . $e->getMessage());
-            return false;
-        }
-    }
+
+    // Insert a request to delete a writing group
+public function addDeleteRequest($data) {
+    $this->db->query('INSERT INTO delete_requests (community_id, writingGroup_id, reason, request_status, created_at) 
+                      VALUES (:community_id, :writingGroup_id, :reason, :request_status, :created_at)');
+
+    $this->db->bind(':community_id', $data['community_id']);
+    $this->db->bind(':writingGroup_id', $data['writingGroup_id']);
+    $this->db->bind(':reason', $data['reason']);
+    $this->db->bind(':request_status', 'pending'); // When requesting, default status = pending
+    $this->db->bind(':created_at', date('Y-m-d H:i:s'));
+
+    return $this->db->execute();
+}
+// Inside your CommunityModel
+public function getWritingGroupsWithDeleteRequestStatus($communityId) {
+    $this->db->query('
+        SELECT wg.*, dr.request_status 
+        FROM writing_groups wg
+        LEFT JOIN delete_requests dr 
+        ON wg.writingGroup_id = dr.writingGroup_id 
+        WHERE wg.community_id = :communityId
+    ');
+    $this->db->bind(':communityId', $communityId);
+    return $this->db->resultSet();
+}
+
     
     public function updateWritingGroup($id, $name, $description) {
         $this->db->query('UPDATE writinggroup SET writingGroup_name = :name, writingGroup_description = :description WHERE writingGroup_id = :id');

@@ -345,7 +345,7 @@ public function deletePost($postId) {
                 $this->view('communities/v_displayMembers', $data);
             } else {
                 if ($this->communityModel->addMembers($data)) {
-                    redirect('communities/viewMembers/' . $communityId); // Redirect to view members page
+                    redirect('communities/viewMembers/' . $communityId);
                 } else {
                     $data['error'] = "Failed to add member.";
                     $this->view('communities/v_displayMembers', $data);
@@ -492,29 +492,59 @@ public function deletePost($postId) {
             $this->view('errors/404');
         }
     }
-    
 
-    public function deleteWritingGroup($writingGroupId) {
-        if ($this->communityModel->deleteWritingGroupById($writingGroupId)) {
-            flash('group_message', 'Writing Group deleted successfully');
-        } else {
-            flash('group_message', 'Failed to delete Writing Group');
+    public function requestDeleteWritingGroupForm($id) {
+        $community = $this->communityModel->getCommunityById($id);
+    
+        if (!$community) {
+            die("Community not found");
         }
     
-        $communityId = $_SESSION['current_community_id'] ?? null; // OR pass it another way
+        $data = [
+            'community' => $community,
+            'error' => ''
+        ];
     
-        if ($communityId) {
-            $community = $this->communityModel->getCommunityById($communityId);
-            $writingGroups = $this->communityModel->getWritingGroupsByCommunityId($communityId); // You need to have this function
+        $this->view('communities/v_requestDeleteWritingGroup', $data);
+    }
+    
+    public function requestDeleteWritingGroup($writingGroupId) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // POST request → Insert delete request to DB
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+            $reason = trim($_POST['reason']);
+            $communityId = trim($_POST['communityId']);
+    
             $data = [
-                'community' => $community,
-                'writingGroups' => $writingGroups
+                'community_id' => $communityId,
+                'writingGroup_id' => $writingGroupId,
+                'reason' => $reason
             ];
-            $this->view('communities/v_viewWritingGroups', $data);
+    
+            if ($this->communityModel->addDeleteRequest($data)) {
+                flash('group_message', 'Delete request submitted successfully!', 'alert alert-success');
+                redirect('communities/viewWritingGroups/' . $communityId);
+            } else {
+                flash('group_message', 'Something went wrong.', 'alert alert-danger');
+                redirect('communities/viewWritingGroups/' . $communityId);
+            }
         } else {
-            redirect('communities/viewWritingGroups');
+            // GET request → show a form to confirm delete (Optional if needed)
+            $communityId = $this->communityModel->viewWritingGroups($writingGroupId)[0]->community_id ?? null;
+            if (!$communityId) {
+                flash('group_message', 'Invalid Writing Group.', 'alert alert-danger');
+                redirect('communities/viewCommunities');
+            }
+            $data = [
+                'community' => (object) ['id' => $communityId]
+            ];
+            $this->view('communities/v_requestDeleteWritingGroup', $data);
         }
     }
+    
+
+    
     
     
     public function viewEvent($communityId){
@@ -775,18 +805,19 @@ public function joinCommunity($communityId){
     $communityMemberId = $this->communityModel->getCommunityMemberId($userId, $communityId);
 
     if ($communityMemberId) {
-        die('You are already a member of this community.');
+        echo "<script>alert('You are already a member of this community.'); window.location.href='" . URLROOT . "/communities/viewCommunitydetails/" . $communityId . "';</script>";
+        exit;
     }
 
     if ($this->communityModel->joinCommunity($communityId, $userId, $community_member_name)) {
-        flash('join_success', 'You have successfully joined the community!');
-        echo "<script>alert('You have successfully joined the community.');</script>";
-        header("Location: " . URLROOT . "/communities/viewCommunitydetails/" . $communityId);
+        echo "<script>alert('You have successfully joined the community.'); window.location.href='" . URLROOT . "/communities/viewCommunitydetails/" . $communityId . "';</script>";
         exit;
     } else {
-        die("Failed to join the community.");
+        echo "<script>alert('Failed to join the community.'); window.history.back();</script>";
+        exit;
     }
 }
+
 
 
 public function viewCommunityPosts($communityId) {
