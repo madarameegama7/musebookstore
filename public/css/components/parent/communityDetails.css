@@ -1,0 +1,200 @@
+/* General Styles for Community Details Page */
+.ambassador-main-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 40px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Community Profile Card Styles */
+.community-profile-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.community-page-title {
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Community Info Section */
+.community-detail-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.community-image {
+    width: 50%;
+    height: 50%;
+    border-radius: 8px;
+    align-self: center; /* Center the image */
+}
+
+/* Community Info Wrapper */
+.community-info-wrapper {
+    margin-top: 20px;
+}
+
+.community-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.community-info {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Community Action Buttons */
+.community-action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.community-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.community-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Join Event Success Message */
+.alert-success {
+    background-color: #28a745;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Community Posts Section */
+.community-posts-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #e8f4f8; /* Lighter blue shade for the posts section */
+    border-radius: 8px;
+}
+
+.community-posts-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.community-posts-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.community-post-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.community-post-card:hover {
+    transform: translateY(-5px);
+}
+
+.post-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.post-summary {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.read-more-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.read-more-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .community-post-card {
+        width: 100%;
+    }
+
+    .community-action-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .community-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .ambassador-main-container {
+        width: 90%;
+    }
+
+    .community-name {
+        font-size: 24px;
+    }
+
+    .community-info {
+        font-size: 14px;
+    }
+
+    .community-btn {
+        padding: 8px 15px;
+    }
+
+    .community-posts-section {
+        padding: 15px;
+    }
+
+    .post-title {
+        font-size: 18px;
+    }
+
+    .post-summary {
+        font-size: 12px;
+    }
+
+    .read-more-btn {
+        padding: 6px 12px;
+    }
+}

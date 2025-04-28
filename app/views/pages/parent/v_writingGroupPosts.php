@@ -40,13 +40,6 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
                             <h3 class="wgp-post__title"><?= htmlspecialchars($post->chapter_title) ?></h3>
                             <p class="wgp-post__date"><?= date('F j, Y', strtotime($post->created_at)); ?></p>
                             <p class="wgp-post__text"><?= nl2br(htmlspecialchars($post->chapter_content)); ?></p>
-                            <a 
-                                href="<?= URLROOT; ?>/communities/deleteWritingGroupPost/<?= $data['writingGroup_id']; ?>/<?= $post->writingGroup_post_id; ?>" 
-                                class="wgp-btn wgp-btn--danger"
-                                onclick="return confirm('Are you sure you want to delete this chapter?')"
-                            >
-                                Delete
-                            </a>
                         </div>
                     </li>
                 <?php endforeach; ?>

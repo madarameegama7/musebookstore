@@ -325,11 +325,25 @@ public function getPosts($communityId) {
     $this->db->bind(':community_id', $communityId);
     return $this->db->resultSet();
 }
+
+public function getCommunityPostById($postId) {
+    $this->db->query("SELECT * FROM posts WHERE id = :id");
+    $this->db->bind(':id', $postId);
+    return $this->db->single();
+}
+
+
 public function viewCommunityWritingGroups($communityId) {
     $this->db->query('SELECT * FROM writinggroup WHERE community_id = :community_id');
     $this->db->bind(':community_id', $communityId);
     return $this->db->resultSet(); // 
 
+}
+
+public function getCommunityWritingGroupPostsById($writingGroupId) {
+    $this->db->query("SELECT * FROM writing_group_posts WHERE writingGroup_id = :writingGroup_id ORDER BY created_at ASC");
+    $this->db->bind(':writingGroup_id', $writingGroupId);
+    return $this->db->resultSet();
 }
 
 public function joinWritingGroup($writingGroupId) {
@@ -358,6 +372,94 @@ public function createCommunityWritingGroupPost($data) {
     
     return $this->db->execute();
 }
+
+
+public function viewCommunityEvents($communityId){
+    $this->db->query("SELECT * FROM event WHERE community_id = :community_id");
+    $this->db->bind(':community_id', $communityId);
+    return $this->db->resultset();
+}
+
+public function viewCommunityEventDetails($eventId){
+    $this->db->query('SELECT * FROM event WHERE event_id = :event_id');
+    $this->db->bind(':event_id', $eventId);
+    return $this->db->single(); 
+
+}
+
+public function hasJoinedEvent($userId, $eventId) {
+    $this->db->query('SELECT * FROM community_member WHERE user_id = :user_id AND event_id = :event_id');
+    $this->db->bind(':user_id', $userId);
+    $this->db->bind(':event_id', $eventId);
+
+    $row = $this->db->single();
+    return $row ? true : false;
+}
+
+public function joinEvent($userId, $eventId) {
+    $this->db->query('UPDATE community_member SET event_id = :event_id WHERE user_id = :user_id');
+    $this->db->bind(':event_id', $eventId);
+    $this->db->bind(':user_id', $_SESSION['user_id']); 
+    return $this->db->execute();
+}
+
+public function getUserJoinedCommunities($userId) {
+    $this->db->query("SELECT c.* FROM community c
+                      JOIN community_member cm ON c.communityId = cm.community_id
+                      WHERE cm.user_id = :user_id");
+    $this->db->bind(':user_id', $userId);
+    return $this->db->resultSet();
+}
+
+public function leaveCommunity($userId, $communityId) {
+    $this->db->query("DELETE FROM community_member WHERE user_id = :user_id AND community_id = :community_id");
+    $this->db->bind(':user_id', $userId);
+    $this->db->bind(':community_id', $communityId);
+    return $this->db->execute();
+}
+
+public function getUserCommunityPosts($userId) {
+    $this->db->query("SELECT * FROM posts WHERE user_id = :user_id");
+    $this->db->bind(':user_id', $userId);
+    return $this->db->resultSet();
+}
+
+public function getUserJoinedWritingGroups($userId) {
+    $this->db->query("SELECT wg.* FROM writinggrou[ wg
+                      JOIN community_member cm ON wg.writingGroup_id = cm.writingGroup_id
+                      WHERE cm.user_id = :user_id");
+    $this->db->bind(':user_id', $userId);
+    return $this->db->resultSet();
+}
+
+public function leaveWritingGroup($userId, $groupId) {
+    $this->db->query("DELETE FROM community_member WHERE user_id = :user_id AND writingGroup_id = :group_id");
+    $this->db->bind(':user_id', $userId);
+    $this->db->bind(':group_id', $groupId);
+    return $this->db->execute();
+}
+
+public function getUserWritingGroupPosts($userId) {
+    $this->db->query("SELECT * FROM writing_group_posts WHERE user_id = :user_id");
+    $this->db->bind(':user_id', $userId);
+    return $this->db->resultSet();
+}
+
+public function getUserJoinedEvents($userId) {
+    $this->db->query("SELECT e.* FROM events e
+                      JOIN event_participants ep ON e.event_id = ep.event_id
+                      WHERE ep.user_id = :user_id");
+    $this->db->bind(':user_id', $userId);
+    return $this->db->resultSet();
+}
+
+public function leaveEvent($userId, $eventId) {
+    $this->db->query("DELETE FROM event_participants WHERE user_id = :user_id AND event_id = :event_id");
+    $this->db->bind(':user_id', $userId);
+    $this->db->bind(':event_id', $eventId);
+    return $this->db->execute();
+}
+
 
 }
 
