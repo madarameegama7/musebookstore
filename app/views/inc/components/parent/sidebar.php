@@ -11,11 +11,6 @@
                 <li><a href="<?php echo URLROOT?>/parent_user"><i class="fas fa-child"></i> Child Safe Accounts</a></li>
                 <li><a href="<?php echo URLROOT?>/books/booktoken"><i class="fas fa-wallet"></i> Book Token</a></li>
                 <li><a href="<?php echo URLROOT?>/books/myBooks"><i class="fas fa-book"></i> My Books</a></li>
-                <li><a href="<?php echo URLROOT?>/communities/myBooks"><i class="fas fa-book"></i>Writing groups </a></li>
-                <li><a href="<?php echo URLROOT?>/communities/viewCommunityPosts"><i class="fas fa-book"></i>Community posts</a></li>
-                <li><a href="<?php echo URLROOT?>/books/myBooks"><i class="fas fa-book"></i>Writing group posts</a></li>
-                <li><a href="<?php echo URLROOT?>/books/myBooks"><i class="fas fa-book"></i>Events</a></li>
-                <li><a href="<?php echo URLROOT?>/books/bookhistory"><i class="fas fa-book"></i> Book Exchange History</a></li>
                 <li><a href="<?php echo URLROOT?>/users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>

@@ -1,63 +1,142 @@
-.book-preview-container {
-    display: flex;
-    gap: 2rem;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin-left: 200px;
-    margin-right: 200px;
-}
 
-.book-cover img {
-    max-width: 200px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+    /* Book Owner Tag */
+    .book-owner-tag {
+        background: linear-gradient(90deg, #28a745 0%, #218838 100%);
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-top: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        width:150px;
+    }
 
-.book-details {
-    flex: 1;
-}
+    /* Custom Message */
+    .custom-message {
+        background-color: #fff3cd;
+        color: #856404;
+        padding: 20px;
+        margin: 30px auto;
+        max-width: 800px;
+        border: 1px solid #ffeeba;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-.book-genre {
-    color: #6c757d;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-}
+    /* Book Preview Container */
+    .book-preview-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding: 2rem;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        margin: 40px auto;
+        max-width: 1000px;
+    }
 
-.book-title {
-    font-size: 2rem;
-    margin: 0.2rem 0;
-}
+    /* Book Cover */
+    .book-preview-container .book-cover img {
+        width: 220px;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
 
-.book-author {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    color: #333;
-}
+    /* Book Details */
+    .book-preview-container .book-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-.cta-container {
-    margin-bottom: 1.5rem;
-}
+    /* Text Styling */
+    .book-preview-container .book-details p strong {
+        color: #333;
+    }
 
-.cta-button {
-    background-color: orange;;
-    color: #fff;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-.about-section {
-    margin-top: 1.5rem;
-}
+    .book-preview-container .book-details p {
+        margin: 8px 0;
+        font-size: 1rem;
+        color: #555;
+    }
 
-.book-info-list {
-    list-style: none;
-    padding: 0;
-}
+    .book-preview-container .book-details h2 {
+        font-size: 2rem;
+        margin: 10px 0;
+        color: #222;
+    }
 
-.book-info-list li {
-    margin-bottom: 0.5rem;
-}
+    .book-preview-container .book-details > p:first-child {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+
+    /* Call to Action Button */
+    .book-preview-container .cta-button {
+        background: linear-gradient(90deg, #ff7e00, #ffa500);
+        color: #fff;
+        padding: 0.7rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        margin-top: 15px;
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        width:200px;
+    }
+
+    .book-preview-container .cta-button:hover {
+        background: linear-gradient(90deg, #e56700, #ff8c00);
+        transform: scale(1.05);
+    }
+
+    .book-preview-container .cta-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* About Section */
+    .book-preview-container .about-section {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+
+    .book-preview-container .about-section h3 {
+        margin-bottom: 1rem;
+        color: #444;
+    }
+
+    .book-preview-container .about-section p {
+        margin: 5px 0;
+        font-size: 1rem;
+        color: #666;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .book-preview-container {
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .book-preview-container .book-cover img {
+            width: 180px;
+        }
+        .book-preview-container .custom-message {
+            margin: 20px 10px;
+        }
+    }
