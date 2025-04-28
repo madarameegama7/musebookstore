@@ -743,7 +743,7 @@ class M_Admin
     // Get all payments with user details
     public function getAllPayments()
     {
-        $this->db->query('SELECT p.*, u.user_name FROM payment p JOIN user u ON p.user_id = u.user_id ORDER BY p.created_at DESC');
+        $this->db->query('SELECT p.*, u.user_name, u.user_email FROM payment p JOIN user u ON p.user_id = u.user_id ORDER BY p.created_at DESC');
         return $this->db->resultSet();
     }
 

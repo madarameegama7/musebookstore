@@ -86,21 +86,14 @@ class TokenAdminController extends Admin
         }
         $users = $this->adminModel->getAllUsers();
         if (!$token) {
-            Alert_Helper::error('Token not found', 'Token not found.');
+            Alert_Helper::error('Token not found', 'Token record not found or invalid.');
             redirect('admin/token/manageTokens');
+            return;
         }
         $data = [
-            'token_id' => $tokenId,
-            'user_id' => $token->user_id,
-            'token_count' => $token->token_count,
-            'amount_paid' => $token->amount_paid,
-            'purchase_date' => $token->purchase_date,
-            'title' => 'Edit Token',
+            'token' => $token,
             'users' => $users,
-            'user_id_err' => '',
-            'token_count_err' => '',
-            'amount_paid_err' => '',
-            'purchase_date_err' => ''
+            'title' => 'Edit Token',
         ];
         $this->view('pages/admin/v_edit_token', $data);
     }
@@ -177,5 +170,23 @@ class TokenAdminController extends Admin
         } else {
             redirect('admin/token/manageTokens');
         }
+    }
+
+    // Token report for admin
+    public function reportTokens()
+    {
+        $totalTokens = $this->adminModel->getTotalTokensPurchased();
+        $tokensByMonth = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $tokensByMonth[$m] = $this->adminModel->getTokensPurchasedInMonth($m, date('Y'));
+        }
+        $tokens = $this->adminModel->getAllTokens();
+        $data = [
+            'title' => 'Token Report',
+            'totalTokens' => $totalTokens,
+            'tokensByMonth' => $tokensByMonth,
+            'tokens' => $tokens
+        ];
+        $this->view('pages/admin/v_token_report', $data);
     }
 }

@@ -54,9 +54,9 @@
                             <td><?php echo htmlspecialchars($book->owner_name ?? 'N/A'); ?> (ID: <?php echo $book->owner_id; ?>)</td>
                             <td><?php echo isset($book->created_at) ? date('Y-m-d', strtotime($book->created_at)) : 'N/A'; ?></td>
                             <td>
-                                <a href="<?php echo URLROOT; ?>/admin/viewBook/<?php echo $book->book_id; ?>" class="btn-view">View Details</a>
-                                <a href="<?php echo URLROOT; ?>/admin/editBook/<?php echo $book->book_id; ?>" class="btn-edit">Edit</a>
-                                <form action="<?php echo URLROOT; ?>/admin/deleteBook/<?php echo $book->book_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this book? This action cannot be undone.');">
+                                <a href="<?php echo URLROOT; ?>/admin/book/viewBook/<?php echo $book->book_id; ?>" class="btn-view">View Details</a>
+                                <a href="<?php echo URLROOT; ?>/admin/book/editBook/<?php echo $book->book_id; ?>" class="btn-edit">Edit</a>
+                                <form action="<?php echo URLROOT; ?>/admin/book/deleteBook/<?php echo $book->book_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this book? This action cannot be undone.');">
                                     <button type="submit" class="btn-delete">Delete</button>
                                 </form>
                             </td>

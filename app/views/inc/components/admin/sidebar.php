@@ -84,6 +84,28 @@
             <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/transaction/manageTransactions') !== false ? 'active' : ''; ?>">
                 <a href="<?php echo URLROOT; ?>/admin/transaction/manageTransactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></a>
             </li>
+            <li>
+                <button class="sidebar-section-toggle" type="button"><i class="fas fa-coins"></i> <span>Tokens</span> <i class="fas fa-chevron-down chevron"></i></button>
+                <ul class="sidebar-section">
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/token/manageTokens') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/token/manageTokens"><i class="fas fa-coins"></i> Manage Tokens</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/token/reportTokens') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/token/reportTokens"><i class="fas fa-chart-pie"></i> Token Report</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <button class="sidebar-section-toggle" type="button"><i class="fas fa-credit-card"></i> <span>Payments</span> <i class="fas fa-chevron-down chevron"></i></button>
+                <ul class="sidebar-section">
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/payment/managePayments') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/payment/managePayments"><i class="fas fa-credit-card"></i> Manage Payments</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/payment/reportPayments') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/payment/reportPayments"><i class="fas fa-chart-pie"></i> Payment Report</a>
+                    </li>
+                </ul>
+            </li>
             <div class="sidebar-divider"></div>
             <li>
                 <a href="<?php echo URLROOT; ?>/users/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>

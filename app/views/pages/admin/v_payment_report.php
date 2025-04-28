@@ -1,5 +1,23 @@
-<?php require APPROOT . '/views/inc/admin_header.php'; ?>
+<?php
+require_once APPROOT . '/helpers/Report_Helper.php';
+require APPROOT . '/views/inc/admin_header.php'; ?>
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/report_style.css">
+
+<?php
+function getPaymentStatusBadgeClassPHP($status)
+{
+    switch (strtolower($status)) {
+        case 'completed':
+            return 'success';
+        case 'pending':
+            return 'warning text-dark';
+        case 'failed':
+            return 'danger';
+        default:
+            return 'secondary';
+    }
+}
+?>
 
 <div class="report-container">
     <div class="report-header">
@@ -41,13 +59,13 @@
                                     <td><?php echo $payment->order_id ?? 'N/A'; ?></td>
                                     <td>
                                         <?php echo $payment->user_name; ?>
-                                        <div><small class="text-muted"><?php echo $payment->user_email; ?></small></div>
+                                        <div><small class="text-muted"><?php echo isset($payment->user_email) ? $payment->user_email : ''; ?></small></div>
                                     </td>
                                     <td><?php echo 'KES ' . number_format($payment->amount, 2); ?></td>
                                     <td><?php echo $payment->currency; ?></td>
                                     <td>
-                                        <span class="badge bg-<?php echo ($payment->payment_type == 'Book Purchase') ? 'primary' : 'success'; ?>">
-                                            <?php echo $payment->payment_type; ?>
+                                        <span class="badge bg-<?php echo ($payment->transaction_id ? 'primary' : 'success'); ?>">
+                                            <?php echo $payment->transaction_id ? 'Book Purchase' : 'Token Purchase'; ?>
                                         </span>
                                     </td>
                                     <td>
@@ -60,7 +78,7 @@
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <span class="badge bg-<?php echo getPaymentStatusBadgeClass($payment->status); ?>">
+                                        <span class="badge bg-<?php echo getPaymentStatusBadgeClassPHP($payment->status); ?>">
                                             <?php echo $payment->status; ?>
                                         </span>
                                     </td>
@@ -112,7 +130,7 @@
                 </div>
 
                 <!-- Charts -->
-                <div class="row mt-4">
+                <!-- <div class="row mt-4">
                     <div class="col-md-6 mb-4">
                         <div class="report-chart-container">
                             <h3>Payment Distribution</h3>
@@ -138,7 +156,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script> -->
 
 <script>
     function printWithFilename() {
@@ -252,20 +270,6 @@
             });
         <?php endif; ?>
     });
-
-    // Helper function for payment status badge colors
-    function getPaymentStatusBadgeClass(status) {
-        switch (status) {
-            case 'completed':
-                return 'success';
-            case 'pending':
-                return 'warning text-dark';
-            case 'failed':
-                return 'danger';
-            default:
-                return 'secondary';
-        }
-    }
 </script>
 
 <?php require APPROOT . '/views/inc/admin_footer.php'; ?>
