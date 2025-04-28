@@ -6,3 +6,5 @@ config.php
 dev/aU.sql
 app/helpers/imageUpload_Helper.php
 app/controllers/Users.php
+
+public/img/profileImgs/

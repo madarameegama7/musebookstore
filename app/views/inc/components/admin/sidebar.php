@@ -58,6 +58,26 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <button class="sidebar-section-toggle" type="button"><i class="fas fa-file-alt"></i> <span>Reports</span> <i class="fas fa-chevron-down chevron"></i></button>
+                <ul class="sidebar-section">
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports') !== false && !strpos($_SERVER['REQUEST_URI'], '/users') && !strpos($_SERVER['REQUEST_URI'], '/books') && !strpos($_SERVER['REQUEST_URI'], '/transactions') && !strpos($_SERVER['REQUEST_URI'], '/payments') ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports"><i class="fas fa-chart-line"></i> Reports Dashboard</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/users') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/users"><i class="fas fa-user"></i> User Reports</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/books') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/books"><i class="fas fa-book"></i> Book Reports</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/transactions') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/transactions"><i class="fas fa-exchange-alt"></i> Transaction Reports</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/payments') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/payments"><i class="fas fa-credit-card"></i> Payment Reports</a>
+                    </li>
+                </ul>
+            </li>
             <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/analytics') !== false ? 'active' : ''; ?>">
                 <a href="<?php echo URLROOT; ?>/admin/analytics"><i class="fas fa-chart-bar"></i> <span>Analytics</span></a>
             </li>
