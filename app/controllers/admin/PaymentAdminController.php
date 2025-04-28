@@ -164,4 +164,22 @@ class PaymentAdminController extends Admin
             redirect('admin/payment/managePayments');
         }
     }
+
+    // Payment report for admin
+    public function reportPayments()
+    {
+        $totalPayments = $this->adminModel->getTotalPaymentsReceived();
+        $paymentsByMonth = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $paymentsByMonth[$m] = $this->adminModel->getPaymentsReceivedInMonth($m, date('Y'));
+        }
+        $payments = $this->adminModel->getAllPayments();
+        $data = [
+            'title' => 'Payment Report',
+            'totalPayments' => $totalPayments,
+            'paymentsByMonth' => $paymentsByMonth,
+            'payments' => $payments
+        ];
+        $this->view('pages/admin/v_payment_report', $data);
+    }
 }

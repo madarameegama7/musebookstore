@@ -160,7 +160,7 @@
                     </div>
                 </div>
 
-                <!-- Charts -->
+                <!-- Charts
                 <div class="row mt-4">
                     <div class="col-md-6 mb-4">
                         <div class="report-chart-container">
@@ -346,6 +346,6 @@
             });
         <?php endif; ?>
     });
-</script>
+</script> -->
 
 <?php require APPROOT . '/views/inc/admin_footer.php'; ?>

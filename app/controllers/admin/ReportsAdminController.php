@@ -264,8 +264,8 @@ class ReportsAdminController extends Admin
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filter_submitted'])) {
             // Process date range
-            $filters['start_date'] = $_POST['start_date'] ?? date('Y-m-01');
-            $filters['end_date'] = $_POST['end_date'] ?? date('Y-m-d');
+            $filters['start_date'] = $_POST['start_date'] ?? '';
+            $filters['end_date'] = $_POST['end_date'] ?? '';
 
             // Process specific filters based on report type
             switch ($reportType) {
@@ -274,7 +274,6 @@ class ReportsAdminController extends Admin
                     $filters['status'] = $_POST['status'] ?? '';
                     $filters['search'] = $_POST['search'] ?? '';
                     break;
-
                 case 'book':
                     $filters['genre'] = $_POST['genre'] ?? '';
                     $filters['condition'] = $_POST['condition'] ?? '';
@@ -283,13 +282,11 @@ class ReportsAdminController extends Admin
                     $filters['child_safe'] = $_POST['child_safe'] ?? '';
                     $filters['search'] = $_POST['search'] ?? '';
                     break;
-
                 case 'transaction':
                     $filters['type'] = $_POST['type'] ?? '';
                     $filters['status'] = $_POST['status'] ?? '';
                     $filters['search'] = $_POST['search'] ?? '';
                     break;
-
                 case 'payment':
                     $filters['type'] = $_POST['type'] ?? '';
                     $filters['status'] = $_POST['status'] ?? '';
@@ -297,24 +294,23 @@ class ReportsAdminController extends Admin
                     $filters['max_amount'] = $_POST['max_amount'] ?? '';
                     $filters['search'] = $_POST['search'] ?? '';
                     break;
-
                 default:
                     break;
             }
-
             // Store filters in session
             $_SESSION[$sessionKey] = $filters;
         }
 
-        // Add default date range if not set
-        if (!isset($filters['start_date'])) {
-            $filters['start_date'] = $_SESSION['report_filter_start_date'] ?? date('Y-m-01');
+        // Only set default date range for non-transaction reports
+        if ($reportType !== 'transaction') {
+            if (!isset($filters['start_date'])) {
+                $filters['start_date'] = $_SESSION['report_filter_start_date'] ?? date('Y-m-01');
+            }
+            if (!isset($filters['end_date'])) {
+                $filters['end_date'] = $_SESSION['report_filter_end_date'] ?? date('Y-m-d');
+            }
         }
-
-        if (!isset($filters['end_date'])) {
-            $filters['end_date'] = $_SESSION['report_filter_end_date'] ?? date('Y-m-d');
-        }
-
+        // For transaction report, do not set default date range unless user submitted a filter
         return $filters;
     }
 
@@ -394,11 +390,11 @@ class ReportsAdminController extends Admin
         require_once($pdfReportPath);
 
         // Create PDF document using our extended class
-        $pdf = new PDF_Report();
-        $pdf->AddPage();
+        // $pdf = new PDF_Report();
+        // $pdf->AddPage();
 
-        // Add company logo if available
-        $logoPath = ROOTDIR . '/public/img/muse logo.png';
+        // // Add company logo if available
+        // $logoPath = ROOTDIR . '/public/img/muse logo.png';
         if (file_exists($logoPath)) {
             $pdf->Image($logoPath, 10, 10, 30);
             $pdf->Ln(15);

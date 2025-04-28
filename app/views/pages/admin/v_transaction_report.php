@@ -158,7 +158,7 @@
                 </div>
 
                 <!-- Charts -->
-                <div class="row mt-4">
+                <!-- <div class="row mt-4">
                     <div class="col-md-6 mb-4">
                         <div class="report-chart-container">
                             <h3><i class="fas fa-chart-pie"></i> Transactions by Type</h3>
@@ -185,8 +185,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-<script>
-    function printWithFilename() {
+<script> -->
+    <!-- function printWithFilename() {
         const currentDate = new Date();
         const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
         const originalTitle = document.title;
@@ -227,8 +227,8 @@
             const typeData = {
                 'sell': <?php echo $sellCount; ?>,
                 'swap': <?php echo $swapCount; ?>
-            };
-            const typeCtx = document.getElementById('typeChart').getContext('2d');
+            }; -->
+            <!-- const typeCtx = document.getElementById('typeChart').getContext('2d');
             new Chart(typeCtx, {
                 type: 'pie',
                 data: {
@@ -301,5 +301,5 @@
             });
         <?php endif; ?>
     });
-</script>
+</script> -->
 <?php require APPROOT . '/views/inc/admin_footer.php'; ?>
