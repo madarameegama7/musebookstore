@@ -6,7 +6,7 @@
     <main class="admin-main-content">
         <h1>Edit Writing Group</h1>
         <?php flash('admin_msg'); ?>
-        <form action="<?php echo URLROOT; ?>/admin/editWritingGroup/<?php echo $data['group']->writingGroup_id; ?>" method="post" class="admin-form" style="max-width: 600px;">
+        <form action="<?php echo URLROOT; ?>/admin/writinggroup/editWritingGroup/<?php echo $data['group']->writingGroup_id; ?>" method="post" class="admin-form" style="max-width: 600px;">
             <label>Name:
                 <input type="text" name="writingGroup_name" maxlength="255" value="<?php echo htmlspecialchars($data['group']->writingGroup_name); ?>" required>
             </label>
@@ -20,7 +20,7 @@
                 <input type="text" name="image_path" value="<?php echo htmlspecialchars($data['group']->image_path ?? ''); ?>" placeholder="e.g., public/img/community/group.jpg">
             </label>
             <button type="submit" class="btn btn-update">Update Group</button>
-            <a href="<?php echo URLROOT; ?>/admin/writingGroups" class="btn btn-grey">Cancel</a>
+            <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroups" class="btn btn-grey">Cancel</a>
         </form>
     </main>
 </div>

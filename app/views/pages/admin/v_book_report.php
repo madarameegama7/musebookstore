@@ -6,9 +6,9 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1><?php echo $data['title']; ?></h1>
                 <div>
-                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports" class="btn btn-secondary">Back to Reports</a>
-                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports/books/csv" class="btn btn-success">Export CSV</a>
-                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports/books/pdf" class="btn btn-danger">Export PDF</a>
+                    <a href="<?php echo URLROOT; ?>/admin/reports/index" class="btn btn-secondary">Back to Reports</a>
+                    <a href="<?php echo URLROOT; ?>/admin/reports/books/csv" class="btn btn-success">Export CSV</a>
+                    <a href="<?php echo URLROOT; ?>/admin/reports/books/pdf" class="btn btn-danger">Export PDF</a>
                 </div>
             </div>
 

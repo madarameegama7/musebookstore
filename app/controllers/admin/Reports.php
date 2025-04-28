@@ -4,14 +4,16 @@
  * Admin Reports Controller
  * Handles functionality for generating and downloading reports
  */
-class Reports extends Admin
+class Reports extends Controller
 {
     private $reportsModel;
 
     public function __construct()
     {
-        // Call parent constructor to handle admin authentication
-        parent::__construct();
+        // Check if user is logged in and is an admin
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+            redirect('users/login');
+        }
 
         // Load report helper functions
         require_once APPROOT . '/helpers/Report_Helper.php';
@@ -147,7 +149,7 @@ class Reports extends Admin
     public function customPeriod()
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            redirect('admin/reports');
+            redirect('admin/reports/index');
         }
 
         $startDate = $_POST['start_date'] ?? date('Y-m-01');
@@ -203,7 +205,7 @@ class Reports extends Admin
     {
         if (empty($data)) {
             flash('report_message', 'No data available for export', 'alert alert-warning');
-            redirect('admin/reports');
+            redirect('admin/reports/index');
         }
 
         // Set headers for CSV download
@@ -233,7 +235,7 @@ class Reports extends Admin
     {
         if (empty($data)) {
             flash('report_message', 'No data available for export', 'alert alert-warning');
-            redirect('admin/reports');
+            redirect('admin/reports/index');
         }
 
         // Include FPDF and our extension
@@ -242,7 +244,7 @@ class Reports extends Admin
 
         if (!file_exists($fpdfPath)) {
             flash('report_message', 'PDF generation is not available. Please install FPDF library in app/libraries/FPDF.', 'alert alert-danger');
-            redirect('admin/reports');
+            redirect('admin/reports/index');
             return;
         }
 

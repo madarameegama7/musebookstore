@@ -7,7 +7,7 @@
 
     <main class="admin-main-content">
         <h1><?php echo $data['title']; ?></h1>
-        <a href="<?php echo URLROOT; ?>/admin/addCommunity" class="btn btn-update" style="margin-bottom: 15px;">Add Community</a>
+        <a href="<?php echo URLROOT; ?>/admin/community/addCommunity" class="btn btn-update" style="margin-bottom: 15px;">Add Community</a>
         <?php flash('admin_msg'); ?>
         <table class="admin-table">
             <thead>
@@ -63,14 +63,14 @@
                         <td><?php echo $c->created_at; ?></td>
                         <td>
                             <?php if ($c->status === 'pending'): ?>
-                                <form action="<?php echo URLROOT; ?>/admin/approveCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;">
+                                <form action="<?php echo URLROOT; ?>/admin/community/approveCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;">
                                     <button type="submit" class="btn btn-update">Approve</button>
                                 </form>
-                                <form action="<?php echo URLROOT; ?>/admin/rejectCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;">
+                                <form action="<?php echo URLROOT; ?>/admin/community/rejectCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;">
                                     <button type="submit" class="btn btn-delete">Reject</button>
                                 </form>
                             <?php endif; ?>
-                            <form action="<?php echo URLROOT; ?>/admin/deleteCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this community?');">
+                            <form action="<?php echo URLROOT; ?>/admin/community/deleteCommunity/<?php echo $c->communityId; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this community?');">
                                 <button type="submit" class="btn btn-delete">Delete</button>
                             </form>
                         </td>

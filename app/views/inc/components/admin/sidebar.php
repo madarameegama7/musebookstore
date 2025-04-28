@@ -19,70 +19,70 @@
             <li>
                 <button class="sidebar-section-toggle" type="button"><i class="fas fa-users"></i> <span>Users</span> <i class="fas fa-chevron-down chevron"></i></button>
                 <ul class="sidebar-section">
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/manageUsers') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/manageUsers"><i class="fas fa-user-cog"></i> Manage Users</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/user/manageUsers') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/user/manageUsers"><i class="fas fa-user-cog"></i> Manage Users</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/manageVerification') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/manageVerification"><i class="fas fa-user-check"></i> User Verification</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/verification/manageVerification') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/verification/manageVerification"><i class="fas fa-user-check"></i> User Verification</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/addUser') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/addUser"><i class="fas fa-user-plus"></i> Add User</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/user/addUser') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/user/addUser"><i class="fas fa-user-plus"></i> Add User</a>
                     </li>
                 </ul>
             </li>
             <li>
                 <button class="sidebar-section-toggle" type="button"><i class="fas fa-book"></i> <span>Books</span> <i class="fas fa-chevron-down chevron"></i></button>
                 <ul class="sidebar-section">
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/manageBooks') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/manageBooks"><i class="fas fa-book"></i> Manage Books</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/book/manageBooks') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/book/manageBooks"><i class="fas fa-book"></i> Manage Books</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/createBook') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/createBook"><i class="fas fa-plus-square"></i> Add Book</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/book/createBook') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/book/createBook"><i class="fas fa-plus-square"></i> Add Book</a>
                     </li>
                 </ul>
             </li>
             <li>
                 <button class="sidebar-section-toggle" type="button"><i class="fas fa-users-cog"></i> <span>Community</span> <i class="fas fa-chevron-down chevron"></i></button>
                 <ul class="sidebar-section">
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/manageCommunities') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/manageCommunities"><i class="fas fa-users-cog"></i> Manage Communities</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/manageCommunities') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/community/manageCommunities"><i class="fas fa-users-cog"></i> Manage Communities</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/deleteRequests') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/deleteRequests"><i class="fas fa-trash-alt"></i> Delete Requests</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/deleteRequests') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/community/deleteRequests"><i class="fas fa-trash-alt"></i> Delete Requests</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/manageEvents') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/manageEvents"><i class="fas fa-calendar-alt"></i> Manage Events</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/event/manageEvents') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/event/manageEvents"><i class="fas fa-calendar-alt"></i> Manage Events</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writingGroups') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/writingGroups"><i class="fas fa-pen-nib"></i> Writing Groups</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/writingGroups') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroups"><i class="fas fa-pen-nib"></i> Writing Groups</a>
                     </li>
                 </ul>
             </li>
             <li>
                 <button class="sidebar-section-toggle" type="button"><i class="fas fa-file-alt"></i> <span>Reports</span> <i class="fas fa-chevron-down chevron"></i></button>
                 <ul class="sidebar-section">
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports') !== false && !strpos($_SERVER['REQUEST_URI'], '/users') && !strpos($_SERVER['REQUEST_URI'], '/books') && !strpos($_SERVER['REQUEST_URI'], '/transactions') && !strpos($_SERVER['REQUEST_URI'], '/payments') ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports"><i class="fas fa-chart-line"></i> Reports Dashboard</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reports/index') !== false && !strpos($_SERVER['REQUEST_URI'], '/users') && !strpos($_SERVER['REQUEST_URI'], '/books') && !strpos($_SERVER['REQUEST_URI'], '/transactions') && !strpos($_SERVER['REQUEST_URI'], '/payments') ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/reports/index"><i class="fas fa-chart-line"></i> Reports Dashboard</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/users') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/users"><i class="fas fa-user"></i> User Reports</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reports/users') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/reports/users"><i class="fas fa-user"></i> User Reports</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/books') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/books"><i class="fas fa-book"></i> Book Reports</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reports/books') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/reports/books"><i class="fas fa-book"></i> Book Reports</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/transactions') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/transactions"><i class="fas fa-exchange-alt"></i> Transaction Reports</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reports/transactions') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/reports/transactions"><i class="fas fa-exchange-alt"></i> Transaction Reports</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin_controllers/reports/payments') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin_controllers/reports/payments"><i class="fas fa-credit-card"></i> Payment Reports</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/reports/payments') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/reports/payments"><i class="fas fa-credit-card"></i> Payment Reports</a>
                     </li>
                 </ul>
             </li>
             <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/analytics') !== false ? 'active' : ''; ?>">
                 <a href="<?php echo URLROOT; ?>/admin/analytics"><i class="fas fa-chart-bar"></i> <span>Analytics</span></a>
             </li>
-            <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/manageTransactions') !== false ? 'active' : ''; ?>">
-                <a href="<?php echo URLROOT; ?>/admin/manageTransactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></a>
+            <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/transaction/manageTransactions') !== false ? 'active' : ''; ?>">
+                <a href="<?php echo URLROOT; ?>/admin/transaction/manageTransactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></a>
             </li>
             <div class="sidebar-divider"></div>
             <li>

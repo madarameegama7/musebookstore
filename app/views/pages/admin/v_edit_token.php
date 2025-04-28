@@ -6,12 +6,14 @@
     <main class="admin-main-content">
         <h1>Edit Token Record</h1>
         <?php flash('admin_msg'); ?>
-        <form action="<?php echo URLROOT; ?>/admin/editToken/<?php echo $data['token']->token_id; ?>" method="post" class="admin-form" style="max-width: 500px;">
+        <form action="<?php echo URLROOT; ?>/admin/token/updateToken/<?php echo $data['token']->token_id; ?>" method="post" class="admin-form" style="max-width: 500px;">
             <label>User:
                 <select name="user_id" required>
                     <option value="">Select User</option>
                     <?php foreach ($data['users'] as $user): ?>
-                        <option value="<?php echo $user->user_id; ?>" <?php if ($user->user_id == $data['token']->user_id) echo 'selected'; ?>><?php echo htmlspecialchars($user->user_name); ?> (ID: <?php echo $user->user_id; ?>)</option>
+                        <option value="<?php echo $user->user_id; ?>" <?php echo $data['token']->user_id == $user->user_id ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($user->user_name); ?> (ID: <?php echo $user->user_id; ?>)
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </label>
@@ -25,7 +27,7 @@
                 <input type="date" name="purchase_date" value="<?php echo $data['token']->purchase_date; ?>" required>
             </label>
             <button type="submit" class="btn btn-update">Update Token</button>
-            <a href="<?php echo URLROOT; ?>/admin/manageTokens" class="btn btn-grey">Cancel</a>
+            <a href="<?php echo URLROOT; ?>/admin/token/manageTokens" class="btn btn-grey">Cancel</a>
         </form>
     </main>
 </div>
