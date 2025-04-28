@@ -64,16 +64,24 @@ class M_Child{
     }
     
     // Get all requests for a parent's children
-    public function getRequestsByParent($parentId){
-        $this->db->query('SELECT br.*, b.book_title, b.book_author, u.user_name as child_name
-                         FROM book_request br 
-                         JOIN book b ON br.book_id = b.book_id 
-                         JOIN user u ON br.child_id = u.user_id
-                         WHERE u.parent_id = :parent_id
-                         ORDER BY br.created_at DESC');
+    public function getRequestsByParent($parentId) {
+        $this->db->query('SELECT br.*, 
+                                 b.book_title, 
+                                 b.book_author, 
+                                 b.owner_id, 
+                                 u.user_name as child_name,
+                                 o.user_name as owner_name,
+                                 o.user_phone as contact_number
+                          FROM book_request br 
+                          JOIN book b ON br.book_id = b.book_id 
+                          JOIN user u ON br.child_id = u.user_id
+                          JOIN user o ON b.owner_id = o.user_id
+                          WHERE u.parent_id = :parent_id
+                          ORDER BY br.created_at DESC');
         $this->db->bind(':parent_id', $parentId);
         return $this->db->resultSet();
     }
+    
     
     // Update request status (approve/deny)
     public function updateRequestStatus($requestId, $status){

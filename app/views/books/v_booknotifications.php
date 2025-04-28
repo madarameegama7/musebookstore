@@ -8,6 +8,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
 ?>
 <?php require APPROOT . '/views/inc/components/parent/sidebar.php'; ?>
 <div class="container-notifications">
+    <?php flash('post_msg'); ?>
     <h1>Your Notifications</h1>
 
     <?php if (!empty($data['notifications'])): ?>
@@ -34,31 +35,33 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'parent') {
                         <td><?= htmlspecialchars($notification->contact_number) ?></td>
                         <td>
                             <?php if ($notification->status === 'pending'): ?>
-                                <!-- Show Accept and Decline buttons only for pending requests -->
-                                <?php if ($notification->requester_id == $_SESSION['user_id']): ?>
-                                    <!-- Show buttons only for the requester -->
-                                    <form action="<?= URLROOT . '/books/accept/' . $notification->book_id . '/' . $notification->transaction_id ?>" method="post" onsubmit="return confirm('Your token will be reduced by one from both the requester and owner. Do you want to continue?');">
-                                        <button type="submit" class="btn btn-accept">Accept</button>
-                                    </form>
-                                    <br><br>
-                                    <a href="<?= URLROOT . '/books/delete/' . $notification->transaction_id ?>" class="btn btn-delete">Decline</a>
-                                <?php endif; ?>
 
                                 <?php if ($notification->owner_id == $_SESSION['user_id']): ?>
                                     <!-- Show Accept button for book owner -->
-                                    <form action="<?= URLROOT . '/books/accept/' . $notification->book_id . '/' . $notification->transaction_id ?>" method="post" onsubmit="return confirm('Your token will be reduced by one from both the requester and owner. Do you want to continue?');">
+                                    <form
+                                        action="<?= URLROOT . '/books/accept/' . $notification->book_id . '/' . $notification->transaction_id ?>"
+                                        method="post"
+                                        onsubmit="return confirm('Your token will be reduced by one from both the requester and owner. Do you want to continue?');">
                                         <button type="submit" class="btn btn-accept">Accept</button>
                                     </form>
                                     <br><br>
-                                    <a href="<?= URLROOT . '/books/delete/' . $notification->transaction_id ?>" class="btn btn-delete">Decline</a>
+                                    <a href="<?= URLROOT . '/books/cancel/' . $notification->transaction_id ?>" class="btn btn-delete"
+                                        onclick="return confirm('Are you sure you want to decline this request?');">
+                                        Decline
+                                    </a>
+
                                 <?php endif; ?>
                             <?php elseif ($notification->status === 'approved'): ?>
                                 <!-- Show message when approved -->
                                 <span class="btn btn-status approved">Approved</span>
-                                <p class="notification-message">💜 Your book request has been approved! Kindly meet with the book owner to <strong>swap your books physically</strong>. 📚</p>
+                                <p class="notification-message">Your book request has been approved! Kindly meet with the book owner
+                                    to <strong>swap your books physically</strong>.</p>
                             <?php elseif ($notification->status === 'declined'): ?>
                                 <!-- Show message when declined -->
                                 <span class="btn btn-status declined">Declined</span>
+                            <?php elseif ($notification->status === 'cancelled'): ?>
+                                <!-- Show message when declined -->
+                                <span class="btn btn-status declined">Requester has cancelled request</span>
                             <?php endif; ?>
                         </td>
                     </tr>
