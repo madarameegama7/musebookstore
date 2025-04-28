@@ -6,14 +6,14 @@
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
 
     <main class="admin-main-content">
-        <a href="<?php echo URLROOT; ?>/admin/manageBooks" class="btn btn-back"><i class="fa fa-arrow-left"></i> Back to Books</a>
+        <a href="<?php echo URLROOT; ?>/admin/book/manageBooks" class="btn btn-back"><i class="fa fa-arrow-left"></i> Back to Books</a>
 
         <?php flash('admin_msg'); ?>
 
         <h2><?php echo $data['title']; ?></h2>
         <p>Add a new book to the system.</p>
 
-        <form class="edit-book-form" action="<?php echo URLROOT; ?>/admin/createBook" method="post">
+        <form class="edit-book-form" action="<?php echo URLROOT; ?>/admin/book/createBook" method="post">
 
             <label for="booktitle">Book Title: <sup>*</sup></label>
             <input type="text" name="booktitle" id="booktitle" value="<?php echo htmlspecialchars($data['booktitle']); ?>" required>

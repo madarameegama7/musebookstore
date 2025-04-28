@@ -6,14 +6,14 @@
     <?php require APPROOT . '/views/inc/components/admin/sidebar.php'; ?>
 
     <main class="admin-main-content">
-        <a href="<?php echo URLROOT; ?>/admin/manageUsers" class="btn btn-back"><i class="fa fa-arrow-left"></i> Back to Users</a>
+        <a href="<?php echo URLROOT; ?>/admin/user/manageUsers" class="btn btn-back"><i class="fa fa-arrow-left"></i> Back to Users</a>
 
         <?php flash('admin_msg'); ?>
 
         <h2><?php echo $data['title']; ?></h2>
         <p>Create a new user account.</p>
 
-        <form class="edit-user-form" action="<?php echo URLROOT; ?>/admin/addUser" method="post">
+        <form class="edit-user-form" action="<?php echo URLROOT; ?>/admin/user/addUser" method="post">
 
             <label for="name">Name: <sup>*</sup></label>
             <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($data['name']); ?>" required>
