@@ -8,7 +8,7 @@
     <main class="admin-main-content">
         <?php flash('admin_msg'); ?> <!-- Display flash messages -->
         <h1><?php echo $data['title']; ?></h1>
-        <a href="<?php echo URLROOT; ?>/admin/manageUsers" class="btn-back">Back to User List</a>
+        <a href="<?php echo URLROOT; ?>/admin/user/manageUsers" class="btn-back">Back to User List</a>
 
         <div class="user-details-card">
             <h2>User Information</h2>
@@ -23,7 +23,7 @@
         ?>
             <div class="update-role-form">
                 <h2>Update User Role</h2>
-                <form action="<?php echo URLROOT; ?>/admin/updateUserRole/<?php echo $data['user']->user_id; ?>" method="post">
+                <form action="<?php echo URLROOT; ?>/admin/user/updateUserRole/<?php echo $data['user']->user_id; ?>" method="post">
                     <label for="user_role">New Role:</label>
                     <select name="user_role" id="user_role">
                         <option value="parent" <?php echo ($data['user']->user_role == 'parent') ? 'selected' : ''; ?>>Parent</option>

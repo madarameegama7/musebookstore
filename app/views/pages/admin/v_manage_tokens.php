@@ -8,7 +8,7 @@
         <?php flash('admin_msg'); ?>
         <section style="margin-bottom: 30px;">
             <h2>Add Token Record</h2>
-            <form action="<?php echo URLROOT; ?>/admin/addToken" method="post" class="admin-form" style="max-width: 500px;">
+            <form action="<?php echo URLROOT; ?>/admin/token/addToken" method="post" class="admin-form" style="max-width: 500px;">
                 <label>User:
                     <select name="user_id" required>
                         <option value="">Select User</option>
@@ -53,8 +53,8 @@
                             <td><?php echo $t->purchase_date; ?></td>
                             <td><?php echo $t->updated_at; ?></td>
                             <td>
-                                <a href="<?php echo URLROOT; ?>/admin/editToken/<?php echo $t->token_id; ?>" class="btn btn-edit">Edit</a>
-                                <form action="<?php echo URLROOT; ?>/admin/deleteToken/<?php echo $t->token_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this token record?');">
+                                <a href="<?php echo URLROOT; ?>/admin/token/editToken/<?php echo $t->token_id; ?>" class="btn btn-edit">Edit</a>
+                                <form action="<?php echo URLROOT; ?>/admin/token/deleteToken/<?php echo $t->token_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this token record?');">
                                     <button type="submit" class="btn btn-delete">Delete</button>
                                 </form>
                             </td>

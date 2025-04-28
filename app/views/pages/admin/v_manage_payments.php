@@ -31,7 +31,7 @@
                             <td><?php echo htmlspecialchars($p->order_id); ?></td>
                             <td><?php echo $p->created_at; ?></td>
                             <td>
-                                <form action="<?php echo URLROOT; ?>/admin/deletePayment/<?php echo $p->payment_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this payment record?');">
+                                <form action="<?php echo URLROOT; ?>/admin/payment/deletePayment/<?php echo $p->payment_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Delete this payment record?');">
                                     <button type="submit" class="btn-delete">Delete</button>
                                 </form>
                             </td>

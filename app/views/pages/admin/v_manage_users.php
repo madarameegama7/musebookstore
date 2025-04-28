@@ -10,18 +10,18 @@
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h1><?php echo $data['title']; ?></h1>
-            <a href="<?php echo URLROOT; ?>/admin/addUser" class="btn btn-update" style="margin-bottom: 10px;">Add New User</a>
+            <a href="<?php echo URLROOT; ?>/admin/user/addUser" class="btn btn-update" style="margin-bottom: 10px;">Add New User</a>
         </div>
 
         <!-- Search Form -->
         <div class="search-container admin-search-container" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-            <form action="<?php echo URLROOT; ?>/admin/manageUsers" method="get" style="display: flex; flex-grow: 1; gap: 10px;">
+            <form action="<?php echo URLROOT; ?>/admin/user/manageUsers" method="get" style="display: flex; flex-grow: 1; gap: 10px;">
                 <input type="text" name="search" id="userSearchInput" placeholder="Search by ID, Name, Email..." value="<?php echo htmlspecialchars($data['searchTerm'] ?? ''); ?>" style="flex-grow: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px;">
                 <button type="submit" class="btn btn-search" style="padding: 8px 15px; border-radius: 4px; cursor: pointer;">Search</button> <!-- Added Search Button -->
             </form>
             <!-- Clear button -->
             <?php if (!empty($data['searchTerm'])): ?>
-                <a href="<?php echo URLROOT; ?>/admin/manageUsers" class="btn btn-grey" style="text-decoration: none; padding: 8px 15px; border-radius: 4px;">Clear</a>
+                <a href="<?php echo URLROOT; ?>/admin/user/manageUsers" class="btn btn-grey" style="text-decoration: none; padding: 8px 15px; border-radius: 4px;">Clear</a>
             <?php endif; ?>
         </div>
 
@@ -52,10 +52,10 @@
                             <td><?php echo htmlspecialchars($user->user_email); ?></td>
                             <td><?php echo htmlspecialchars($user->user_role); ?></td>
                             <td>
-                                <a href="<?php echo URLROOT; ?>/admin/viewUser/<?php echo $user->user_id; ?>" class="btn-view">View/Edit Role</a>
+                                <a href="<?php echo URLROOT; ?>/admin/user/viewUser/<?php echo $user->user_id; ?>" class="btn-view">View/Edit Role</a>
                                 <?php if ($user->user_id != $_SESSION['user_id']) : ?>
-                                    <a href="<?php echo URLROOT; ?>/admin/editUser/<?php echo $user->user_id; ?>" class="btn-edit">Edit Details</a>
-                                    <form action="<?php echo URLROOT; ?>/admin/deleteUser/<?php echo $user->user_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
+                                    <a href="<?php echo URLROOT; ?>/admin/user/editUser/<?php echo $user->user_id; ?>" class="btn-edit">Edit Details</a>
+                                    <form action="<?php echo URLROOT; ?>/admin/user/deleteUser/<?php echo $user->user_id; ?>" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
                                         <button type="submit" class="btn-delete">Delete</button>
                                     </form>
                                 <?php else: ?>
