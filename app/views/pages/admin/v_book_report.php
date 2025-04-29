@@ -222,6 +222,7 @@
                     </div>
                 </div>
 
+
                 <!-- Charts
                 <div class="row mt-4">
                     <div class="col-md-6 mb-4">
@@ -263,18 +264,7 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-    function printWithFilename() {
-        const currentDate = new Date();
-        const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
 
-        const originalTitle = document.title;
-        const siteName = "musebookstore";
-
-        document.title = `${siteName}_book_report_${dateString}`;
-        window.print();
-        document.title = originalTitle;
-    }
 
     document.addEventListener('DOMContentLoaded', function() {
         // Filter toggle functionality
@@ -528,4 +518,18 @@
     });
 </script> -->
 
-                <?php require APPROOT . '/views/inc/admin_footer.php'; ?>
+                <script>
+                    function printWithFilename() {
+                        const currentDate = new Date();
+                        const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
+
+                        const originalTitle = document.title;
+                        const siteName = "musebookstore";
+
+                        document.title = `${siteName}_book_report_${dateString}`;
+                        window.print();
+                        document.title = originalTitle;
+                    }
+                </script>
+
+                    <?php require APPROOT . '/views/inc/admin_footer.php'; ?>

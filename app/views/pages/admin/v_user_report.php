@@ -348,4 +348,18 @@
     });
 </script> -->
 
-<?php require APPROOT . '/views/inc/admin_footer.php'; ?>
+                <script>
+                    function printWithFilename() {
+                        const currentDate = new Date();
+                        const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
+
+                        const originalTitle = document.title;
+                        const siteName = "musebookstore";
+
+                        document.title = `${siteName}_book_report_${dateString}`;
+                        window.print();
+                        document.title = originalTitle;
+                    }
+                </script>
+
+                    <?php require APPROOT . '/views/inc/admin_footer.php'; ?>
