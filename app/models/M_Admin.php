@@ -743,7 +743,7 @@ class M_Admin
     // Get all payments with user details
     public function getAllPayments()
     {
-        $this->db->query('SELECT p.*, u.user_name FROM payment p JOIN user u ON p.user_id = u.user_id ORDER BY p.created_at DESC');
+        $this->db->query('SELECT p.*, u.user_name, u.user_email FROM payment p JOIN user u ON p.user_id = u.user_id ORDER BY p.created_at DESC');
         return $this->db->resultSet();
     }
 
@@ -753,5 +753,16 @@ class M_Admin
         $this->db->query('DELETE FROM payment WHERE payment_id = :payment_id');
         $this->db->bind(':payment_id', $paymentId);
         return $this->db->execute();
+    }
+
+    // Get all community members 
+    public function getAllCommunityMembers()
+    {
+        $this->db->query('SELECT cm.*, c.communityName, u.user_name 
+                          FROM community_member cm 
+                          LEFT JOIN community c ON cm.community_id = c.communityId 
+                          LEFT JOIN user u ON cm.user_id = u.user_id 
+                          ORDER BY cm.community_member_name');
+        return $this->db->resultSet();
     }
 }

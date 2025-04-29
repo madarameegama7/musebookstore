@@ -474,10 +474,10 @@ INSERT INTO `transaction` (`book_id`, `requester_id`, `owner_id`, `type`, `statu
 
 -- Payment data
 INSERT INTO `payment` (`user_id`, `amount`, `transaction_id`, `created_at`, `order_id`, `currency`, `status`) VALUES
-(8, 1600.00, 1, '2024-04-15 12:35:22', 10001, 'KES', 'completed'),
-(3, 2500.00, 3, '2024-04-22 09:20:45', 10002, 'KES', 'pending'),
-(6, 2500.00, 5, '2024-04-22 09:30:18', 10003, 'KES', 'completed'),
-(7, 3500.00, 6, '2024-04-23 11:35:27', 10004, 'KES', 'completed');
+(8, 1600.00, 1, '2024-04-15 12:35:22', 10001, 'LKR', 'completed'),
+(3, 2500.00, 3, '2024-04-22 09:20:45', 10002, 'LKR', 'pending'),
+(6, 2500.00, 5, '2024-04-22 09:30:18', 10003, 'LKR', 'completed'),
+(7, 3500.00, 6, '2024-04-23 11:35:27', 10004, 'LKR', 'completed');
 
 -- Token data
 INSERT INTO `token` (`user_id`, `token_count`, `amount_paid`, `purchase_date`) VALUES

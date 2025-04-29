@@ -8,9 +8,11 @@ class EventAdminController extends Admin
     public function manageEvents()
     {
         $events = $this->adminModel->getAllEvents();
+        $communities = $this->adminModel->getAllCommunities(); // Fetch all communities for dropdown
         $data = [
             'title' => 'Manage Events',
-            'events' => $events
+            'events' => $events,
+            'communities' => $communities // Pass communities to the view
         ];
         $this->view('pages/admin/v_manage_events', $data);
     }
@@ -68,6 +70,9 @@ class EventAdminController extends Admin
                 $this->view('pages/admin/v_add_event', $data);
             }
         } else {
+            // Get all communities for the dropdown
+            $communities = $this->adminModel->getAllCommunities();
+
             $data = [
                 'event_name' => '',
                 'event_description' => '',
@@ -75,6 +80,7 @@ class EventAdminController extends Admin
                 'event_date' => '',
                 'event_time' => '',
                 'community_id' => '',
+                'communities' => $communities, // Add communities to data
                 'title' => 'Add New Event',
                 'event_name_err' => '',
                 'event_description_err' => '',
@@ -95,6 +101,10 @@ class EventAdminController extends Admin
             Alert_Helper::error('Event not found', 'Event not found.');
             redirect('admin/event/manageEvents');
         }
+
+        // Get all communities for the dropdown
+        $communities = $this->adminModel->getAllCommunities();
+
         $data = [
             'event_id' => $eventId,
             'event_name' => $event->event_name,
@@ -103,6 +113,7 @@ class EventAdminController extends Admin
             'event_date' => $event->event_date,
             'event_time' => $event->event_time,
             'community_id' => $event->community_id,
+            'communities' => $communities, // Add communities to data
             'title' => 'Edit Event',
             'event_name_err' => '',
             'event_description_err' => '',

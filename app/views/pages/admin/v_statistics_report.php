@@ -1,86 +1,91 @@
 <?php require APPROOT . '/views/inc/admin_header.php'; ?>
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/admin/report_style.css">
 
-<div class="container-fluid mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1><?php echo $data['title']; ?></h1>
-                <div>
-                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports" class="btn btn-secondary">Back to Reports</a>
-                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod?report_type=<?php echo $data['report_type']; ?>&start_date=<?php echo $data['start_date']; ?>&end_date=<?php echo $data['end_date']; ?>&format=csv" class="btn btn-success">Export CSV</a>
-                    <a href="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod?report_type=<?php echo $data['report_type']; ?>&start_date=<?php echo $data['start_date']; ?>&end_date=<?php echo $data['end_date']; ?>&format=pdf" class="btn btn-danger">Export PDF</a>
-                </div>
-            </div>
-
-            <?php flash('report_message'); ?>
-
-            <!-- Period Info -->
-            <div class="alert alert-info">
-                <strong>Period:</strong> <?php echo date('F j, Y', strtotime($data['start_date'])); ?> to <?php echo date('F j, Y', strtotime($data['end_date'])); ?>
-                <strong class="ms-3">Report Type:</strong> <?php echo ucfirst($data['report_type']); ?> Statistics
-            </div>
-
-            <!-- Statistics Table -->
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><?php echo ucfirst($data['report_type']); ?> Statistics</h5>
-                </div>
-                <div class="card-body">
-                    <?php if (empty($data['stats'])) : ?>
-                        <p class="text-muted">No data available for the selected period.</p>
-                    <?php else : ?>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="statisticsTable">
-                                <thead>
-                                    <tr>
-                                        <?php foreach (array_keys((array)$data['stats'][0]) as $header) : ?>
-                                            <th><?php echo str_replace('_', ' ', ucfirst($header)); ?></th>
-                                        <?php endforeach; ?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($data['stats'] as $stat) : ?>
-                                        <tr>
-                                            <?php foreach ((array)$stat as $key => $value) : ?>
-                                                <td>
-                                                    <?php
-                                                    // Format numeric values
-                                                    if (is_numeric($value) && strpos($key, 'date') === false && strpos($key, 'count') === false) {
-                                                        echo number_format($value, 2);
-                                                    } else {
-                                                        echo $value;
-                                                    }
-                                                    ?>
-                                                </td>
-                                            <?php endforeach; ?>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Chart -->
-                        <div class="row mt-4">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="mb-0">Data Visualization</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="statisticsChart" width="800" height="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
+<div class="report-container">
+    <div class="report-header">
+        <h1><?php echo $data['title']; ?></h1>
+        <div class="report-actions no-print">
+            <a href="<?php echo URLROOT; ?>/admin_controllers/reports" class="btn btn-secondary">Back to Reports</a>
+            <a href="<?php echo URLROOT; ?>/admin_controllers/reports/customPeriod?report_type=<?php echo $data['report_type']; ?>&start_date=<?php echo $data['start_date']; ?>&end_date=<?php echo $data['end_date']; ?>&format=csv" class="btn btn-success">Export CSV</a>
+            <a onclick="printWithFilename()" class="btn btn-danger">Export PDF</a>
         </div>
+    </div>
+
+    <?php flash('report_message'); ?>
+
+    <!-- Period Info -->
+    <div class="alert alert-info">
+        <strong>Period:</strong> <?php echo date('F j, Y', strtotime($data['start_date'])); ?> to <?php echo date('F j, Y', strtotime($data['end_date'])); ?>
+        <strong class="ms-3">Report Type:</strong> <?php echo ucfirst($data['report_type']); ?> Statistics
+    </div>
+
+    <!-- Statistics Table -->
+    <div class="card">
+        <div class="card-body">
+            <?php if (empty($data['stats'])) : ?>
+                <p class="text-muted">No data available for the selected period.</p>
+            <?php else : ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered report-table" id="statisticsTable">
+                        <thead>
+                            <tr>
+                                <?php foreach (array_keys((array)$data['stats'][0]) as $header) : ?>
+                                    <th><?php echo str_replace('_', ' ', ucfirst($header)); ?></th>
+                                <?php endforeach; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data['stats'] as $stat) : ?>
+                                <tr>
+                                    <?php foreach ((array)$stat as $key => $value) : ?>
+                                        <td>
+                                            <?php
+                                            // Format numeric values
+                                            if (is_numeric($value) && strpos($key, 'date') === false && strpos($key, 'count') === false) {
+                                                echo number_format($value, 2);
+                                            } else {
+                                                echo $value;
+                                            }
+                                            ?>
+                                        </td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Chart -->
+                <div class="report-chart-container mt-4">
+                    <h3>Data Visualization</h3>
+                    <canvas id="statisticsChart" class="chart-container"></canvas>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="report-filename">
+        Musebookstore <?php echo ucfirst($data['report_type']); ?> Statistics Report - Generated <?php echo date('Y-m-d H:i'); ?>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
 <script>
+    function printWithFilename() {
+        const currentDate = new Date();
+        const dateString = currentDate.toLocaleString().replace(/[^\w\s]/gi, '-');
+        const reportType = '<?php echo $data['report_type']; ?>';
+
+        const originalTitle = document.title;
+        document.title = `musebookstore_${reportType}_statistics_${dateString}`;
+        window.print();
+        document.title = originalTitle;
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize DataTable
         $('#statisticsTable').DataTable({
@@ -158,7 +163,9 @@
                     data: data,
                     backgroundColor: colors[index % colors.length],
                     borderColor: colors[index % colors.length].replace('0.7', '1'),
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill: reportType === 'financial' ? false : true,
+                    tension: 0.4
                 });
             });
 
@@ -171,6 +178,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -188,7 +196,7 @@
                                         label += ': ';
                                     }
                                     if (reportType === 'financial' && context.dataset.label.includes('Amount')) {
-                                        label += 'KES ' + context.formattedValue;
+                                        label += 'LKR ' + context.formattedValue;
                                     } else {
                                         label += context.formattedValue;
                                     }

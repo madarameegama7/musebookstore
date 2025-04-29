@@ -187,10 +187,10 @@ if (!isset($_SESSION['user_role'])) {
 
             <label>Is book child safe</label>
             <select class="childsafe" name="childsafe" required>
-                <option value="true" <?php if ($data['childsafe'] == 'Yes') 'selected';?>>
+                <option value="yes" <?php if ($data['childsafe'] == 'yes') 'selected';?>>
                     Yes
                 </option>
-                <option value="false" <?php if ($data['childsafe'] == 'No') 'selected';?>>
+                <option value="no" <?php if ($data['childsafe'] == 'no') 'selected';?>>
                     No
                 </option>
 

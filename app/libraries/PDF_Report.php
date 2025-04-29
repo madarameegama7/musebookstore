@@ -130,9 +130,10 @@ class PDF_Report extends FPDF
             }
         }
 
+        $colIndex = 0;
         // Write each cell
         $this->SetY($y);
-        foreach ($data as $i => $cell) {
+        foreach ($data as $key => $cell) {
             if (is_array($cell)) {
                 $cellText = json_encode($cell);
             } elseif (is_object($cell)) {
@@ -142,9 +143,11 @@ class PDF_Report extends FPDF
             } else {
                 $cellText = (string)$cell;
             }
-            $this->SetX($x + ($i * $cellWidth));
+            $this->SetX($x + ($colIndex * $cellWidth));
             $rowHeight = ($maxHeight / max(1, $this->NbLines($cellWidth, $cellText)));
             $this->MultiCell($cellWidth, $rowHeight, $cellText, $border, 'L', $fill);
+
+            $colIndex++;
         }
 
         // Move to next line

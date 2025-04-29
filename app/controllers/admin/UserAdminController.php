@@ -79,12 +79,7 @@ class UserAdminController extends Admin
             redirect('admin/user/manageUsers');
         }
 
-        // Prevent editing self details via this form (can use profile page)
-        // Although admin can change their own role via viewUser
-        if ($user->user_id == $_SESSION['user_id']) {
-            Alert_Helper::warning('Action not allowed', 'Use your profile page to edit your own details.');
-            redirect('admin/user/manageUsers');
-        }
+        // Removed restriction on editing self - admins should be able to edit their own details
 
         $data = [
             'title' => 'Edit User: ' . $user->user_name,

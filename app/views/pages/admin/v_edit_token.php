@@ -6,29 +6,52 @@
     <main class="admin-main-content">
         <h1>Edit Token Record</h1>
         <?php flash('admin_msg'); ?>
-        <form action="<?php echo URLROOT; ?>/admin/token/updateToken/<?php echo $data['token']->token_id; ?>" method="post" class="admin-form" style="max-width: 500px;">
-            <label>User:
-                <select name="user_id" required>
-                    <option value="">Select User</option>
-                    <?php foreach ($data['users'] as $user): ?>
-                        <option value="<?php echo $user->user_id; ?>" <?php echo $data['token']->user_id == $user->user_id ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($user->user_name); ?> (ID: <?php echo $user->user_id; ?>)
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </label>
-            <label>Token Count:
-                <input type="number" name="token_count" min="0" value="<?php echo $data['token']->token_count; ?>" required>
-            </label>
-            <label>Amount Paid:
-                <input type="number" name="amount_paid" min="0" step="0.01" value="<?php echo $data['token']->amount_paid; ?>" required>
-            </label>
-            <label>Purchase Date:
-                <input type="date" name="purchase_date" value="<?php echo $data['token']->purchase_date; ?>" required>
-            </label>
-            <button type="submit" class="btn btn-update">Update Token</button>
-            <a href="<?php echo URLROOT; ?>/admin/token/manageTokens" class="btn btn-grey">Cancel</a>
-        </form>
+        <?php if (!isset($data['token']) || !$data['token']): ?>
+            <div class="alert alert-danger">Token record not found or invalid. <a href="<?php echo URLROOT; ?>/admin/token/manageTokens">Back to Manage Tokens</a></div>
+        <?php else: ?>
+            <form action="<?php echo URLROOT; ?>/admin/token/updateToken/<?php echo $data['token']->token_id; ?>" method="post" class="admin-form" style="max-width: 500px;">
+                <label>User:
+                    <select name="user_id" required>
+                        <option value="">Select User</option>
+                        <?php foreach ($data['users'] as $user): ?>
+                            <option value="<?php echo $user->user_id; ?>" <?php echo $data['token']->user_id == $user->user_id ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($user->user_name); ?> (ID: <?php echo $user->user_id; ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <label>Token Count:
+                    <input type="number" name="token_count" id="token_count" min="0" value="<?php echo $data['token']->token_count; ?>" required onchange="calculateAmount()">
+                </label>
+                <label>Amount Paid:
+                    <input type="number" name="amount_paid" id="amount_paid" min="0" step="0.01" value="<?php echo $data['token']->amount_paid; ?>" required readonly>
+                </label>
+                <label>Purchase Date:
+                    <input type="date" name="purchase_date" value="<?php echo $data['token']->purchase_date; ?>" required>
+                </label>
+                <button type="submit" class="btn btn-update">Update Token</button>
+                <a href="<?php echo URLROOT; ?>/admin/token/manageTokens" class="btn btn-grey">Cancel</a>
+            </form>
+        <?php endif; ?>
     </main>
 </div>
+
+<script>
+    function calculateAmount() {
+        const tokenCount = parseInt(document.getElementById('token_count').value) || 0;
+        // Calculate amount based on the rule: 5 tokens = Rs 200
+        const ratePerToken = 200 / 5; // Rs 40 per token
+        const calculatedAmount = tokenCount * ratePerToken;
+
+        document.getElementById('amount_paid').value = calculatedAmount.toFixed(2);
+    }
+
+    // Calculate initial amount on page load if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        // Only recalculate if we want to enforce the correct ratio for existing records
+        // Uncomment the next line to enforce the ratio on edit
+        // calculateAmount();
+    });
+</script>
+
 <?php require APPROOT . '/views/inc/footer.php'; ?>

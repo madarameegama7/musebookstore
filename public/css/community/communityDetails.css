@@ -1,128 +1,242 @@
+:root {
+    --primary-color: #ff9900;
+    --secondary-color: #2ecc71;
+    --accent-color: #ffd700;
+    --text-color: #2c3e50;
+    --bg-color: #f7f9fc;
+    --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
 .ambassador-main-container {
-    padding: 40px;
-    background-color: #f7f9fc;
-    font-family: 'Segoe UI', sans-serif;
+    padding: clamp(2rem, 5vw, 4rem);
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
 }
 
 .community-profile-card {
     background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    max-width: 1200px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.community-profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
 .community-page-title {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    color: #2c3e50;
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    text-align: center;
 }
 
 .community-detail-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    align-items: flex-start;
-    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 3rem;
 }
 
 .community-image {
-    width: 300px;
-    height: auto;
-    border-radius: 10px;
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
     object-fit: cover;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+}
+
+.community-image:hover {
+    transform: scale(1.02);
 }
 
 .community-info-wrapper {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
 }
 
 .community-name {
-    font-size: 28px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 600;
-    color: #34495e;
-    margin-bottom: 15px;
+    color: var(--text-color);
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
 }
 
 .community-action-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin: 1.5rem 0;
 }
 
 .community-btn {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 6px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
     text-decoration: none;
-    transition: background 0.3s;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 120px;
 }
 
-.community-btn:hover {
+.community-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.community-btn.primary:hover {
     background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}
+
+.community-btn.secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.community-btn.secondary:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
 }
 
 .community-info {
-    font-size: 16px;
-    margin: 8px 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
     color: #555;
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.community-info:hover {
+    background: white;
+    box-shadow: var(--card-shadow);
+    transform: translateX(5px);
 }
 
 .community-blog-section {
-    margin-top: 40px;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--bg-color);
 }
 
 .community-page-subtitle {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-weight: 600;
 }
 
 .create-blog-btn {
-    background-color: #27ae60;
-    margin-bottom: 20px;
+    background-color: var(--secondary-color);
+    margin-bottom: 2rem;
+    display: inline-block;
 }
 
 .community-posts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .community-post-card {
-    background: #f2f2f2;
-    padding: 20px;
-    border-radius: 8px;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.community-post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .community-post-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
 }
 
 .community-post-body {
-    font-size: 16px;
-    color: #444;
-    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.view-btn, .delete-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .view-btn {
-    background-color: #3498db;
+    background-color: var(--primary-color);
+    color: white;
+    margin-right: 0.8rem;
 }
 
 .delete-btn {
     background-color: #e74c3c;
-    margin-left: 10px;
+    color: white;
 }
 
 .no-posts-message {
+    text-align: center;
+    color: #666;
     font-style: italic;
-    color: #999;
+    padding: 2rem;
+    background: var(--bg-color);
+    border-radius: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .community-detail-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-image {
+        height: 250px;
+    }
+    
+    .community-action-buttons {
+        flex-direction: column;
+    }
+    
+    .community-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .ambassador-main-container {
+        padding: 1rem;
+    }
+    
+    .community-profile-card {
+        padding: 1.2rem;
+    }
+    
+    .community-post-card {
+        padding: 1rem;
+    }
 }

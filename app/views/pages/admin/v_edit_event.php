@@ -22,8 +22,17 @@
             <label for="event_time">Time:</label>
             <input type="time" id="event_time" name="event_time" value="<?php echo $data['event']->event_time; ?>" required>
 
-            <label for="community_id">Community ID:</label>
-            <input type="number" id="community_id" name="community_id" value="<?php echo $data['event']->community_id; ?>" required>
+            <label for="community_id">Community:</label>
+            <select id="community_id" name="community_id" required>
+                <option value="">Select a community</option>
+                <?php if (isset($data['communities']) && !empty($data['communities'])): ?>
+                    <?php foreach ($data['communities'] as $community): ?>
+                        <option value="<?php echo $community->communityId; ?>" <?php echo ($data['event']->community_id == $community->communityId) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($community->communityName); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
 
             <button type="submit" class="btn btn-update">Update Event</button>
         </form>

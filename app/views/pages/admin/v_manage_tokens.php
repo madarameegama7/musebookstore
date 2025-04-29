@@ -18,10 +18,10 @@
                     </select>
                 </label>
                 <label>Token Count:
-                    <input type="number" name="token_count" min="0" required>
+                    <input type="number" name="token_count" id="token_count" min="0" required onchange="calculateAmount()">
                 </label>
                 <label>Amount Paid:
-                    <input type="number" name="amount_paid" min="0" step="0.01" required>
+                    <input type="number" name="amount_paid" id="amount_paid" min="0" step="0.01" required readonly>
                 </label>
                 <label>Purchase Date:
                     <input type="date" name="purchase_date" required>
@@ -70,4 +70,21 @@
         <a href="<?php echo URLROOT; ?>/admin" class="btn">Back to Dashboard</a>
     </main>
 </div>
+
+<script>
+    function calculateAmount() {
+        const tokenCount = parseInt(document.getElementById('token_count').value) || 0;
+        // Calculate amount based on the rule: 5 tokens = Rs 200
+        const ratePerToken = 200 / 5; // Rs 40 per token
+        const calculatedAmount = tokenCount * ratePerToken;
+
+        document.getElementById('amount_paid').value = calculatedAmount.toFixed(2);
+    }
+
+    // Calculate initial amount on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        calculateAmount();
+    });
+</script>
+
 <?php require APPROOT . '/views/inc/footer.php'; ?>

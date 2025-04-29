@@ -346,7 +346,7 @@ public function deletePost($postId) {
                 $this->view('communities/v_displayMembers', $data);
             } else {
                 if ($this->communityModel->addMembers($data)) {
-                    redirect('communities/viewMembers/' . $communityId); // Redirect to view members page
+                    redirect('communities/viewMembers/' . $communityId);
                 } else {
                     $data['error'] = "Failed to add member.";
                     $this->view('communities/v_displayMembers', $data);
@@ -493,29 +493,59 @@ public function deletePost($postId) {
             $this->view('errors/404');
         }
     }
-    
 
-    public function deleteWritingGroup($writingGroupId) {
-        if ($this->communityModel->deleteWritingGroupById($writingGroupId)) {
-            flash('group_message', 'Writing Group deleted successfully');
-        } else {
-            flash('group_message', 'Failed to delete Writing Group');
+    public function requestDeleteWritingGroupForm($id) {
+        $community = $this->communityModel->getCommunityById($id);
+    
+        if (!$community) {
+            die("Community not found");
         }
     
-        $communityId = $_SESSION['current_community_id'] ?? null; // OR pass it another way
+        $data = [
+            'community' => $community,
+            'error' => ''
+        ];
     
-        if ($communityId) {
-            $community = $this->communityModel->getCommunityById($communityId);
-            $writingGroups = $this->communityModel->getWritingGroupsByCommunityId($communityId); // You need to have this function
+        $this->view('communities/v_requestDeleteWritingGroup', $data);
+    }
+    
+    public function requestDeleteWritingGroup($writingGroupId) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // POST request → Insert delete request to DB
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+            $reason = trim($_POST['reason']);
+            $communityId = trim($_POST['communityId']);
+    
             $data = [
-                'community' => $community,
-                'writingGroups' => $writingGroups
+                'community_id' => $communityId,
+                'writingGroup_id' => $writingGroupId,
+                'reason' => $reason
             ];
-            $this->view('communities/v_viewWritingGroups', $data);
+    
+            if ($this->communityModel->addDeleteRequest($data)) {
+                flash('group_message', 'Delete request submitted successfully!', 'alert alert-success');
+                redirect('communities/viewWritingGroups/' . $communityId);
+            } else {
+                flash('group_message', 'Something went wrong.', 'alert alert-danger');
+                redirect('communities/viewWritingGroups/' . $communityId);
+            }
         } else {
-            redirect('communities/viewWritingGroups');
+            // GET request → show a form to confirm delete (Optional if needed)
+            $communityId = $this->communityModel->viewWritingGroups($writingGroupId)[0]->community_id ?? null;
+            if (!$communityId) {
+                flash('group_message', 'Invalid Writing Group.', 'alert alert-danger');
+                redirect('communities/viewCommunities');
+            }
+            $data = [
+                'community' => (object) ['id' => $communityId]
+            ];
+            $this->view('communities/v_requestDeleteWritingGroup', $data);
         }
     }
+    
+
+    
     
     
     public function viewEvent($communityId){
@@ -740,16 +770,30 @@ public function displayCommunity() {
     $this->view('pages/parent/v_communities', $data);
 }
 
-public function viewCommunitydetails($id) {
+public function viewCommunityDetails($id) {
+    // Fetch community details
     $community = $this->communityModel->getCommunityById($id);
+
+    // If no community is found, return an error
     if (!$community) {
-        $data = ['error' => 'nocommunityid'];
+        $data = ['error' => 'No community found with this ID'];
         $this->view('pages/parent/v_communities', $data);
         return;
     }
-    $data = ['community' => $community];
+
+    // Fetch posts related to the community
+    $posts = $this->communityModel->getPosts($id);
+
+    // Pass community and posts to the view
+    $data = [
+        'community' => $community,
+        'posts' => $posts
+    ];
+
+    // Load the view
     $this->view('pages/parent/v_communityDetails', $data);
 }
+
 
 public function joinCommunity($communityId){
     if (!isset($_SESSION['user_id'])) {
@@ -762,22 +806,23 @@ public function joinCommunity($communityId){
     $communityMemberId = $this->communityModel->getCommunityMemberId($userId, $communityId);
 
     if ($communityMemberId) {
-        die('You are already a member of this community.');
+        echo "<script>alert('You are already a member of this community.'); window.location.href='" . URLROOT . "/communities/viewCommunitydetails/" . $communityId . "';</script>";
+        exit;
     }
 
     if ($this->communityModel->joinCommunity($communityId, $userId, $community_member_name)) {
-        flash('join_success', 'You have successfully joined the community!');
-        echo "<script>alert('You have successfully joined the community.');</script>";
-        header("Location: " . URLROOT . "/communities/viewCommunitydetails/" . $communityId);
+        echo "<script>alert('You have successfully joined the community.'); window.location.href='" . URLROOT . "/communities/viewCommunitydetails/" . $communityId . "';</script>";
         exit;
     } else {
-        die("Failed to join the community.");
+        echo "<script>alert('Failed to join the community.'); window.history.back();</script>";
+        exit;
     }
 }
 
 
+
 public function viewCommunityPosts($communityId) {
-    $posts = $this->communityModel->getPostsByCommunity($communityId);
+    $posts = $this->communityModel->getPosts($communityId);
     $community = $this->communityModel->getCommunityById($communityId);
 
     if (!$community) {
@@ -789,8 +834,19 @@ public function viewCommunityPosts($communityId) {
         ];
     }
 
-    $this->view('pages/parent/v_communityPosts', $data);
+    $this->view('pages/parent/v_viewSingleCommunityPost', $data);
     
+}
+public function viewSingleCommunityPost($postId) {
+    $post = $this->communityModel->getCommunityPostById($postId);
+
+    if ($post) {
+        $data = ['post' => $post];
+        $this->view('pages/parent/v_singlePost', $data);
+    } else {
+        $data = ['error' => 'Post not found'];
+        $this->view('pages/parent/v_singlePost', $data);
+    }
 }
 
 public function createCommunityPost($communityId) {
@@ -862,28 +918,27 @@ public function viewCommunitySinglePost($postId) {
         $this->view('pages/parent/v_singlePost', $data);
     }
 }
-
-public function viewCommunityWritingGroups($communityId){
+public function viewCommunityWritingGroups($communityId) {
     $community = $this->communityModel->getCommunityById($communityId);
     if (!$community) {
         $data = ['error' => 'Community not found'];
-    }else {
+    } else {
+        // Get the writing groups
         $writingGroups = $this->communityModel->viewCommunityWritingGroups($communityId);
+        
+        // Pass the writing groups directly without checking user membership
         $data = [
             'writingGroups' => $writingGroups,
             'community' => $community
         ];
     }
     $this->view('pages/parent/v_writingGroups', $data);
-
-
 }
+
 
 public function viewCommunityWritingGroupPosts($writingGroupId)
 {
-    $posts = $this->communityModel->getWritingGroupPosts($writingGroupId);
-
-    // Get the logged-in user's community_member_id for this writing group
+    $posts = $this->communityModel->getCommunityWritingGroupPostsById($writingGroupId);
     $userCommunityMemberId = $this->communityModel->getCommunityMemberId($_SESSION['user_id'], $writingGroupId);
 
     $data = [
@@ -895,7 +950,6 @@ public function viewCommunityWritingGroupPosts($writingGroupId)
 
     $this->view('pages/parent/v_writingGroupPosts', $data);
 }
-
 
 public function joinWritingGroupAction() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -912,6 +966,7 @@ public function joinWritingGroupAction() {
         redirect('communities');
     }
 }
+
 
 public function createWritingGroupPostAction($writingGroupId) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -953,6 +1008,126 @@ public function createWritingGroupPostAction($writingGroupId) {
 
         $this->view('pages/parent/v_createWritingGroupPosts', $data);
     }
+}
+
+public function viewCommunityEvents($communityId){
+    $community = $this->communityModel->getCommunityById($communityId);
+    if(!$community){
+        $data = [
+            'error' => 'No Community Found',
+            'community_id' => $communityId
+        ];
+    }else {
+            $events = $this->communityModel->viewCommunityEvents($communityId);
+            $data = [
+                'events' => $events,
+                'community' => $community,
+                'community_id'=> $communityId  
+
+            ];
+            $this->view('pages/parent/v_communityEvents', $data);
+    }
+
+}
+
+public function viewCommunityEventDetails($eventid){
+    $event = $this->communityModel->viewCommunityEventDetails($eventid); 
+
+    if (!$event) {
+        die('Event not found!');
+    }
+
+    $this->view('pages/parent/v_communityEventDetails', [
+        'event' => $event
+    ]);
+}
+
+public function joinEventAction() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $eventId = $_POST['event_id'];
+        $userId = $_SESSION['user_id']; // Assume user is logged in and user_id is in session
+
+        // Check if user has already joined the event
+        if ($this->communityModel->hasJoinedEvent($userId, $eventId)) {
+            redirect('communities/viewCommunityEventDetails/' . $eventId . '?status=error');
+        }
+
+        // Update user's event_id in community_member table
+        if ($this->communityModel->joinEvent($userId, $eventId)) {
+            redirect('communities/viewCommunityEventDetails/' . $eventId . '?status=success&joined=true');
+        } else {
+            redirect('communities/viewCommunityEventDetails/' . $eventId . '?status=error');
+        }
+    } else {
+        redirect('events');
+    }
+}
+
+public function myCommunities() {
+    $userId = $_SESSION['user_id'];
+
+    $joinedCommunities = $this->communityModel->getUserJoinedCommunities($userId);
+
+    $this->view('pages/parent/v_myCommunities', [
+        'joinedCommunities' => $joinedCommunities
+    ]);
+}
+
+public function leaveCommunity($communityId) {
+    $userId = $_SESSION['user_id'];
+    $this->communityModel->leaveCommunity($userId, $communityId);
+    flash('leave_success', 'You have left the community.');
+    redirect('communities/myCommunities');
+}
+
+public function myCommunityPosts() {
+    $userId = $_SESSION['user_id'];
+    $posts = $this->communityModel->getUserCommunityPosts($userId);
+
+    $this->view('pages/parent/v_myCommunityPosts', [
+        'posts' => $posts
+    ]);
+}
+
+public function myWritingGroups() {
+    $userId = $_SESSION['user_id'];
+    $joinedWritingGroups = $this->communityModel->getUserJoinedWritingGroups($userId);
+
+    $this->view('pages/parent/v_myWritingGroups', [
+        'joinedWritingGroups' => $joinedWritingGroups
+    ]);
+}
+
+public function leaveWritingGroup($groupId) {
+    $userId = $_SESSION['user_id'];
+    $this->communityModel->leaveWritingGroup($userId, $groupId);
+    flash('leave_success', 'You have left the writing group.');
+    redirect('communities/myWritingGroups');
+}
+
+public function myWritingGroupPosts() {
+    $userId = $_SESSION['user_id'];
+    $chapters = $this->communityModel->getUserWritingGroupPosts($userId);
+
+    $this->view('pages/parent/v_myWritingGroupPosts', [
+        'chapters' => $chapters
+    ]);
+}
+
+public function myEvents() {
+    $userId = $_SESSION['user_id'];
+    $joinedEvents = $this->communityModel->getUserJoinedEvents($userId);
+
+    $this->view('pages/parent/v_myEvents', [
+        'joinedEvents' => $joinedEvents
+    ]);
+}
+
+public function leaveEvent($eventId) {
+    $userId = $_SESSION['user_id'];
+    $this->communityModel->leaveEvent($userId, $eventId);
+    flash('leave_success', 'You have left the event.');
+    redirect('communities/myEvents');
 }
 
 

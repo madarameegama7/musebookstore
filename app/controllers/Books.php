@@ -57,7 +57,83 @@ class Books extends Controller
         $this->view('books/v_booktoken', $data);
 
     }
+    public function tokenpayment(){
+        $data = [];
+        $this->view('books/v_booktokenpay', $data);
+
+    }
    
+    public function payherenotify() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                // Initialize payments model
+                $paymentModel = $this->model('M_Payments');
+    
+                // Retrieve and sanitize data
+                $paymentData = [
+                    'merchant_id' => trim($_POST["merchant_id"] ?? ''),
+                    'order_id' => trim($_POST["order_id"] ?? ''),
+                    'user_id' => trim($_POST["user_id"] ?? ''),
+                    'payment_id' => trim($_POST["payment_id"] ?? ''),
+                    'amount' => (float)($_POST["payhere_amount"] ?? 0),
+                    'currency' => trim($_POST["payhere_currency"] ?? 'LKR'),
+                    'status_code' => (int)($_POST["status_code"] ?? 0),
+                    'status' => trim($_POST["status"] ?? 'Pending'),
+                    'md5sig' => trim($_POST["md5sig"] ?? '')
+                ];
+    
+                // Get merchant secret from model
+                $merchantSecret = $paymentModel->getMerchantSecret();
+    
+                // Validate hash
+                $localHash = $this->generatePayhereHash(
+                    $paymentData['merchant_id'],
+                    $paymentData['order_id'],
+                    $paymentData['amount'],
+                    $paymentData['currency'],
+                    $paymentData['status_code'], // Include status code
+                    
+                );
+    
+                if ($this->validateSignature($localHash, $paymentData['md5sig'])) {
+                    if ($paymentData['status_code'] === 2) {
+                        $paymentRecord = [
+                            'order_id' => $paymentData['order_id'],
+                            'payment_id' => $paymentData['payment_id'],
+                            'user_id' => $paymentData['user_id'],
+                            'amount' => $paymentData['amount'],
+                            'currency' => $paymentData['currency'],
+                            'status' => $paymentData['status']
+                        ];
+
+                    }
+                    http_response_code(200);
+                } else {
+                    error_log("Hash mismatch. Received: {$paymentData['md5sig']} | Calculated: $localHash");
+                    http_response_code(403);
+                }
+            } catch (Exception $e) {
+                error_log("Payment error: " . $e->getMessage());
+                http_response_code(500);
+            }
+        } else {
+            http_response_code(405);
+        }
+    }
+    
+    private function generatePayhereHash($merchant_id, $order_id, $amount, $currency, $merchant_secret) {
+        return strtoupper(md5(
+            $merchant_id .
+            $order_id .
+            number_format($amount, 2, '.', '') .
+            $currency .
+            strtoupper(md5($merchant_secret))
+        ));
+    }
+    
+    private function validateSignature($generated, $received) {
+        return hash_equals($generated, $received);
+    }
     
     
     public function create()
@@ -123,7 +199,7 @@ class Books extends Controller
                 $data['book_condition_err'] = "Please select book condition";
 
             }
-            if (empty($data['price'])) {
+            if (empty($data['price']) || !is_numeric($data['price'])) {
                 $data['book_price_err'] = "Please enter a price";
 
             }
@@ -135,8 +211,11 @@ class Books extends Controller
                 $data['book_publisher_err'] = "Please enter publisher name";
 
             }
-            if (empty($data['year'])) {
-                $data['book_year_err'] = "Please enter published year";
+            if (empty($data['year']) || !preg_match('/^\d{4}$/',$data['year']) ) {
+                $data['book_year_err'] = "Please enter a valid 4-digit year";
+
+            }elseif(!empty($data['year']) && ($data['year'] < 1500 || $data['year'] > date('Y'))){
+                $data['book_year_err'] = "Please enter realistic published year";
 
             }
             if (empty($data['isbn'])) {

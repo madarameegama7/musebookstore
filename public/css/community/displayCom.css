@@ -41,7 +41,7 @@ body {
     display: inline-block;
     margin-bottom: 30px;
     padding: 10px 20px;
-    background-color: #3498db;
+    background-color: #ff9900;
     color: white;
     border-radius: 8px;
     text-decoration: none;
@@ -56,7 +56,7 @@ body {
 /* Grid */
 .communities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 24px;
 }
 

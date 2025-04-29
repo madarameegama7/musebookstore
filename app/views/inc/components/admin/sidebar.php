@@ -1,4 +1,4 @@
-<aside class="admin-sidebar">
+<aside class="admin-sidebar no-print">
     <div class="logo-container">
         <a href="<?php echo URLROOT; ?>/admin">
             <img src="<?php echo URLROOT; ?>/img/muse%20logo.png" alt="Muse Admin Logo">
@@ -47,14 +47,20 @@
                     <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/manageCommunities') !== false ? 'active' : ''; ?>">
                         <a href="<?php echo URLROOT; ?>/admin/community/manageCommunities"><i class="fas fa-users-cog"></i> Manage Communities</a>
                     </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/manageCommunityPosts') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/community/manageCommunityPosts"><i class="fas fa-comments"></i> Community Posts</a>
+                    </li>
                     <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/community/deleteRequests') !== false ? 'active' : ''; ?>">
                         <a href="<?php echo URLROOT; ?>/admin/community/deleteRequests"><i class="fas fa-trash-alt"></i> Delete Requests</a>
                     </li>
                     <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/event/manageEvents') !== false ? 'active' : ''; ?>">
                         <a href="<?php echo URLROOT; ?>/admin/event/manageEvents"><i class="fas fa-calendar-alt"></i> Manage Events</a>
                     </li>
-                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/writingGroups') !== false ? 'active' : ''; ?>">
-                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroups"><i class="fas fa-pen-nib"></i> Writing Groups</a>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/manageWritingGroups') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/manageWritingGroups"><i class="fas fa-pen-nib"></i> Writing Groups</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/writinggroup/writingGroupPosts') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/writinggroup/writingGroupPosts"><i class="fas fa-book-open"></i> Writing Group Posts</a>
                     </li>
                 </ul>
             </li>
@@ -83,6 +89,28 @@
             </li>
             <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/transaction/manageTransactions') !== false ? 'active' : ''; ?>">
                 <a href="<?php echo URLROOT; ?>/admin/transaction/manageTransactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></a>
+            </li>
+            <li>
+                <button class="sidebar-section-toggle" type="button"><i class="fas fa-coins"></i> <span>Tokens</span> <i class="fas fa-chevron-down chevron"></i></button>
+                <ul class="sidebar-section">
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/token/manageTokens') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/token/manageTokens"><i class="fas fa-coins"></i> Manage Tokens</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/token/reportTokens') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/token/reportTokens"><i class="fas fa-chart-pie"></i> Token Report</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <button class="sidebar-section-toggle" type="button"><i class="fas fa-credit-card"></i> <span>Payments</span> <i class="fas fa-chevron-down chevron"></i></button>
+                <ul class="sidebar-section">
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/payment/managePayments') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/payment/managePayments"><i class="fas fa-credit-card"></i> Manage Payments</a>
+                    </li>
+                    <li class="<?php echo strpos($_SERVER['REQUEST_URI'], '/admin/payment/reportPayments') !== false ? 'active' : ''; ?>">
+                        <a href="<?php echo URLROOT; ?>/admin/payment/reportPayments"><i class="fas fa-chart-pie"></i> Payment Report</a>
+                    </li>
+                </ul>
             </li>
             <div class="sidebar-divider"></div>
             <li>

@@ -9,18 +9,32 @@
         <section style="margin-bottom: 30px;">
             <h2>Add Community Post</h2>
             <form action="<?php echo URLROOT; ?>/admin/addCommunityPost" method="post" class="admin-form" style="max-width: 600px;">
-                <label>Community ID:
-                    <input type="number" name="community_id" min="1" required>
-                </label>
-                <label>Community Member ID:
-                    <input type="number" name="community_member_id" min="1" required>
-                </label>
-                <label>Title:
-                    <input type="text" name="title" maxlength="255" required>
-                </label>
-                <label>Content:
-                    <textarea name="content" rows="4" required></textarea>
-                </label>
+                <label for="community_id">Community:</label>
+                <select id="community_id" name="community_id" required>
+                    <option value="">Select a community</option>
+                    <?php if (isset($data['communities']) && !empty($data['communities'])): ?>
+                        <?php foreach ($data['communities'] as $community): ?>
+                            <option value="<?php echo $community->communityId; ?>"><?php echo htmlspecialchars($community->communityName); ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+
+                <label for="community_member_id">Community Member:</label>
+                <select id="community_member_id" name="community_member_id" required>
+                    <option value="">Select a community member</option>
+                    <?php if (isset($data['communityMembers']) && !empty($data['communityMembers'])): ?>
+                        <?php foreach ($data['communityMembers'] as $member): ?>
+                            <option value="<?php echo $member->community_member_id; ?>"><?php echo htmlspecialchars($member->community_member_name); ?> <?php echo $member->communityName ? '(Community: ' . htmlspecialchars($member->communityName) . ')' : ''; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" maxlength="255" required>
+
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" rows="4" required></textarea>
+
                 <button type="submit" class="btn btn-update">Add Post</button>
             </form>
         </section>
@@ -30,7 +44,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Community</th>
-                    <th>Member ID</th>
+                    <th>Member</th>
                     <th>Title</th>
                     <th>Content</th>
                     <th>Created At</th>
@@ -43,7 +57,20 @@
                         <tr>
                             <td><?php echo $p->id; ?></td>
                             <td><?php echo htmlspecialchars($p->communityName); ?></td>
-                            <td><?php echo $p->community_member_id; ?></td>
+                            <td>
+                                <?php
+                                $memberName = 'Unknown Member';
+                                if (isset($data['communityMembers']) && !empty($data['communityMembers'])) {
+                                    foreach ($data['communityMembers'] as $member) {
+                                        if ($member->community_member_id == $p->community_member_id) {
+                                            $memberName = $member->community_member_name;
+                                            break;
+                                        }
+                                    }
+                                }
+                                echo htmlspecialchars($memberName);
+                                ?>
+                            </td>
                             <td><?php echo htmlspecialchars($p->title); ?></td>
                             <td><?php echo htmlspecialchars(mb_strimwidth($p->content, 0, 60, '...')); ?></td>
                             <td><?php echo $p->created_at; ?></td>

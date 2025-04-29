@@ -26,14 +26,18 @@ class ReportsAdminController extends Admin
      */
     public function index()
     {
-        // Default to current month period
-        $startDate = date('Y-m-01'); // First day of current month
-        $endDate = date('Y-m-d'); // Today
+        // Default to a wider date range to capture all records
+        $startDate = $_SESSION['report_filter_start_date'] ?? date('Y-01-01'); // First day of current year
+        $endDate = $_SESSION['report_filter_end_date'] ?? date('Y-m-d', strtotime('+1 day')); // Tomorrow to include everything up to now
 
         // Process date range form submission
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $startDate = $_POST['start_date'] ?? date('Y-m-01');
-            $endDate = $_POST['end_date'] ?? date('Y-m-d');
+            $startDate = $_POST['start_date'] ?? date('Y-01-01');
+            $endDate = $_POST['end_date'] ?? date('Y-m-d', strtotime('+1 day'));
+
+            // Store filter settings in session for persistence
+            $_SESSION['report_filter_start_date'] = $startDate;
+            $_SESSION['report_filter_end_date'] = $endDate;
         }
 
         // Get summary statistics for the period
@@ -64,16 +68,25 @@ class ReportsAdminController extends Admin
      */
     public function users($format = 'html')
     {
-        $users = $this->reportsModel->getUserReport();
+        // Get filter parameters from POST, GET or session
+        $filters = $this->getReportFilters('user');
+
+        // Get filtered users based on criteria
+        $users = $this->reportsModel->getUserReport($filters);
 
         if ($format == 'csv') {
             $this->downloadCsv($users, 'users_report');
         } elseif ($format == 'pdf') {
             $this->generatePdf($users, 'User Report', 'users_report');
         } else {
+            // Get available roles for filter dropdown
+            $roles = ['admin', 'parent', 'child', 'ambassador'];
+
             $data = [
                 'title' => 'User Report',
-                'users' => $users
+                'users' => $users,
+                'filters' => $filters,
+                'roles' => $roles
             ];
 
             $this->view('pages/admin/v_user_report', $data);
@@ -85,16 +98,31 @@ class ReportsAdminController extends Admin
      */
     public function books($format = 'html')
     {
-        $books = $this->reportsModel->getBookReport();
+        // Get filter parameters from POST, GET or session
+        $filters = $this->getReportFilters('book');
+
+        // Get filtered books based on criteria
+        $books = $this->reportsModel->getBookReport($filters);
 
         if ($format == 'csv') {
             $this->downloadCsv($books, 'books_report');
         } elseif ($format == 'pdf') {
             $this->generatePdf($books, 'Book Report', 'books_report');
         } else {
+            // Get available genres and conditions for filter dropdowns
+            $genres = $this->reportsModel->getDistinctBookGenres();
+            $conditions = ['new', 'used'];
+            $statuses = ['available', 'sold', 'swapped'];
+            $listingTypes = ['sell', 'swap'];
+
             $data = [
                 'title' => 'Book Report',
-                'books' => $books
+                'books' => $books,
+                'filters' => $filters,
+                'genres' => $genres,
+                'conditions' => $conditions,
+                'statuses' => $statuses,
+                'listingTypes' => $listingTypes
             ];
 
             $this->view('pages/admin/v_book_report', $data);
@@ -106,16 +134,27 @@ class ReportsAdminController extends Admin
      */
     public function transactions($format = 'html')
     {
-        $transactions = $this->reportsModel->getTransactionReport();
+        // Get filter parameters from POST, GET or session
+        $filters = $this->getReportFilters('transaction');
+
+        // Get filtered transactions based on criteria
+        $transactions = $this->reportsModel->getTransactionReport($filters);
 
         if ($format == 'csv') {
             $this->downloadCsv($transactions, 'transactions_report');
         } elseif ($format == 'pdf') {
             $this->generatePdf($transactions, 'Transaction Report', 'transactions_report');
         } else {
+            // Get available transaction types and statuses for filter dropdowns
+            $types = ['sell', 'swap'];
+            $statuses = ['pending', 'approved', 'declined', 'completed'];
+
             $data = [
                 'title' => 'Transaction Report',
-                'transactions' => $transactions
+                'transactions' => $transactions,
+                'filters' => $filters,
+                'types' => $types,
+                'statuses' => $statuses
             ];
 
             $this->view('pages/admin/v_transaction_report', $data);
@@ -127,16 +166,27 @@ class ReportsAdminController extends Admin
      */
     public function payments($format = 'html')
     {
-        $payments = $this->reportsModel->getPaymentReport();
+        // Get filter parameters from POST, GET or session
+        $filters = $this->getReportFilters('payment');
+
+        // Get filtered payments based on criteria
+        $payments = $this->reportsModel->getPaymentReport($filters);
 
         if ($format == 'csv') {
             $this->downloadCsv($payments, 'payments_report');
         } elseif ($format == 'pdf') {
             $this->generatePdf($payments, 'Payment Report', 'payments_report');
         } else {
+            // Get available payment types and statuses for filter dropdowns
+            $types = ['Book Purchase', 'Token Purchase'];
+            $statuses = ['pending', 'completed', 'failed', 'refunded'];
+
             $data = [
                 'title' => 'Payment Report',
-                'payments' => $payments
+                'payments' => $payments,
+                'filters' => $filters,
+                'types' => $types,
+                'statuses' => $statuses
             ];
 
             $this->view('pages/admin/v_payment_report', $data);
@@ -155,6 +205,11 @@ class ReportsAdminController extends Admin
         $startDate = $_POST['start_date'] ?? date('Y-m-01');
         $endDate = $_POST['end_date'] ?? date('Y-m-d');
         $reportType = $_POST['report_type'] ?? 'user';
+
+        // Store filter settings in session for persistence
+        $_SESSION['report_filter_start_date'] = $startDate;
+        $_SESSION['report_filter_end_date'] = $endDate;
+        $_SESSION['report_filter_type'] = $reportType;
 
         switch ($reportType) {
             case 'user':
@@ -196,6 +251,89 @@ class ReportsAdminController extends Admin
 
             $this->view('pages/admin/v_statistics_report', $data);
         }
+    }
+
+    /**
+     * Helper method to get and process report filters
+     * Retrieves filters from POST or session and handles persistence
+     */
+    private function getReportFilters($reportType)
+    {
+        $sessionKey = 'report_filter_' . $reportType;
+        $filters = $_SESSION[$sessionKey] ?? [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filter_submitted'])) {
+            // Process date range
+            $filters['start_date'] = $_POST['start_date'] ?? '';
+            $filters['end_date'] = $_POST['end_date'] ?? '';
+
+            // Process specific filters based on report type
+            switch ($reportType) {
+                case 'user':
+                    $filters['role'] = $_POST['role'] ?? '';
+                    $filters['status'] = $_POST['status'] ?? '';
+                    $filters['search'] = $_POST['search'] ?? '';
+                    break;
+                case 'book':
+                    $filters['genre'] = $_POST['genre'] ?? '';
+                    $filters['condition'] = $_POST['condition'] ?? '';
+                    $filters['status'] = $_POST['status'] ?? '';
+                    $filters['listing_type'] = $_POST['listing_type'] ?? '';
+                    $filters['child_safe'] = $_POST['child_safe'] ?? '';
+                    $filters['search'] = $_POST['search'] ?? '';
+                    break;
+                case 'transaction':
+                    $filters['type'] = $_POST['type'] ?? '';
+                    $filters['status'] = $_POST['status'] ?? '';
+                    $filters['search'] = $_POST['search'] ?? '';
+                    break;
+                case 'payment':
+                    $filters['type'] = $_POST['type'] ?? '';
+                    $filters['status'] = $_POST['status'] ?? '';
+                    $filters['min_amount'] = $_POST['min_amount'] ?? '';
+                    $filters['max_amount'] = $_POST['max_amount'] ?? '';
+                    $filters['search'] = $_POST['search'] ?? '';
+                    break;
+                default:
+                    break;
+            }
+            // Store filters in session
+            $_SESSION[$sessionKey] = $filters;
+        }
+
+        // Only set default date range for non-transaction reports
+        if ($reportType !== 'transaction') {
+            if (!isset($filters['start_date'])) {
+                $filters['start_date'] = $_SESSION['report_filter_start_date'] ?? date('Y-m-01');
+            }
+            if (!isset($filters['end_date'])) {
+                $filters['end_date'] = $_SESSION['report_filter_end_date'] ?? date('Y-m-d');
+            }
+        }
+        // For transaction report, do not set default date range unless user submitted a filter
+        return $filters;
+    }
+
+    /**
+     * Clear all report filters 
+     */
+    public function clearFilters($reportType = null, $redirect = 'index')
+    {
+        if ($reportType) {
+            $sessionKey = 'report_filter_' . $reportType;
+            if (isset($_SESSION[$sessionKey])) {
+                unset($_SESSION[$sessionKey]);
+            }
+        } else {
+            // Clear all report filters
+            foreach ($_SESSION as $key => $value) {
+                if (strpos($key, 'report_filter_') === 0) {
+                    unset($_SESSION[$key]);
+                }
+            }
+        }
+
+        redirect('admin/reports/' . $redirect);
     }
 
     /**
@@ -252,8 +390,15 @@ class ReportsAdminController extends Admin
         require_once($pdfReportPath);
 
         // Create PDF document using our extended class
-        $pdf = new PDF_Report();
-        $pdf->AddPage();
+        // $pdf = new PDF_Report();
+        // $pdf->AddPage();
+
+        // // Add company logo if available
+        // $logoPath = ROOTDIR . '/public/img/muse logo.png';
+        if (file_exists($logoPath)) {
+            $pdf->Image($logoPath, 10, 10, 30);
+            $pdf->Ln(15);
+        }
 
         // Set document title
         $pdf->SetFont('Arial', 'B', 16);
