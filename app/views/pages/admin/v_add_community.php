@@ -6,15 +6,16 @@
     <main class="admin-main-content">
         <h1>Add New Community</h1>
         <?php flash('admin_msg'); ?>
-        <form action="<?php echo URLROOT; ?>/admin/addCommunity" method="post" class="admin-form" style="max-width: 600px;">
+        <form action="<?php echo URLROOT; ?>/admin/community/addCommunity" method="post" class="admin-form" style="max-width: 600px;" enctype="multipart/form-data">
             <label for="communityName">Community Name:</label>
             <input type="text" id="communityName" name="communityName" required>
 
             <label for="communityDescription">Description:</label>
             <textarea id="communityDescription" name="communityDescription" required></textarea>
 
-            <label for="communityImage">Image URL:</label>
-            <input type="text" id="communityImage" name="communityImage" placeholder="public/img/community/sample.jpg">
+            <label for="communityImage">Community Image:</label>
+            <input type="file" id="communityImage" name="communityImage" accept="image/*">
+            <small>Upload an image for your community (JPG, PNG formats recommended)</small>
 
             <label for="membership_type">Membership Type:</label>
             <select id="membership_type" name="membership_type" required>

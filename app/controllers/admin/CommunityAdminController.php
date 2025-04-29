@@ -93,7 +93,7 @@ class CommunityAdminController extends Admin
             $data = [
                 'communityName' => trim($_POST['communityName']),
                 'communityDescription' => trim($_POST['communityDescription']),
-                'communityImage' => trim($_POST['communityImage']),
+                'communityImage' => '',
                 'membership_type' => trim($_POST['membership_type']),
                 'title' => 'Add New Community',
                 'communityName_err' => '',
@@ -112,7 +112,29 @@ class CommunityAdminController extends Admin
             if (empty($data['membership_type'])) {
                 $data['membership_type_err'] = 'Please select a membership type';
             }
-            // Optional: Validate image (e.g., URL or file upload)
+            
+            // Handle file upload
+            if(isset($_FILES['communityImage']) && $_FILES['communityImage']['error'] == 0) {
+                $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+                $filename = $_FILES['communityImage']['name'];
+                $file_ext = pathinfo($filename, PATHINFO_EXTENSION);
+                
+                // Check valid file extension
+                if(!in_array(strtolower($file_ext), $allowed)) {
+                    $data['communityImage_err'] = 'Invalid file format. Please upload JPG, PNG, or GIF';
+                } else {
+                    // Generate unique filename
+                    $new_filename = uniqid() . '.' . $file_ext;
+                    $img_path = '/img/community/' . $new_filename;
+                    
+                    // Upload file
+                    if(uploadImage($_FILES['communityImage']['tmp_name'], $new_filename, '/img/community/')) {
+                        $data['communityImage'] = $img_path;
+                    } else {
+                        $data['communityImage_err'] = 'Failed to upload image';
+                    }
+                }
+            }
 
             if (empty($data['communityName_err']) && empty($data['communityDescription_err']) && empty($data['communityImage_err']) && empty($data['membership_type_err'])) {
                 if ($this->adminModel->addCommunity($data)) {
